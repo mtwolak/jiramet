@@ -5,6 +5,21 @@
     <artifactId>jira</artifactId>
     <version>1</version>
   </parent>
+  <repositories>
+  <repository>
+	  <id>atlassian-public</id>
+      <url>https://maven.atlassian.com/repository/public</url>
+      <snapshots>
+		<enabled>true</enabled>
+		<updatePolicy>never</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </snapshots>
+       <releases>
+         <enabled>true</enabled>
+         <checksumPolicy>warn</checksumPolicy>
+      </releases>
+</repository>
+  </repositories>
   <artifactId>log-retriever</artifactId>
   <build>
     <plugins>
@@ -23,6 +38,16 @@
   		<groupId>project</groupId>
   		<artifactId>common</artifactId>
   		<version>1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.mockito</groupId>
+  		<artifactId>mockito-all</artifactId>
+  		<version>1.8.4</version>
+  	</dependency>
+  	<dependency>
+  	<groupId>com.atlassian.jira</groupId>
+  <artifactId>jira-api</artifactId>
+  <version>6.4.11</version>
   	</dependency>
   </dependencies>
 </project>
