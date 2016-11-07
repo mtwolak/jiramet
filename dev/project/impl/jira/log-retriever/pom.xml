@@ -7,33 +7,33 @@
 		<version>1</version>
 	</parent>
 	<repositories>
-        <repository>
-           <id>atlassian-public</id>
-           <url>https://m2proxy.atlassian.com/repository/public</url>
-           <snapshots>
-             <enabled>true</enabled>
-             <updatePolicy>daily</updatePolicy>
-             <checksumPolicy>warn</checksumPolicy>
-           </snapshots>
-           <releases>
-             <enabled>true</enabled>
-             <checksumPolicy>warn</checksumPolicy>
-           </releases>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-         <pluginRepository>
-           <id>atlassian-public</id>
-           <url>https://m2proxy.atlassian.com/repository/public</url>
-           <releases>
-             <enabled>true</enabled>
-             <checksumPolicy>warn</checksumPolicy>
-           </releases>
-           <snapshots>
-             <checksumPolicy>warn</checksumPolicy>
-           </snapshots>
-         </pluginRepository>
-       </pluginRepositories>
+		<repository>
+			<id>atlassian-public</id>
+			<url>https://m2proxy.atlassian.com/repository/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>atlassian-public</id>
+			<url>https://m2proxy.atlassian.com/repository/public</url>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 	<artifactId>log-retriever</artifactId>
 	<build>
 		<plugins>
@@ -59,14 +59,24 @@
 			<version>1.8.4</version>
 		</dependency>
 		<dependency>
-		  <groupId>com.atlassian.jira</groupId>
-		  <artifactId>jira-rest-java-client-core</artifactId>
-		  <version>3.0.0</version>
+			<groupId>com.atlassian.jira</groupId>
+			<artifactId>jira-rest-java-client-core</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 		<dependency>
-		  <groupId>com.atlassian.jira</groupId>
-		  <artifactId>jira-rest-java-client-api</artifactId>
-		  <version>3.0.0</version>
+			<groupId>com.atlassian.jira</groupId>
+			<artifactId>jira-rest-java-client-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>6.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>6.2.1</version>
 		</dependency>
 	</dependencies>
 </project>
