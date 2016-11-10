@@ -28,7 +28,7 @@ public class JiraUtil {
     	if(springRes != null)
     	{
     		for (Issue issue : springRes.claim().getIssues()) {
-		        System.out.println(issue.getKey());                      //tu po prostu metodami mozna pobierac wszystkie parametry z danego issue
+		        System.out.println(issue.getKey()); //tu po prostu metodami mozna pobierac wszystkie parametry z danego issue
     		}
     	}
 
