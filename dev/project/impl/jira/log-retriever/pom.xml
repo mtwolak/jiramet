@@ -78,5 +78,10 @@
 			<artifactId>lucene-queryparser</artifactId>
 			<version>6.2.1</version>
 		</dependency>
+		<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.21</version>
+        </dependency>
 	</dependencies>
 </project>
