@@ -24,7 +24,7 @@ public class JiraIssue {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int jiraIssueId;
 
-	@OneToMany
+	@Column(name="PROJECT_ID")
 	private JiraProject jiraProject;
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -32,16 +32,17 @@ public class JiraIssue {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private IssueType issueType;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jiraIssue")
+	@OneToMany
+	@JoinColumn(name="ISSUE_COMMENT_ID",referencedColumnName="JIRA_ISSUE_ID")
 	private Set<IssueComment> issueComments;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@Column(name="ISSUE_RESOLUTION_ID")
 	private IssueResolution issueResolution;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@Column(name="ISSUE_STATUS_ID")
 	private IssueStatus issueStatus;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@Column(name="ISSUE_PRIORITY_ID")
 	private IssuePriority issuePriority;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

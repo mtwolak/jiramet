@@ -6,7 +6,7 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="connection.url">
-			jdbc:mysql://localhost:3306/JH
+			jdbc:mysql://localhost:3306/JIRA
 		</property>
 		<property name="connection.driver_class">
 			com.mysql.jdbc.Driver
@@ -20,6 +20,14 @@
 		<property name="dialect">
 			org.hibernate.dialect.MySQL5Dialect
 		</property>
-		<mapping class="trade.Trade" />
+		<mapping class="database.entity.Assignee" />
+		<mapping class="database.entity.IssueComment" />
+		<mapping class="database.entity.IssuePriority" />
+		<mapping class="database.entity.IssueReporter" />
+		<mapping class="database.entity.IssueResolution" />
+		<mapping class="database.entity.IssueStatus" />
+		<mapping class="database.entity.IssueType" />
+		<mapping class="database.entity.JiraIssue" />
+		<mapping class="database.entity.JiraProject" />
 	</session-factory>
 </hibernate-configuration>
