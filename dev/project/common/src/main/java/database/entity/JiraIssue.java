@@ -127,4 +127,15 @@ public class JiraIssue {
 		this.description = description;
 	}
 
+	public int getJiraIssueId() {
+		return jiraIssueId;
+	}
+
+	public JiraProject getJiraProject() {
+		return jiraProject;
+	}
+
+	public void setJiraProject(JiraProject jiraProject) {
+		this.jiraProject = jiraProject;
+	}
 }

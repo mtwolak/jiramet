@@ -30,7 +30,7 @@ public class DatabaseManager {
 		Transaction tx = session.beginTransaction();
 		session.save(entity);
 		tx.commit();
-
+		
 	}
 
 	public Session getSession() {

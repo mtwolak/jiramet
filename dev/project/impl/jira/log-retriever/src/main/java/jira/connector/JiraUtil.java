@@ -2,40 +2,23 @@ package jira.connector;
 
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.JiraRestClientFactory;
-import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import com.atlassian.jira.rest.client.auth.AnonymousAuthenticationHandler;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import com.atlassian.util.concurrent.Promise;
+
 import java.net.URI;
 
 public class JiraUtil {
 	
 	private static final String JIRA_SPRING_URL = "https://jira.spring.io";
-	private static final String JIRA_SPRING_FRAMEWORK_PROJECTKEY = "SPR";
+	public static final String JIRA_SPRING_FRAMEWORK_PROJECTKEY = "SPR";
 	private static final String JIRA_MONGODB_URL = "https://jira.mongodb.org";
-	private static final String JIRA_MONGODB_PROJECTKEY = "SERVER";
+	public static final String JIRA_MONGODB_PROJECTKEY = "SERVER";
 	private static final String JIRA_CAMUNDA_URL = "https://app.camunda.com/jira/";
-	private static final String JIRA_CAMUNDA_PROJECTKEY = "CAM";
+	public static final String JIRA_CAMUNDA_PROJECTKEY = "CAM";
 	
 	private JiraRestClient client;
-	
-    public static void main(String[] args) throws Exception 
-    {
-    	JiraUtil ju = new JiraUtil();
-    	Promise<SearchResult> springRes = ju.getIssuesFromSpringProject();
-
-    	if(springRes != null)
-    	{
-    		for (Issue issue : springRes.claim().getIssues()) {
-		        System.out.println(issue.getKey()); //tu po prostu metodami mozna pobierac wszystkie parametry z danego issue
-    		}
-    	}
-
-    	ju.closeClientConnection();
-	    	
-        System.exit(0);
-    }
     
     private Promise<SearchResult> getIssuesFromProject(String projectURL, String projectKey)
     {
@@ -46,7 +29,7 @@ public class JiraUtil {
 	        client = factory.create(uri, new AnonymousAuthenticationHandler());
 	        
 	        Promise<SearchResult> searchJqlPromise = client.getSearchClient()
-	        		.searchJql("project =" + projectKey + " AND status in (Resolved, Closed)", 1500, 0, null);
+	        		.searchJql("project =" + projectKey + " AND status in (Resolved, Closed)", 10, 0, null);
 	       	       	        
 	        return searchJqlPromise;
     	}
