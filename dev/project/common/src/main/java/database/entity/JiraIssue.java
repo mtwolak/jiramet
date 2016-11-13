@@ -1,5 +1,6 @@
 package database.entity;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -50,6 +51,19 @@ public class JiraIssue {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="ISSUE_PRIORITY_ID")
 	private IssuePriority issuePriority;
+	
+	@Column(name="CODE")
+	private String code;
+	
+	@Column(name="CREATED_AT")
+	private Timestamp createdAt;
+	
+	@Column(name="FIRST_RESPONSE_DATE")
+	private Timestamp firstResponseDate;
+	
+	@Column(name="DESCRIPTION")
+	private String description;
+	
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "ASSIGNED_ISSUE", joinColumns = {
@@ -79,6 +93,38 @@ public class JiraIssue {
 
 	public void setPriority(IssuePriority issuePriority) {
 		this.issuePriority = issuePriority;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Timestamp getFirstResponseDate() {
+		return firstResponseDate;
+	}
+
+	public void setFirstResponseDate(Timestamp firstResponseDate) {
+		this.firstResponseDate = firstResponseDate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
