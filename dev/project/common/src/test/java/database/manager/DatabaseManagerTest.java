@@ -1,10 +1,10 @@
 package database.manager;
 
-import static org.junit.Assert.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import database.entity.Assignee;
@@ -15,32 +15,51 @@ import database.entity.IssueResolution;
 import database.entity.IssueStatus;
 import database.entity.IssueType;
 import database.entity.JiraIssue;
+import database.jira.JiraIssueLoader;
 
 public class DatabaseManagerTest {
 	
+	private final static String REPORTER_NAME = "Marcin";
+	private DatabaseManager databaseManager;
+	private JiraIssueLoader jiraIssueLoader;
+	
+	@Before
+	public void setUp() {
+		databaseManager = new DatabaseManager();
+		jiraIssueLoader = new JiraIssueLoader();
+		databaseManager.init();
+	}
+	
+	@After
+	public void close() {
+		databaseManager.close();
+	}
+	
 	@Test
-	public void shouldPersistWorkCorrectly() throws Exception {
-		//given
+	public void createJiraIssueWithComment() throws Exception {
+		persistJiraIssue();
+		persistJiraComment();
+		//todo: check, if entry exists in DB
+
+	}
+
+	private void persistJiraComment() {
+		JiraIssue issue = jiraIssueLoader.loadByReporter(databaseManager, REPORTER_NAME);
+		IssueComment comment = new IssueComment();
+		comment.setJiraIssue(issue);
+		databaseManager.persist(comment);
+	}
+
+	private void persistJiraIssue() {
 		JiraIssue jiraIssue = createJiraIssue();
-		//when
-		persistJiraIssueIntoDatabase(jiraIssue);
-		//then
-		checkForJiraIssueInDatabase(jiraIssue);
-		
+		databaseManager.persist(jiraIssue);
 	}
 
-	private void checkForJiraIssueInDatabase(JiraIssue jiraIssue) {
-		//select jiraissue, check for all params
-	}
 
-	private void persistJiraIssueIntoDatabase(JiraIssue jiraIssue) {
-		DatabaseManager.persist(jiraIssue);
-	}
 
 	private JiraIssue createJiraIssue() {
 		IssueReporter issueReporter = createIssueReporter();
 		IssueType issueType = createIssueType();
-		Set<IssueComment> issueComment = createIssueComments();
 		Set<Assignee> assignees = createAssignees();
 		IssueResolution issueResolution = createIssueResolution();
 		IssueStatus issueStatus = createIssueStatus();
@@ -49,7 +68,6 @@ public class DatabaseManagerTest {
 		JiraIssue jiraIssue = new JiraIssue();
 		jiraIssue.setReporter(issueReporter);
 		jiraIssue.setIssueType(issueType);
-//		jiraIssue.setComments(issueComment);
 		jiraIssue.setAssignees(assignees);
 		jiraIssue.setResolution(issueResolution);
 		jiraIssue.setStatus(issueStatus);
@@ -83,19 +101,6 @@ public class DatabaseManagerTest {
 		return assignee;
 	}
 
-	private Set<IssueComment> createIssueComments() {
-		Set<IssueComment> issueComment = new HashSet<>();
-		issueComment.add(createIssueComment());
-		issueComment.add(createIssueComment());
-		return issueComment;
-	}
-
-	private IssueComment createIssueComment() {
-		IssueComment issueComment = new IssueComment();
-		issueComment.setContent("Content");
-		return issueComment;
-	}
-
 	private IssueType createIssueType() {
 		IssueType issueType = new IssueType();
 		issueType.setTypeName("BUG");
@@ -104,7 +109,7 @@ public class DatabaseManagerTest {
 
 	private IssueReporter createIssueReporter() {
 		IssueReporter issueReporter = new IssueReporter();
-		issueReporter.setFullName("Issue reporter full name");
+		issueReporter.setFullName(REPORTER_NAME);
 		return issueReporter;
 	}
 

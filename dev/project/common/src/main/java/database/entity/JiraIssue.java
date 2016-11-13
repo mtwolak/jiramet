@@ -1,6 +1,5 @@
 package database.entity;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -65,10 +64,6 @@ public class JiraIssue {
 	public void setIssueType(IssueType issueType) {
 		this.issueType = issueType;
 	}
-
-//	public void setComments(Set<IssueComment> issueComments) {
-//		this.issueComments = issueComments;
-//	}
 
 	public void setAssignees(Set<Assignee> assignees) {
 		this.assignees = assignees;

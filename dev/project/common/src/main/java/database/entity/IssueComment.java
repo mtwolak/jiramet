@@ -1,8 +1,8 @@
 package database.entity;
 
-import java.io.Serializable;
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +20,7 @@ public class IssueComment {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int issueCommentId;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "JIRA_ISSUE_ID")
 	private JiraIssue jiraIssueNew;
 
@@ -31,6 +31,14 @@ public class IssueComment {
 	@Column(name = "ADDED_BY")
 	private String addedBy;
 
+	public JiraIssue getJiraIssueNew() {
+		return jiraIssueNew;
+	}
+
+	public void setJiraIssue(JiraIssue jiraIssueNew) {
+		this.jiraIssueNew = jiraIssueNew;
+	}
+
 	public int getIssueCommentId() {
 		return issueCommentId;
 	}
@@ -39,12 +47,6 @@ public class IssueComment {
 		this.issueCommentId = issueCommentId;
 	}
 
-	// public JiraIssue getJiraIssue() {
-	// return jiraIssue;
-	// }
-	// public void setJiraIssue(JiraIssue jiraIssue) {
-	// this.jiraIssue = jiraIssue;
-	// }
 	public String getContent() {
 		return content;
 	}
