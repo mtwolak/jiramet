@@ -1,5 +1,6 @@
 package database.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -24,25 +25,31 @@ public class JiraIssue {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int jiraIssueId;
 
-	@Column(name="PROJECT_ID")
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="PROJECT_ID")
 	private JiraProject jiraProject;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="ISSUE_REPORTER_ID")
 	private IssueReporter issueReporter;
-	@ManyToOne(cascade = CascadeType.ALL)
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="ISSUE_TYPE_ID")
 	private IssueType issueType;
 
-	@OneToMany
-	@JoinColumn(name="ISSUE_COMMENT_ID",referencedColumnName="JIRA_ISSUE_ID")
+	@OneToMany(targetEntity=IssueComment.class, mappedBy="jiraIssueNew")
 	private Set<IssueComment> issueComments;
 
-	@Column(name="ISSUE_RESOLUTION_ID")
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="ISSUE_RESOLUTION_ID")
 	private IssueResolution issueResolution;
 
-	@Column(name="ISSUE_STATUS_ID")
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="ISSUE_STATUS_ID")
 	private IssueStatus issueStatus;
 
-	@Column(name="ISSUE_PRIORITY_ID")
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="ISSUE_PRIORITY_ID")
 	private IssuePriority issuePriority;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -59,9 +66,9 @@ public class JiraIssue {
 		this.issueType = issueType;
 	}
 
-	public void setComments(Set<IssueComment> issueComments) {
-		this.issueComments = issueComments;
-	}
+//	public void setComments(Set<IssueComment> issueComments) {
+//		this.issueComments = issueComments;
+//	}
 
 	public void setAssignees(Set<Assignee> assignees) {
 		this.assignees = assignees;

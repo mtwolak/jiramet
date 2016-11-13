@@ -23,8 +23,7 @@ public class JiraProject {
 	@Column(name = "PROJECT_NAME")
 	private String projectName;
 	
-	@OneToMany
-	@JoinColumn(name="PROJECT_ID", referencedColumnName="JIRA_PROJECT_ID")
+	@OneToMany(targetEntity=JiraIssue.class, mappedBy="jiraProject")
 	private Set<JiraIssue> jiraIssues;
 
 }

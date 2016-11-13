@@ -18,13 +18,11 @@ public class IssuePriority {
 	@Column(name = "ISSUE_PRIORITY_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int issuePriorityId;
-	
-	@Column(name="PRIORITY_NAME")
+
+	@Column(name = "PRIORITY_NAME")
 	private String priorityName;
-	
-	@OneToMany
-	@JoinColumn(name="JIRA_ISSUE_ID", referencedColumnName="ISSUE_PRIORITY_ID")
+
+	@OneToMany(targetEntity=JiraIssue.class, mappedBy="issuePriority")
 	private Set<JiraIssue> jiraIssues;
-	
 
 }

@@ -49,7 +49,7 @@ public class DatabaseManagerTest {
 		JiraIssue jiraIssue = new JiraIssue();
 		jiraIssue.setReporter(issueReporter);
 		jiraIssue.setIssueType(issueType);
-		jiraIssue.setComments(issueComment);
+//		jiraIssue.setComments(issueComment);
 		jiraIssue.setAssignees(assignees);
 		jiraIssue.setResolution(issueResolution);
 		jiraIssue.setStatus(issueStatus);

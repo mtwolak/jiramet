@@ -22,8 +22,7 @@ public class IssueResolution {
 	@Column(name="RESOLUTION_NAME")
 	private String resolutionName;
 	
-	@OneToMany
-	@JoinColumn(name="ISSUE_RESOLUTION_ID", referencedColumnName="ISSUE_RESOLUTION_ID")
+	@OneToMany(targetEntity=JiraIssue.class, mappedBy="issueResolution")
 	private Set<JiraIssue> jiraIssue;
 
 }
