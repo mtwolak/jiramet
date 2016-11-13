@@ -2,8 +2,6 @@ package jira.connector;
 
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,8 +15,7 @@ public class IssueDownloaderUtil {
 	
 	public static boolean addSingleIssueToDatabase(IssueDbContext dbm, String projectName, Issue issue) {
 
-		JiraProject jiraProject = new JiraProject();
-		jiraProject.setProjectName(projectName);
+		JiraProject jiraProject = dbm.getJiraProject(projectName);
 		
 		IssuePriority issuePriority = dbm.addIssuePriorityIfNotExists(issue.getPriority().getName());		
 		IssueResolution issueResolution = dbm.addIssueResolutionIfNotExists(issue.getResolution().getName());
@@ -31,20 +28,19 @@ public class IssueDownloaderUtil {
 		assignees.add(assignee);
 		
 		JiraIssue jiraIssue = new JiraIssue();
-//		jiraIssue.setJiraProject(jiraProject);
-//		jiraIssue.setReporter(issueReporter);
-//		jiraIssue.setIssueType(issueType);
-//		jiraIssue.setAssignees(assignees);
-//		jiraIssue.setResolution(issueResolution);
-//		jiraIssue.setStatus(issueStatus);
-//		jiraIssue.setPriority(issuePriority);
+		jiraIssue.setJiraProject(jiraProject);
+		jiraIssue.setReporter(issueReporter);
+		jiraIssue.setIssueType(issueType);
+		jiraIssue.setAssignees(assignees);
+		jiraIssue.setResolution(issueResolution);
+		jiraIssue.setStatus(issueStatus);
+		jiraIssue.setPriority(issuePriority);
 		jiraIssue.setCode(issue.getKey());
+		jiraIssue.setCreatedAt(new Timestamp(issue.getCreationDate().getMillis()));
 		jiraIssue.setDescription(issue.getDescription());
 		
 		dbm.addNewJiraIssue(jiraIssue);
-
-//		Date startDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(issue.getCreationDate().toString());
-//		jiraIssue.setCreatedAt((Timestamp)startDate);
+		
 		return true;
 	}
 

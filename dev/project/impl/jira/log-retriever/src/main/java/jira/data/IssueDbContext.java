@@ -25,7 +25,7 @@ public class IssueDbContext {
 
 		JiraProject jiraProject = new JiraProject();
 		jiraProject.setProjectName(projectName);
-		System.out.println(this.getJiraProject(projectName));
+
 		if (this.getJiraProject(projectName) == null) {
 			dbm.persist(jiraProject);
 			return true;
@@ -37,72 +37,84 @@ public class IssueDbContext {
 
 		IssuePriority issuePriority = new IssuePriority();
 		issuePriority.setPriorityName(priorityName);
+		
+		IssuePriority res = this.getIssuePriority(priorityName);
 
-		if (this.getIssuePriority(priorityName) == null) {
+		if (res == null) {
 			dbm.persist(issuePriority);
 			return issuePriority;
 		}
-		return null;
+		return res;
 	}
 
 	public IssueResolution addIssueResolutionIfNotExists(String resolutionName) {
 
 		IssueResolution issueResulution = new IssueResolution();
 		issueResulution.setResolutionName(resolutionName);
+		
+		IssueResolution res = this.getIssueResolution(resolutionName);
 
-		if (this.getIssueResolution(resolutionName) == null) {
+		if (res == null) {
 			dbm.persist(issueResulution);
 			return issueResulution;
 		}
-		return null;
+		return res;
 	}
 
 	public IssueStatus addIssueStatusIfNotExists(String statusName) {
 
 		IssueStatus issueStatus = new IssueStatus();
 		issueStatus.setStatusName(statusName);
+		
+		IssueStatus res = this.getIssueStatus(statusName);
 
-		if (this.getIssueStatus(statusName) == null) {
+		if (res == null) {
 			dbm.persist(issueStatus);
 			return issueStatus;
 		}
-		return null;
+		return res;
 	}
 
 	public IssueType addIssueTypeIfNotExists(String typeName) {
 
 		IssueType issueType = new IssueType();
 		issueType.setTypeName(typeName);
+		
+		IssueType res = this.getIssueType(typeName);
 
-		if (this.getIssueType(typeName) == null) {
+		if (res == null) {
 			dbm.persist(issueType);
 			return issueType;
 		}
-		return null;
+		return res;
 	}
 
 	public Assignee addAssigneeIfNotExists(String assigneeName) {
 
 		Assignee assignee = new Assignee();
 		assignee.setName(assigneeName);
+		
+		Assignee res = this.getAssignee(assigneeName);
 
-		if (this.getAssignee(assigneeName) == null) {
+		if (res == null) {
 			dbm.persist(assignee);
 			return assignee;
 		}
-		return null;
+		return res;
 	}
 
 	public IssueReporter addIssueReporterIfNotExists(String reporterName) {
 
 		IssueReporter issueReporter = new IssueReporter();
 		issueReporter.setFullName(reporterName);
+		
+		IssueReporter res = this.getIssueReporter(reporterName);
 
-		if (this.getIssueReporter(reporterName) == null) {
+		if (res == null) {
 			dbm.persist(issueReporter);
 			return issueReporter;
 		}
-		return null;
+		return res;
 	}
 
 	public IssueComment addIssueCommentIfNotExists(String content, Date addedAt, String addedBy,
@@ -113,12 +125,14 @@ public class IssueDbContext {
 		issueComment.setAddedAt(addedAt);
 		issueComment.setAddedBy(addedBy);
 		issueComment.setJiraIssue(jiraIssueNew);
+		
+		IssueComment res = this.getCommentIssue(content, jiraIssueNew);
 
-		if (this.getCommentIssue(content, jiraIssueNew) == null) {
+		if (res == null) {
 			dbm.persist(issueComment);
 			return issueComment;
 		}
-		return null;
+		return res;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -218,7 +232,6 @@ public class IssueDbContext {
 		Criteria criteria = dbm.getSession().createCriteria(JiraProject.class);
 		List projects = criteria.add(Restrictions.eq("projectName", projectName)).list();
 		if (projects.size() >= 1) {
-			System.out.println(projects.get(0));
 			return (JiraProject) projects.get(0);
 		}
 
