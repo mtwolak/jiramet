@@ -25,4 +25,24 @@ public class IssueStatus {
 	@OneToMany(targetEntity=JiraIssue.class, mappedBy="issueStatus")
 	private Set<JiraIssue> jiraIssues;
 
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+
+	public Set<JiraIssue> getJiraIssues() {
+		return jiraIssues;
+	}
+
+	public void setJiraIssues(Set<JiraIssue> jiraIssues) {
+		this.jiraIssues = jiraIssues;
+	}
+
+	public int getId() {
+		return id;
+	}
+
 }

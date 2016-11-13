@@ -23,7 +23,6 @@ public class IssueReporter {
 		return fullName;
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -44,5 +43,8 @@ public class IssueReporter {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
-	
+
+	public int getIssueReportedId() {
+		return issueReportedId;
+	}	
 }

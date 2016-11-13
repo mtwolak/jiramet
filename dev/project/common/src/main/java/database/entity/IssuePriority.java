@@ -21,7 +21,26 @@ public class IssuePriority {
 	@Column(name = "PRIORITY_NAME")
 	private String priorityName;
 
-	@OneToMany(targetEntity=JiraIssue.class, mappedBy="issuePriority")
+	@OneToMany(targetEntity = JiraIssue.class, mappedBy = "issuePriority")
 	private Set<JiraIssue> jiraIssues;
 
+	public String getPriorityName() {
+		return priorityName;
+	}
+
+	public void setPriorityName(String priorityName) {
+		this.priorityName = priorityName;
+	}
+
+	public Set<JiraIssue> getJiraIssues() {
+		return jiraIssues;
+	}
+
+	public void setJiraIssues(Set<JiraIssue> jiraIssues) {
+		this.jiraIssues = jiraIssues;
+	}
+
+	public int getIssuePriorityId() {
+		return issuePriorityId;
+	}
 }

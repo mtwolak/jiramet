@@ -27,4 +27,7 @@ public class IssueType {
 		this.typeName = typeName;
 	}
 
+	public int getId() {
+		return id;
+	}
 }

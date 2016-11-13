@@ -26,8 +26,23 @@ public class Assignee {
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy="assignees")
 	private Set<JiraIssue> jiraIssues;
 
+	public String getName() {
+		return name;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public Set<JiraIssue> getJiraIssues() {
+		return jiraIssues;
+	}
+
+	public void setJiraIssues(Set<JiraIssue> jiraIssues) {
+		this.jiraIssues = jiraIssues;
+	}
+
+	public int getAssigneeId() {
+		return assigneeId;
+	}
 }

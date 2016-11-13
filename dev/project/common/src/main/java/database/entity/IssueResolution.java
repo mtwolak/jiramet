@@ -24,4 +24,24 @@ public class IssueResolution {
 	@OneToMany(targetEntity=JiraIssue.class, mappedBy="issueResolution")
 	private Set<JiraIssue> jiraIssue;
 
+	public String getResolutionName() {
+		return resolutionName;
+	}
+
+	public void setResolutionName(String resolutionName) {
+		this.resolutionName = resolutionName;
+	}
+
+	public Set<JiraIssue> getJiraIssue() {
+		return jiraIssue;
+	}
+
+	public void setJiraIssue(Set<JiraIssue> jiraIssue) {
+		this.jiraIssue = jiraIssue;
+	}
+
+	public int getIssueResoultionId() {
+		return issueResoultionId;
+	}
+
 }
