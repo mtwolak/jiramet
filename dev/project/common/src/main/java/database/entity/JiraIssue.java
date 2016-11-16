@@ -64,6 +64,9 @@ public class JiraIssue {
 	@Column(name="DESCRIPTION")
 	private String description;
 	
+	@Column(name="PURPOSE")
+	private String purpose;
+	
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "ASSIGNED_ISSUE", joinColumns = {
@@ -125,6 +128,14 @@ public class JiraIssue {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getPurpose() {
+		return purpose;
+	}
+
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
 	}
 
 }
