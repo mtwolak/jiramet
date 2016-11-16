@@ -14,11 +14,11 @@ import javax.persistence.Table;
 @Table(name = "ISSUE_PRIORITY")
 public class IssuePriority {
 	@Id
-	@Column(name = "ISSUE_PRIORITY_ID")
+	@Column(name = "ISSUE_PRIORITY_ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int issuePriorityId;
 
-	@Column(name = "PRIORITY_NAME")
+	@Column(name = "PRIORITY_NAME", nullable = false, unique = true)
 	private String priorityName;
 
 	@OneToMany(targetEntity = JiraIssue.class, mappedBy = "issuePriority")

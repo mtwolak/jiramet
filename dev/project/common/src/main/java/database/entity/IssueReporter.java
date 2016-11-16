@@ -8,17 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ISSUE_REPORTER")
+@Table(name = "ISSUE_REPORTER")
 public class IssueReporter {
-	
+
 	@Id
-	@Column(name="ISSUE_REPORTER_ID")
+	@Column(name = "ISSUE_REPORTER_ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int issueReportedId;
-	
-	@Column(name="FULL_NAME")
+
+	@Column(name = "FULL_NAME", nullable = false)
 	private String fullName;
-	
+
 	public String getFullName() {
 		return fullName;
 	}
@@ -46,5 +46,5 @@ public class IssueReporter {
 
 	public int getIssueReportedId() {
 		return issueReportedId;
-	}	
+	}
 }

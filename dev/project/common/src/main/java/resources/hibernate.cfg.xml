@@ -29,5 +29,6 @@
 		<mapping class="database.entity.JiraIssue" />
 		<mapping class="database.entity.JiraProject" />
 		<mapping class="database.entity.IssueComment" />
+		<mapping class="database.entity.AssignedIssue" />
 	</session-factory>
 </hibernate-configuration>

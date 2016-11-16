@@ -30,7 +30,12 @@ public class DatabaseManager {
 		Transaction tx = session.beginTransaction();
 		session.save(entity);
 		tx.commit();
-
+	}
+	
+	public void merge(Object entity) {
+		Transaction tx = session.beginTransaction();
+		session.merge(entity);
+		tx.commit();
 	}
 
 	public Session getSession() {
