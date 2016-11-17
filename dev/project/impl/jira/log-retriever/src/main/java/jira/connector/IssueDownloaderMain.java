@@ -10,7 +10,6 @@ public class IssueDownloaderMain {
 	    	//id.addIssuesFromCamundaProject();
 	    	//id.addIssuesFromMongoDBProject();
 	    	id.addIssuesFromSpringProject();
-	    	id.getIssueDbContext().closeDbm();
 		    	
 	        System.exit(0);
 	    }

@@ -22,16 +22,12 @@ public class IssueDownloaderUtil {
 		IssueStatus issueStatus = dbm.addIssueStatusIfNotExists(issue.getStatus().getName());
 		IssueType issueType = dbm.addIssueTypeIfNotExists(issue.getIssueType().getName());
 		IssueReporter issueReporter = dbm.addIssueReporterIfNotExists(issue.getReporter().getDisplayName());
-
 		Assignee assignee = dbm.addAssigneeIfNotExists(getAssignee(issue.getAssignee()));
-		Set<Assignee> assignees = new HashSet<Assignee>();
-		assignees.add(assignee);
 		
 		JiraIssue jiraIssue = new JiraIssue();
 		jiraIssue.setJiraProject(jiraProject);
 		jiraIssue.setIssueReporter(issueReporter);
 		jiraIssue.setIssueType(issueType);
-		//jiraIssue.setIssueAssignees(assignees);
 		jiraIssue.setIssueResolution(issueResolution);
 		jiraIssue.setIssueStatus(issueStatus);
 		jiraIssue.setIssuePriority(issuePriority);
@@ -39,7 +35,17 @@ public class IssueDownloaderUtil {
 		jiraIssue.setCreatedAt(new Timestamp(issue.getCreationDate().getMillis()));
 		jiraIssue.setDescription(issue.getDescription());
 		
-		dbm.addNewJiraIssue(jiraIssue);
+		boolean isIssueAdded = dbm.addNewJiraIssue(jiraIssue);
+		
+		if(isIssueAdded)
+		{
+			AssignedIssue assignedIssue = new AssignedIssue();
+			assignedIssue.setAssignee(assignee);
+			assignedIssue.setJiraIssue(jiraIssue);
+		//	assignedIssue.setResolvedAt(resolvedAt);
+			dbm.addNewAssignedIssue(assignedIssue);
+		}
+
 		
 		return true;
 	}
