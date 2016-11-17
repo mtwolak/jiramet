@@ -29,12 +29,12 @@ public class IssueDownloaderUtil {
 		
 		JiraIssue jiraIssue = new JiraIssue();
 		jiraIssue.setJiraProject(jiraProject);
-		jiraIssue.setReporter(issueReporter);
+		jiraIssue.setIssueReporter(issueReporter);
 		jiraIssue.setIssueType(issueType);
-		jiraIssue.setAssignees(assignees);
-		jiraIssue.setResolution(issueResolution);
-		jiraIssue.setStatus(issueStatus);
-		jiraIssue.setPriority(issuePriority);
+		//jiraIssue.setIssueAssignees(assignees);
+		jiraIssue.setIssueResolution(issueResolution);
+		jiraIssue.setIssueStatus(issueStatus);
+		jiraIssue.setIssuePriority(issuePriority);
 		jiraIssue.setCode(issue.getKey());
 		jiraIssue.setCreatedAt(new Timestamp(issue.getCreationDate().getMillis()));
 		jiraIssue.setDescription(issue.getDescription());
