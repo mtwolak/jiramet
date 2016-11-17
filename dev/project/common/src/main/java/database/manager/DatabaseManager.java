@@ -1,5 +1,7 @@
 package database.manager;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,37 +11,51 @@ import org.hibernate.service.ServiceRegistryBuilder;
 
 public class DatabaseManager {
 
-	private  SessionFactory factory;
-	private  Session session;
+	private SessionFactory factory;
+	private Session sesssion;
 	private static final String PATH_TO_SETTINGS = "/resources/hibernate.cfg.xml";
+	private static final Logger LOGGER = Logger.getLogger(DatabaseManager.class);
 
 	public void init() {
 		Configuration config = new Configuration().configure(PATH_TO_SETTINGS);
 		ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(config.getProperties())
 				.buildServiceRegistry();
 		factory = config.buildSessionFactory(serviceRegistry);
-
-		session = factory.openSession();
 	}
 
 	public void close() {
-		session.close();
 	}
 
 	public void persist(Object entity) {
-		Transaction tx = session.beginTransaction();
-		session.save(entity);
-		tx.commit();
+		Session session = factory.openSession();
+		try {
+			Transaction tx = session.beginTransaction();
+			session.save(entity);
+			LOGGER.info("Persisted " + entity);
+			tx.commit();
+		} catch (Exception e) {
+			LOGGER.error("Cannot save entity", e);
+		} finally {
+			session.close();
+		}
 	}
 	
-	public void merge(Object entity) {
-		Transaction tx = session.beginTransaction();
-		session.merge(entity);
-		tx.commit();
+	public void executeStringSql(String sqlQuery) {
+		Session session = factory.openSession();
+		try {
+			Query query = session.createSQLQuery(sqlQuery);
+			query.executeUpdate();
+		} catch(Exception e) {
+			LOGGER.error("Cannot execute string SQL" + sqlQuery, e);
+		} finally {
+			session.close();
+		}
 	}
-
+	
+	//do not forget to close opene session
 	public Session getSession() {
-		return session;
+		return factory.openSession();
 	}
+	
 
 }

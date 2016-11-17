@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+
 import static org.hamcrest.Matchers.*;
 
 import database.entity.AssignedIssue;
@@ -41,21 +42,20 @@ public class DatabaseManagerTest {
 	}
 
 	private void truncateAllTables() {
-		DataBaseTestHelper.truncateAllTables(databaseManager.getSession());
+		DataBaseTestHelper.truncateAllTables(databaseManager);
 	}
 
 	@Test
 	public void checkCreatingJiraIssueAndTheirAssignee() {
-		try {
+		//given
 		persistJiraObjects();
 		
+		//when
 		JiraIssue jiraIssueFromDb = jiraIssueLoader.loadByReporter(databaseManager, REPORTER_NAME);
-		AssignedIssue assignedIssue = jiraIssueFromDb.getAssignedIssues().iterator().next(); // nie mam pojęcia, dlaczego nie działa
+		AssignedIssue assignedIssue = jiraIssueFromDb.getAssignedIssues().iterator().next();
 		
+		//then
 		assertThat(assignedIssue.getAssignee().getName(), is(ASSIGNEE_NAME));
-		} finally {
-			truncateAllTables();
-		}
 	}
 
 	private void persistJiraObjects() {
