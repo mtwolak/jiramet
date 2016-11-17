@@ -13,16 +13,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ISSUE_STATUS")
 public class IssueStatus {
-	
+
 	@Id
-	@Column(name = "ISSUE_STATUS_ID")
+	@Column(name = "ISSUE_STATUS_ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-	@Column(name="STATUS_NAME")
+
+	@Column(name = "STATUS_NAME", nullable = false, unique = true)
 	private String statusName;
-	 
-	@OneToMany(targetEntity=JiraIssue.class, mappedBy="issueStatus")
+
+	@OneToMany(targetEntity = JiraIssue.class, mappedBy = "issueStatus")
 	private Set<JiraIssue> jiraIssues;
 
 	public String getStatusName() {

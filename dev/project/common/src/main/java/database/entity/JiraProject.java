@@ -14,14 +14,14 @@ import javax.persistence.Table;
 @Table(name = "JIRA_PROJECT")
 public class JiraProject {
 	@Id
-	@Column(name = "JIRA_PROJECT_ID")
+	@Column(name = "JIRA_PROJECT_ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int jiraProjectId;
-	
-	@Column(name = "PROJECT_NAME")
+
+	@Column(name = "PROJECT_NAME", nullable = false)
 	private String projectName;
-	
-	@OneToMany(targetEntity=JiraIssue.class, mappedBy="jiraProject")
+
+	@OneToMany(targetEntity = JiraIssue.class, mappedBy = "jiraProject")
 	private Set<JiraIssue> jiraIssues;
 
 	public String getProjectName() {

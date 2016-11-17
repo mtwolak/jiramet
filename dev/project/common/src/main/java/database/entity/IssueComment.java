@@ -16,18 +16,18 @@ import javax.persistence.Table;
 @Table(name = "ISSUE_COMMENT")
 public class IssueComment {
 	@Id
-	@Column(name = "ISSUE_COMMENT_ID")
+	@Column(name = "ISSUE_COMMENT_ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int issueCommentId;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "JIRA_ISSUE_ID")
 	private JiraIssue jiraIssueNew;
 
 	@Column(name = "CONTENT")
 	private String content;
-	@Column(name = "ADDED_AT")
-	private Date addedAt;
+	@Column(name = "ADDED_AT", nullable = true)
+	private Date addedAt = null;
 	@Column(name = "ADDED_BY")
 	private String addedBy;
 

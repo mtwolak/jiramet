@@ -11,8 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,77 +19,108 @@ import javax.persistence.Table;
 @Table(name = "JIRA_ISSUE")
 public class JiraIssue {
 	@Id
-	@Column(name = "JIRA_ISSUE_ID")
+	@Column(name = "JIRA_ISSUE_ID", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int jiraIssueId;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="PROJECT_ID")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "PROJECT_ID")
 	private JiraProject jiraProject;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="ISSUE_REPORTER_ID")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ISSUE_REPORTER_ID")
 	private IssueReporter issueReporter;
-	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="ISSUE_TYPE_ID")
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ISSUE_TYPE_ID")
 	private IssueType issueType;
 
-	@OneToMany(targetEntity=IssueComment.class, mappedBy="jiraIssueNew")
+	@OneToMany(targetEntity = IssueComment.class, mappedBy = "jiraIssueNew")
 	private Set<IssueComment> issueComments;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="ISSUE_RESOLUTION_ID")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ISSUE_RESOLUTION_ID")
 	private IssueResolution issueResolution;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="ISSUE_STATUS_ID")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ISSUE_STATUS_ID")
 	private IssueStatus issueStatus;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="ISSUE_PRIORITY_ID")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ISSUE_PRIORITY_ID")
 	private IssuePriority issuePriority;
-	
-	@Column(name="CODE")
+
+	@Column(name = "CODE", nullable = false)
 	private String code;
-	
-	@Column(name="CREATED_AT")
-	private Timestamp createdAt;
-	
-	@Column(name="FIRST_RESPONSE_DATE")
-	private Timestamp firstResponseDate;
-	
-	@Column(name="DESCRIPTION")
+
+	@Column(name = "CREATED_AT", nullable = true)
+	private Timestamp createdAt = null;
+
+	@Column(name = "FIRST_RESPONSE_DATE", nullable = true)
+	private Timestamp firstResponseDate = null;
+
+	@Column(name = "DESCRIPTION")
 	private String description;
-	
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "ASSIGNED_ISSUE", joinColumns = {
-			@JoinColumn(name = "JIRA_ISSUE_ID", nullable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "ASSIGNEE_ID", nullable = false) })
-	private Set<Assignee> assignees;
+	@Column(name = "PURPOSE")
+	private String purpose = "T";
 
-	public void setReporter(IssueReporter issueReporter) {
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="jiraIssue", fetch=FetchType.EAGER)
+	private Set<AssignedIssue> assignedIssues;
+
+	public JiraProject getJiraProject() {
+		return jiraProject;
+	}
+
+	public void setJiraProject(JiraProject jiraProject) {
+		this.jiraProject = jiraProject;
+	}
+
+	public IssueReporter getIssueReporter() {
+		return issueReporter;
+	}
+
+	public void setIssueReporter(IssueReporter issueReporter) {
 		this.issueReporter = issueReporter;
+	}
+
+	public IssueType getIssueType() {
+		return issueType;
 	}
 
 	public void setIssueType(IssueType issueType) {
 		this.issueType = issueType;
 	}
 
-	public void setAssignees(Set<Assignee> assignees) {
-		this.assignees = assignees;
+	public Set<IssueComment> getIssueComments() {
+		return issueComments;
 	}
 
-	public void setResolution(IssueResolution issueResolution) {
+	public void setIssueComments(Set<IssueComment> issueComments) {
+		this.issueComments = issueComments;
+	}
+
+	public IssueResolution getIssueResolution() {
+		return issueResolution;
+	}
+
+	public void setIssueResolution(IssueResolution issueResolution) {
 		this.issueResolution = issueResolution;
 	}
 
-	public void setStatus(IssueStatus issueStatus) {
+	public IssueStatus getIssueStatus() {
+		return issueStatus;
+	}
+
+	public void setIssueStatus(IssueStatus issueStatus) {
 		this.issueStatus = issueStatus;
 	}
 
-	public void setPriority(IssuePriority issuePriority) {
+	public IssuePriority getIssuePriority() {
+		return issuePriority;
+	}
+
+	public void setIssuePriority(IssuePriority issuePriority) {
 		this.issuePriority = issuePriority;
 	}
 
@@ -127,15 +156,21 @@ public class JiraIssue {
 		this.description = description;
 	}
 
-	public int getJiraIssueId() {
-		return jiraIssueId;
+	public String getPurpose() {
+		return purpose;
 	}
 
-	public JiraProject getJiraProject() {
-		return jiraProject;
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
 	}
 
-	public void setJiraProject(JiraProject jiraProject) {
-		this.jiraProject = jiraProject;
+	public Set<AssignedIssue> getAssignedIssues() {
+		return assignedIssues;
 	}
+
+//	public void setAssignedIssues(Set<AssignedIssue> assignedIssues) {
+//		this.assignedIssues = assignedIssues;
+//	}
+
+
 }
