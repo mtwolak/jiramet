@@ -1,20 +1,23 @@
 package database.jira;
 
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import database.entity.Assignee;
 import database.manager.DatabaseManager;
 
-public class JiraAssigneeLoader {
+public class JiraAssigneeLoader extends JiraCriteriaDbLoader<Assignee>{
 	
-	public Assignee loadByName(DatabaseManager manager, String reporterName) {
-		Session session = manager.getSession();
-		Criteria criteria = session.createCriteria(Assignee.class);
-		Assignee assignee = (Assignee) criteria.add(Restrictions.eq("name", reporterName)).list().get(0);
-		session.close();
-		return assignee;
+	private String reporterName;
+
+	public JiraAssigneeLoader(DatabaseManager databaseManager, String reporterName) {
+		super(databaseManager);
+		this.reporterName = reporterName;
+	}
+
+	@Override
+	protected Assignee setCriteria(Criteria criteria) {
+		return (Assignee) criteria.add(Restrictions.eq("name", reporterName)).list().get(0);
 	}
 	
 }

@@ -24,14 +24,10 @@ public class DatabaseManagerTest {
 	private final static String REPORTER_NAME = "Marcin";
 	private final static String ASSIGNEE_NAME = "Michal";
 	private DatabaseManager databaseManager;
-	private JiraIssueLoader jiraIssueLoader;
-	private JiraAssigneeLoader jiraAssigneeLoader;
 
 	@Before
 	public void setUp() {
 		databaseManager = new DatabaseManager();
-		jiraIssueLoader = new JiraIssueLoader();
-		jiraAssigneeLoader = new JiraAssigneeLoader();
 		databaseManager.init();
 	}
 
@@ -47,11 +43,13 @@ public class DatabaseManagerTest {
 
 	@Test
 	public void checkCreatingJiraIssueAndTheirAssignee() {
+		 truncateAllTables();
 		//given
 		persistJiraObjects();
 		
 		//when
-		JiraIssue jiraIssueFromDb = jiraIssueLoader.loadByReporter(databaseManager, REPORTER_NAME);
+		JiraIssueLoader jiraIssueLoader = new JiraIssueLoader(databaseManager, REPORTER_NAME);
+		JiraIssue jiraIssueFromDb = jiraIssueLoader.get(JiraIssue.class);
 		AssignedIssue assignedIssue = jiraIssueFromDb.getAssignedIssues().iterator().next();
 		
 		//then
@@ -65,8 +63,8 @@ public class DatabaseManagerTest {
 	}
 
 	private void persistAssignedIssue() {
-		JiraIssue jiraIssueFromDb = jiraIssueLoader.loadByReporter(databaseManager, REPORTER_NAME);
-		Assignee assigneeFromDb = jiraAssigneeLoader.loadByName(databaseManager, ASSIGNEE_NAME);
+		JiraIssue jiraIssueFromDb = new JiraIssueLoader(databaseManager, REPORTER_NAME).get(JiraIssue.class);
+		Assignee assigneeFromDb = new JiraAssigneeLoader(databaseManager, ASSIGNEE_NAME).get(Assignee.class);
 		AssignedIssue assignedIssue = createAssignedIssue(jiraIssueFromDb, assigneeFromDb);
 		databaseManager.persist(assignedIssue);
 		databaseManager.persist(jiraIssueFromDb);
