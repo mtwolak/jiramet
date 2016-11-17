@@ -43,7 +43,6 @@ public class DatabaseManagerTest {
 
 	@Test
 	public void checkCreatingJiraIssueAndTheirAssignee() {
-		 truncateAllTables();
 		//given
 		persistJiraObjects();
 		
