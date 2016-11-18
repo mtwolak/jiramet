@@ -73,7 +73,6 @@ public class DatabaseManagerTest {
 		JiraIssue jiraIssue = createJiraIssue();
 		jiraIssue.getIssuePriority().setPriorityName("PriorityName2");
 		jiraIssue.getIssueResolution().setResolutionName("Resolution name2");
-		jiraIssue.getIssueStatus().setStatusName("Status name2");
 		jiraIssue.getIssueType().setTypeName("Name");
 		databaseManager.persist(jiraIssue);
 	}
@@ -99,7 +98,7 @@ public class DatabaseManagerTest {
 		IssueReporter issueReporter = createIssueReporter();
 		IssueType issueType = createIssueType();
 		IssueResolution issueResolution = createIssueResolution();
-		IssueStatus issueStatus = createIssueStatus();
+		IssueStatus issueStatus = IssueStatus.CLOSED;
 		IssuePriority issuePriority = createIssuePriority();
 		return createJiraIssue(issueReporter, issueType, issueResolution, issueStatus, issuePriority);
 	}
@@ -120,12 +119,6 @@ public class DatabaseManagerTest {
 		IssuePriority issuePriority = new IssuePriority();
 		issuePriority.setPriorityName("Name");
 		return issuePriority;
-	}
-
-	private IssueStatus createIssueStatus() {
-		IssueStatus issueStatus = new IssueStatus();
-		issueStatus.setStatusName("StatusName");
-		return issueStatus;
 	}
 
 	private IssueResolution createIssueResolution() {

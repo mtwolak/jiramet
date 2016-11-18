@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-//fixme: should be changed in future to enum
 @Entity
 @Table(name = "ISSUE_TYPE")
 public class IssueType {

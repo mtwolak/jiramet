@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,8 +44,8 @@ public class JiraIssue {
 	@JoinColumn(name = "ISSUE_RESOLUTION_ID")
 	private IssueResolution issueResolution;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ISSUE_STATUS_ID")
+	@Enumerated(EnumType.STRING)
+	@Column(name="ISSUE_STATUS")
 	private IssueStatus issueStatus;
 
 	@ManyToOne(cascade = CascadeType.ALL)
