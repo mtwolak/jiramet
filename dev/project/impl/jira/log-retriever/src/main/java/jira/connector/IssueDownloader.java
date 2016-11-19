@@ -4,6 +4,7 @@ import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import com.atlassian.util.concurrent.Promise;
 
+import database.manager.DataBaseType;
 import jira.data.IssueDbContext;
 
 public class IssueDownloader
@@ -12,10 +13,10 @@ public class IssueDownloader
 	private JiraUtil jiraUtil;
 	private IssueDbContext idc;
 
-	public IssueDownloader()
+	public IssueDownloader(DataBaseType dataBaseType)
 	{
 		jiraUtil = new JiraUtil();
-		idc = new IssueDbContext();
+		idc = new IssueDbContext(dataBaseType);
 	}
 
 	public void retriveAllIssues()
@@ -31,7 +32,7 @@ public class IssueDownloader
 	{
 		String projectName = IssueDownloaderUtil.addProjectToDatabase(idc, projectKey);
 
-		if (projectName != "")
+		if ("".equals(projectName))
 		{
 			for (Issue issue : searchRes.claim().getIssues())
 			{

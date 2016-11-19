@@ -1,6 +1,7 @@
 package jira.connector;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -88,7 +89,25 @@ public class JiraUtilTest {
 	public void testCloseClientConnection() 
 	{
 		ju.closeClientConnection();
-		assertNull(client);
+		assertNull(ju.getClient());
+	}
+
+	@Test
+	public void testGetTotalIssueCountFromSpringProject()
+	{
+		assertThat(ju.getTotalIssueCountFromSpringProject(), instanceOf(Integer.class));
+	}
+
+	@Test
+	public void testGetTotalIssueCountFromMongoDBProject()
+	{
+		assertThat(ju.getTotalIssueCountFromMongoDBProject(), instanceOf(Integer.class));
+	}
+
+	@Test
+	public void testGetTotalIssueCountFromCamundaProject()
+	{
+		assertThat(ju.getTotalIssueCountFromCamundaProject(), instanceOf(Integer.class));
 	}
 
 }
