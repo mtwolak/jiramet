@@ -16,6 +16,7 @@ import com.atlassian.util.concurrent.Promise;
 
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
+import database.manager.DataBaseType;
 
 																			//NIE ODPALACA JAK MACIE WYPELNIONA BAZE BO ALL USUNIE
 
@@ -29,7 +30,7 @@ public class IssueDownloaderTest
 	@Before
 	public void setUp()
 	{
-		issueDownloader = new IssueDownloader();
+		issueDownloader = new IssueDownloader(DataBaseType.TEST);
 		jiraUtil = issueDownloader.getJiraUtil();
 		issueDownloader.getIssueDbContext().initDbm();
 		truncateAllTables();

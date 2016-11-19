@@ -12,12 +12,16 @@ import org.hibernate.service.ServiceRegistryBuilder;
 public class DatabaseManager {
 
 	private SessionFactory factory;
-	private Session sesssion;
-	private static final String PATH_TO_SETTINGS = "/resources/hibernate.cfg.xml";
+	private final String pathToSettings;
 	private static final Logger LOGGER = Logger.getLogger(DatabaseManager.class);
+	
+	public DatabaseManager(DataBaseType dataBaseType)
+	{
+		this.pathToSettings = dataBaseType.getPathToSettings();
+	}
 
 	public void init() {
-		Configuration config = new Configuration().configure(PATH_TO_SETTINGS);
+		Configuration config = new Configuration().configure(pathToSettings);
 		ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(config.getProperties())
 				.buildServiceRegistry();
 		factory = config.buildSessionFactory(serviceRegistry);
@@ -52,7 +56,7 @@ public class DatabaseManager {
 		}
 	}
 	
-	//do not forget to close opene session
+	//do not forget to close opened session
 	public Session getSession() {
 		return factory.openSession();
 	}
