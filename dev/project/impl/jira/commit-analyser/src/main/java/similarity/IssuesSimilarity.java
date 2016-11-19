@@ -28,6 +28,7 @@ public class IssuesSimilarity
         {
         	System.out.println(ji.getIssueReporter().getFullName());
         }*/
+		dba.closeSession();
 		
 		return null;
 	}

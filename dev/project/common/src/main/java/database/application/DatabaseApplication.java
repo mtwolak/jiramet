@@ -29,7 +29,6 @@ public class DatabaseApplication
 	{
 		criteria = session.createCriteria(JiraIssue.class);
 		List issues = criteria.add(Restrictions.eq("id", issueID)).list();
-		session.close();
 		
 		if (issues.size() >= 1)
 		{
@@ -44,7 +43,6 @@ public class DatabaseApplication
 	{
 		criteria = session.createCriteria(JiraProject.class);
 		List projects = criteria.add(Restrictions.eq("id", projectID)).list();
-		session.close();
 		
 		if (projects.size() >= 1)
 		{
@@ -59,7 +57,6 @@ public class DatabaseApplication
 	{
 		criteria = session.createCriteria(JiraProject.class);
 		List projects = criteria.list();
-		session.close();
 		
 		if (projects.size() >= 1)
 		{
@@ -82,6 +79,11 @@ public class DatabaseApplication
 		}
 		
 		return null;
+	}
+	
+	public void closeSession()
+	{
+		session.close();
 	}
 
 }
