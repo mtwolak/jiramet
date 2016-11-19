@@ -86,4 +86,9 @@ public class JiraUtil
 			e.printStackTrace();
 		}
 	}
+	
+	public JiraRestClient getClient()
+	{
+		return client;
+	}
 }
