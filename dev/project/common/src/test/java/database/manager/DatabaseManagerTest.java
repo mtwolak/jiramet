@@ -27,7 +27,7 @@ public class DatabaseManagerTest {
 
 	@Before
 	public void setUp() {
-		databaseManager = new DatabaseManager(DataBaseType.PRODUCTION);
+		databaseManager = new DatabaseManager(DataBaseType.TEST);
 		databaseManager.init();
 	}
 
