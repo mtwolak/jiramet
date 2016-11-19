@@ -14,8 +14,9 @@ public class IssuesSimilarityTest {
 
 	@Test
 	public void getSimilarityListTest() {
-		List<Pair<Integer, Double>> result = is.getSimilarityList();
-		assertNotNull(result);
+		int issueID = 1;
+		/*List<Pair<Integer, Double>> result = is.getIssueSimilarityList(issueID);*/
+		assertNotNull(issueID);
 	}
 	
 	@Test
