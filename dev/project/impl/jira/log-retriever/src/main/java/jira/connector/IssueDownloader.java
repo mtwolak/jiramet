@@ -12,6 +12,7 @@ public class IssueDownloader
 
 	private JiraUtil jiraUtil;
 	private IssueDbContext idc;
+	private static final int ISSUE_LIMIT_PER_CALL = 1000;
 
 	public IssueDownloader(DataBaseType dataBaseType)
 	{
@@ -32,7 +33,7 @@ public class IssueDownloader
 	{
 		String projectName = IssueDownloaderUtil.addProjectToDatabase(idc, projectKey);
 
-		if ("".equals(projectName))
+		if (!"".equals(projectName))
 		{
 			for (Issue issue : searchRes.claim().getIssues())
 			{
@@ -48,9 +49,9 @@ public class IssueDownloader
 
 		while (startAt < totalResults)
 		{
-			Promise<SearchResult> springRes = jiraUtil.getIssuesFromSpringProject(startAt, 1000);
+			Promise<SearchResult> springRes = jiraUtil.getIssuesFromSpringProject(startAt, ISSUE_LIMIT_PER_CALL);
 			addIssuesFromProject(springRes, JiraUtil.JIRA_SPRING_FRAMEWORK_PROJECTKEY);
-			startAt += 1000;
+			startAt += ISSUE_LIMIT_PER_CALL;
 		}
 	}
 
@@ -61,9 +62,9 @@ public class IssueDownloader
 
 		while (startAt < totalResults)
 		{
-			Promise<SearchResult> mongoRes = jiraUtil.getIssuesFromMongoDBProject(startAt, 1000);
+			Promise<SearchResult> mongoRes = jiraUtil.getIssuesFromMongoDBProject(startAt, ISSUE_LIMIT_PER_CALL);
 			addIssuesFromProject(mongoRes, JiraUtil.JIRA_MONGODB_PROJECTKEY);
-			startAt += 1000;
+			startAt += ISSUE_LIMIT_PER_CALL;
 		}
 	}
 
@@ -74,9 +75,9 @@ public class IssueDownloader
 
 		while (startAt < totalResults)
 		{
-			Promise<SearchResult> camundaRes = jiraUtil.getIssuesFromCamundaProject(startAt, 1000);
+			Promise<SearchResult> camundaRes = jiraUtil.getIssuesFromCamundaProject(startAt, ISSUE_LIMIT_PER_CALL);
 			addIssuesFromProject(camundaRes, JiraUtil.JIRA_CAMUNDA_PROJECTKEY);
-			startAt += 1000;
+			startAt += ISSUE_LIMIT_PER_CALL;
 		}
 	}
 
