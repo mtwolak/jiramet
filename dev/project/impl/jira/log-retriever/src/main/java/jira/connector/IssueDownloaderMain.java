@@ -7,6 +7,9 @@ public class IssueDownloaderMain
 	{
 		IssueDownloader id = new IssueDownloader();
 		id.retriveAllIssues();
+		//id.getIssueDbContext().initDbm();
+		//id.addIssuesFromSpringProject();
+		//id.getIssueDbContext().closeDbm();
 
 		System.exit(0);
 	}
