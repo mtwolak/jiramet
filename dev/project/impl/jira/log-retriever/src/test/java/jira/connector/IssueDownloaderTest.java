@@ -18,8 +18,6 @@ import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import database.manager.DataBaseType;
 
-																			//NIE ODPALACA JAK MACIE WYPELNIONA BAZE BO ALL USUNIE
-
 public class IssueDownloaderTest
 {
 
