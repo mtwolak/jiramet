@@ -9,7 +9,7 @@ public class DateConverter
 {
 	public static Timestamp convertStringToTimestamp(String dateString, DateFormat dateFormat)
 	{
-		if (dateString == null)
+		if (dateString == null || dateFormat == null)
 		{
 			return null;
 		}
