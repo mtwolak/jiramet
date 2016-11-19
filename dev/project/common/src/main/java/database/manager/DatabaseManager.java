@@ -30,7 +30,7 @@ public class DatabaseManager {
 		Session session = factory.openSession();
 		try {
 			Transaction tx = session.beginTransaction();
-			session.save(entity);
+			session.saveOrUpdate(entity);
 			LOGGER.info("Persisted " + entity);
 			tx.commit();
 		} catch (Exception e) {

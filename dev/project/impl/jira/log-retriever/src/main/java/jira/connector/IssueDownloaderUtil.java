@@ -1,29 +1,29 @@
 package jira.connector;
 
-
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import com.atlassian.jira.rest.client.api.domain.Issue;
-import com.atlassian.jira.rest.client.api.domain.User;
 
 import database.entity.*;
+import jira.data.FieldPicker;
 import jira.data.IssueDbContext;
+import jira.json.CommentDownloader;
 
-public class IssueDownloaderUtil {
-	
-	public static boolean addSingleIssueToDatabase(IssueDbContext dbm, String projectName, Issue issue) {
+public class IssueDownloaderUtil
+{
 
+	public static boolean addSingleIssueToDatabase(IssueDbContext dbm, String projectName, Issue issue)
+	{
 		JiraProject jiraProject = dbm.getJiraProject(projectName);
-		
-		IssuePriority issuePriority = dbm.addIssuePriorityIfNotExists(issue.getPriority().getName());		
-		IssueResolution issueResolution = dbm.addIssueResolutionIfNotExists(issue.getResolution().getName());
-		IssueStatus issueStatus = dbm.addIssueStatusIfNotExists(issue.getStatus().getName());
-		IssueType issueType = dbm.addIssueTypeIfNotExists(issue.getIssueType().getName());
-		IssueReporter issueReporter = dbm.addIssueReporterIfNotExists(issue.getReporter().getDisplayName());
-		Assignee assignee = dbm.addAssigneeIfNotExists(getAssignee(issue.getAssignee()));
-		
+
+		IssuePriority issuePriority = dbm.addIssuePriorityIfNotExists(FieldPicker.getPriority(issue.getPriority()));
+		IssueResolution issueResolution = dbm.addIssueResolutionIfNotExists(FieldPicker.getResolution(issue.getResolution()));
+		IssueStatus issueStatus = FieldPicker.getStatus(issue.getStatus().getName());
+		IssueType issueType = dbm.addIssueTypeIfNotExists(FieldPicker.getType(issue.getIssueType()));
+		IssueReporter issueReporter = dbm.addIssueReporterIfNotExists(FieldPicker.getReporter(issue.getReporter()));
+		Assignee assignee = dbm.addAssigneeIfNotExists(FieldPicker.getAssignee(issue.getAssignee()));
+
 		JiraIssue jiraIssue = new JiraIssue();
 		jiraIssue.setJiraProject(jiraProject);
 		jiraIssue.setIssueReporter(issueReporter);
@@ -34,27 +34,46 @@ public class IssueDownloaderUtil {
 		jiraIssue.setCode(issue.getKey());
 		jiraIssue.setCreatedAt(new Timestamp(issue.getCreationDate().getMillis()));
 		jiraIssue.setDescription(issue.getDescription());
-		
-		boolean isIssueAdded = dbm.addNewJiraIssue(jiraIssue);
-		
-		if(isIssueAdded)
+		jiraIssue.setFirstResponseDate(FieldPicker.getFirstResponseDate(issue));
+
+		JiraIssue addedIssue = dbm.addNewJiraIssue(jiraIssue);
+
+		if (addedIssue != null)
 		{
 			AssignedIssue assignedIssue = new AssignedIssue();
 			assignedIssue.setAssignee(assignee);
 			assignedIssue.setJiraIssue(jiraIssue);
-		//	assignedIssue.setResolvedAt(resolvedAt);
+			assignedIssue.setResolvedAt(FieldPicker.getFirstResolveDate(issue));
 			dbm.addNewAssignedIssue(assignedIssue);
+
+			List<IssueComment> issueComments = (List<IssueComment>) CommentDownloader.loadCommentsFromIssue(addedIssue,
+					projectName);
+
+			for (IssueComment ic : issueComments)
+			{
+				dbm.addIssueCommentIfNotExists(ic);
+			}
+
+			if (addedIssue.getFirstResponseDate() == null)
+			{
+				addedIssue = dbm.setFirstResponseDateByComment(addedIssue);
+			}
+			if (addedIssue.getFirstResponseDate() == null)
+			{
+				dbm.setFirstResponseDateAsResolved(addedIssue);
+			}
 		}
 
-		
 		return true;
 	}
 
-	public static String addProjectToDatabase(IssueDbContext dbm, String projectKey) {
-		
+	public static String addProjectToDatabase(IssueDbContext dbm, String projectKey)
+	{
+
 		String projectName;
 
-		switch (projectKey) {
+		switch (projectKey)
+		{
 		case "SPR":
 			projectName = "Spring Framework";
 			break;
@@ -68,20 +87,9 @@ public class IssueDownloaderUtil {
 			projectName = "";
 			break;
 		}
-		
+
 		dbm.addProjectIfNotExists(projectName);
 		return projectName;
-	}
-	
-	private static String getAssignee(User agne){
-		if(agne == null){
-			return "Unassigned";
-		}
-		return agne.getDisplayName();
-	}
-
-	private void addCommentsToDatabase(String issueKey) {
-
 	}
 
 }

@@ -1,6 +1,6 @@
 package database.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,24 +27,20 @@ public class IssueComment {
 	@Column(name = "CONTENT")
 	private String content;
 	@Column(name = "ADDED_AT", nullable = true)
-	private Date addedAt = null;
+	private Timestamp addedAt = null;
 	@Column(name = "ADDED_BY")
 	private String addedBy;
 
 	public JiraIssue getJiraIssueNew() {
 		return jiraIssueNew;
 	}
-
+	
 	public void setJiraIssue(JiraIssue jiraIssueNew) {
 		this.jiraIssueNew = jiraIssueNew;
 	}
 
 	public int getIssueCommentId() {
 		return issueCommentId;
-	}
-
-	public void setIssueCommentId(int issueCommentId) {
-		this.issueCommentId = issueCommentId;
 	}
 
 	public String getContent() {
@@ -55,11 +51,11 @@ public class IssueComment {
 		this.content = content;
 	}
 
-	public Date getAddedAt() {
+	public Timestamp getAddedAt() {
 		return addedAt;
 	}
 
-	public void setAddedAt(Date addedAt) {
+	public void setAddedAt(Timestamp addedAt) {
 		this.addedAt = addedAt;
 	}
 

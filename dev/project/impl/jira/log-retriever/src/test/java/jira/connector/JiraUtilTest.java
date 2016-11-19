@@ -66,21 +66,21 @@ public class JiraUtilTest {
 	@Test
 	public void testGetIssuesFromSpringProject() 
 	{		
-		searchResult = ju.getIssuesFromSpringProject();
+		searchResult = ju.getIssuesFromSpringProject(0,1);
 		assertNotNull(searchResult);
 	}
 	
 	@Test
 	public void testGetIssuesFromMongoDBProject() 
 	{
-		searchResult = ju.getIssuesFromMongoDBProject();
+		searchResult = ju.getIssuesFromMongoDBProject(0,1);
 		assertNotNull(searchResult);
 	}
 	
 	@Test
 	public void testGetIssuesFromCamundaProject() 
 	{
-		searchResult = ju.getIssuesFromCamundaProject();
+		searchResult = ju.getIssuesFromCamundaProject(0,1);
 		assertNotNull(searchResult);
 	}
 	
