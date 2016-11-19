@@ -96,7 +96,7 @@ public class FieldPicker
 
 	public static IssueStatus getStatus(String status)
 	{
-		if (status.equals("Resolved"))
+		if ("Resolved".equals(status))
 		{
 			return IssueStatus.RESOLVED;
 		}

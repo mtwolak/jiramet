@@ -42,6 +42,8 @@ public class CommentDownloader
 		case "Camunda BPM":
 			url.append(JiraUtil.JIRA_CAMUNDA_URL);
 			break;
+		default:
+			break;
 		}
 
 		if (url.length() == 0)

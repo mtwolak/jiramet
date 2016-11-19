@@ -12,8 +12,6 @@ public class IssueDownloaderMain
 		//id.getIssueDbContext().initDbm();
 		//id.addIssuesFromSpringProject();
 		//id.getIssueDbContext().closeDbm();
-
-		System.exit(0);
 	}
 
 }

@@ -32,7 +32,7 @@ public class IssueDownloader
 	{
 		String projectName = IssueDownloaderUtil.addProjectToDatabase(idc, projectKey);
 
-		if (projectName != "")
+		if ("".equals(projectName))
 		{
 			for (Issue issue : searchRes.claim().getIssues())
 			{
