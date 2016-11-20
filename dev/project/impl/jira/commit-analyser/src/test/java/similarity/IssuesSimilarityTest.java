@@ -24,6 +24,7 @@ public class IssuesSimilarityTest {
 	Criteria criteria;
 	JiraIssue issue;
 	IssuesSimilarity is;
+	List<Pair<Integer, Double>> similarityList;
 
 	@Before
 	public void setUp() {
@@ -43,16 +44,20 @@ public class IssuesSimilarityTest {
 	
 	@Test
 	public void getSimilarityListTest() {
-		int issueID = 1;
-		/*List<Pair<Integer, Double>> result = is.getIssueSimilarityList(issueID);*/
-		assertNotNull(issueID);
+		similarityList = is.getIssueSimilarityList(issue);
+		assertNotNull(similarityList);
+	}
+	
+	@Test
+	public void getSimilarityListTest2() {
+		similarityList = is.getIssueSimilarityList(issue);
+		assertFalse(similarityList.get(0).getKey()==ISSUE_ID);
 	}
 	
 	@Test
 	public void getIssueSimilarityTest() 
 	{
 		double result = -1.0;
-		int issueID = 1;
 		assertNotEquals(result, -1.0);
 	}
 

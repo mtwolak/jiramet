@@ -22,8 +22,6 @@ public class IssuesSimilarity
 	public IssuesSimilarity(JiraIssue issue)
 	{
 		dba = new DatabaseApplication();
-		/*issue = dba.getJiraIssue(1);*/
-		List<Pair<Integer, Double>> similarityList = getIssueSimilarityList(issue);
 	}
 	
 	public List<Pair<Integer, Double>> getIssueSimilarityList(JiraIssue issue)
@@ -34,15 +32,10 @@ public class IssuesSimilarity
 		List<JiraIssue> issues = dba.getJiraIssues(project);
 		for(JiraIssue jissue : issues)
         {
-			similarities.add(new Pair<Integer, Double>(jissue.getJiraIssueId(), getIssueSimilarity(issue, jissue)));
+			if(jissue.getJiraIssueId() != issue.getJiraIssueId())
+				similarities.add(new Pair<Integer, Double>(jissue.getJiraIssueId(), getIssueSimilarity(issue, jissue)));
         }
 		dba.closeSession();
-		/*
-		for(Pair<Integer, Double> sim : similarities)
-		{
-			System.out.println(sim);
-		}
-		*/
 		
 		return similarities;
 	}	
