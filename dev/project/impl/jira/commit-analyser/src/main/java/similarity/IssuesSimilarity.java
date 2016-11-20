@@ -1,15 +1,19 @@
 package similarity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import javafx.util.Pair;
+import lucene.CosineTextSimilarity;
 
 public class IssuesSimilarity 
 {
 	static DatabaseApplication dba = new DatabaseApplication();
+	static List<Pair<Integer, Double>> similarities;
+	CosineTextSimilarity cts;
 	
 	public static void main(String[] args)
 	{
@@ -18,23 +22,24 @@ public class IssuesSimilarity
 		getIssueSimilarityList(issue);
 	}
 	
-	public static List<Pair<Integer, Double>> getIssueSimilarityList(JiraIssue issue)
+	public static ArrayList<Pair<Integer, Double>> getIssueSimilarityList(JiraIssue issue)
 	{
 		dba = new DatabaseApplication();
+		similarities = new ArrayList<Pair<Integer, Double>>();
 		JiraProject project = issue.getJiraProject();
 		List<JiraIssue> issues = dba.getJiraIssues(project);
-		
-        /*for(JiraIssue ji : issues)
+		for(JiraIssue jissue : issues)
         {
-        	System.out.println(ji.getIssueReporter().getFullName());
-        }*/
+			similarities.add(new Pair<Integer, Double>(jissue.getJiraIssueId(), getIssueSimilarity(issue, jissue)));
+        }
 		dba.closeSession();
 		
 		return null;
-	}
+	}	
 	
-	public double getIssueSimilarity(int issueID)
+	public static double getIssueSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
+		
 		return -1.0;
 	}
 }

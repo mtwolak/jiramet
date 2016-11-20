@@ -1,6 +1,5 @@
 package database.application;
 
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 import java.util.List;
@@ -12,10 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import database.entity.AssignedIssue;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
-import database.jira.JiraIssueLoader;
 import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
 
@@ -63,6 +60,7 @@ public class DatabaseApplicationTest
 	public void getJiraProjectsTest() 
 	{
 		criteria = session.createCriteria(JiraProject.class);
+		@SuppressWarnings("rawtypes")
 		List projects = criteria.list();
 		assertNotNull(projects);
 	}
@@ -75,6 +73,7 @@ public class DatabaseApplicationTest
 		JiraProject project = issue.getJiraProject();
 		criteria = session.createCriteria(JiraIssue.class);
 		criteria.add(Restrictions.eq("jiraProject", project));
+		@SuppressWarnings("rawtypes")
 		List issues = criteria.list();
 		assertNotNull(issues);
 	}

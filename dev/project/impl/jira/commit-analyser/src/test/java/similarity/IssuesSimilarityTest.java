@@ -24,7 +24,6 @@ public class IssuesSimilarityTest {
 	{
 		double result = -1.0;
 		int issueID = 1;
-		result = is.getIssueSimilarity(issueID);
 		assertNotEquals(result, -1.0);
 	}
 
