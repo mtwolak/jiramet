@@ -16,7 +16,8 @@ import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
 import javafx.util.Pair;
 
-public class IssuesSimilarityTest {
+public class IssuesSimilarityTest
+{
 
 	private final static int ISSUE_ID = 1;
 	private final static int ISSUE2_ID = 2;
@@ -39,56 +40,50 @@ public class IssuesSimilarityTest {
 		issue2 = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE2_ID)).list().get(0);
 		is = new IssuesSimilarity();
 	}
-	
+
 	@After
-	public void close() 
-	{
+	public void close() {
 		dbm.close();
 	}
-	
+
 	@Test
 	public void getSimilarityListTest() {
 		similarityList = is.getIssueSimilarityList(issue);
 		assertNotNull(similarityList);
 	}
-	
+
 	@Test
 	public void getSimilarityListTest2() {
 		similarityList = is.getIssueSimilarityList(issue);
-		assertFalse(similarityList.get(0).getKey()==ISSUE_ID);
+		assertFalse(similarityList.get(0).getKey() == ISSUE_ID);
 	}
-	
+
 	@Test
-	public void getIssuesSimilarityTest() 
-	{
-		double similarity = is.getIssuesSimilarity(issue,issue2);
+	public void getIssuesSimilarityTest() {
+		double similarity = is.getIssuesSimilarity(issue, issue2);
 		assertTrue(similarity >= 0 && similarity <= 1);
 	}
-	
+
 	@Test
-	public void getIssuesSummariesSimilarityTest() 
-	{
-		double similarity = is.getIssuesSummariesSimilarity(issue,issue2);
+	public void getIssuesSummariesSimilarityTest() {
+		double similarity = is.getIssuesSummariesSimilarity(issue, issue2);
 		assertTrue(similarity >= 0 && similarity <= 1);
 	}
-	
+
 	@Test
-	public void getIssuesDescriptionsSimilarityTest() 
-	{
-		double similarity = is.getIssuesDescriptionsSimilarity(issue,issue2);
+	public void getIssuesDescriptionsSimilarityTest() {
+		double similarity = is.getIssuesDescriptionsSimilarity(issue, issue2);
 		assertTrue(similarity >= 0 && similarity <= 1);
 	}
-	
+
 	@Test
-	public void getIssuesCommentsSimilarityTest() 
-	{
-		double similarity = is.getIssuesCommentsSimilarity(issue,issue2);
+	public void getIssuesCommentsSimilarityTest() {
+		double similarity = is.getIssuesCommentsSimilarity(issue, issue2);
 		assertTrue(similarity >= 0 && similarity <= 1);
 	}
-	
+
 	@Test
-	public void collectIssueCommentsTest() 
-	{
+	public void collectIssueCommentsTest() {
 		assertNotNull(is.collectIssueComments(issue));
 	}
 }

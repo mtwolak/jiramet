@@ -16,38 +16,35 @@ import database.entity.JiraProject;
 import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
 
-public class DatabaseApplicationTest 
+public class DatabaseApplicationTest
 {
 
 	private final static int ISSUE_ID = 1;
 	private DatabaseManager dbm;
 	private Session session;
 	private Criteria criteria;
-	
+
 	@Before
 	public void setUp() {
 		dbm = new DatabaseManager(DataBaseType.TEST);
 		dbm.init();
 		session = dbm.getSession();
 	}
-	
+
 	@After
-	public void close() 
-	{
+	public void close() {
 		dbm.close();
 	}
-	
+
 	@Test
-	public void getJiraIssueTest() 
-	{
+	public void getJiraIssueTest() {
 		criteria = session.createCriteria(JiraIssue.class);
 		JiraIssue issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
 		assertNotNull(issue);
 	}
-	
+
 	@Test
-	public void getJiraProjectTest() 
-	{
+	public void getJiraProjectTest() {
 		criteria = session.createCriteria(JiraIssue.class);
 		JiraIssue issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
 		int project = issue.getJiraProject().getJiraProjectId();
@@ -55,19 +52,17 @@ public class DatabaseApplicationTest
 		JiraProject projectFromDB = (JiraProject) criteria.add(Restrictions.eq("id", project)).list().get(0);
 		assertSame(project, projectFromDB.getJiraProjectId());
 	}
-	
+
 	@Test
-	public void getJiraProjectsTest() 
-	{
+	public void getJiraProjectsTest() {
 		criteria = session.createCriteria(JiraProject.class);
 		@SuppressWarnings("rawtypes")
 		List projects = criteria.list();
 		assertNotNull(projects);
 	}
-	
+
 	@Test
-	public void getJiraIssuesTest() 
-	{
+	public void getJiraIssuesTest() {
 		criteria = session.createCriteria(JiraIssue.class);
 		JiraIssue issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
 		JiraProject project = issue.getJiraProject();
@@ -77,12 +72,11 @@ public class DatabaseApplicationTest
 		List issues = criteria.list();
 		assertNotNull(issues);
 	}
-	
+
 	@Test
-	public void closeSessionTest() 
-	{
+	public void closeSessionTest() {
 		session.close();
-		assertEquals("SessionImpl(<closed>)",session.toString());
+		assertEquals("SessionImpl(<closed>)", session.toString());
 	}
 
 }
