@@ -26,7 +26,7 @@ public class DatabaseApplicationTest
 	
 	@Before
 	public void setUp() {
-		dbm = new DatabaseManager(DataBaseType.PRODUCTION);
+		dbm = new DatabaseManager(DataBaseType.TEST);
 		dbm.init();
 		session = dbm.getSession();
 	}

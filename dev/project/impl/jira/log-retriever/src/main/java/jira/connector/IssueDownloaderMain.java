@@ -7,7 +7,7 @@ public class IssueDownloaderMain
 
 	public static void main(String[] args) throws Exception
 	{
-		IssueDownloader id = new IssueDownloader(DataBaseType.PRODUCTION);
+		IssueDownloader id = new IssueDownloader(DataBaseType.TEST);
 		//id.retriveAllIssues();
 		id.getIssueDbContext().initDbm();
 		id.addIssuesFromSpringProject();
