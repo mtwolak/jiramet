@@ -18,6 +18,10 @@ public class FieldPicker
 
 	public static Timestamp getFirstResponseDate(Issue issue)
 	{
+		if (issue == null)
+		{
+			return null;
+		}
 		if (issue.getFieldByName("First Response Date") != null
 				&& issue.getFieldByName("First Response Date").getValue() != null)
 		{
@@ -39,7 +43,11 @@ public class FieldPicker
 
 	public static Timestamp getFirstResolveDate(Issue issue)
 	{
-		if (issue.getFieldByName("Resolved").getValue() != null)
+		if (issue == null)
+		{
+			return null;
+		}
+		if (issue.getFieldByName("Resolved") != null && issue.getFieldByName("Resolved").getValue() != null)
 		{
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 			Timestamp resolved = DateConverter
@@ -57,16 +65,16 @@ public class FieldPicker
 		}
 		return agne.getDisplayName();
 	}
-	
+
 	public static String getReporter(User reporter)
 	{
 		if (reporter == null)
 		{
-			return "NotSelected";
+			return "NotIdentified";
 		}
 		return reporter.getDisplayName();
 	}
-	
+
 	public static String getResolution(Resolution resolution)
 	{
 		if (resolution == null)
@@ -75,7 +83,7 @@ public class FieldPicker
 		}
 		return resolution.getName();
 	}
-	
+
 	public static String getType(IssueType type)
 	{
 		if (type == null)
@@ -84,7 +92,7 @@ public class FieldPicker
 		}
 		return type.getName();
 	}
-	
+
 	public static String getPriority(BasicPriority priority)
 	{
 		if (priority == null)
@@ -96,6 +104,10 @@ public class FieldPicker
 
 	public static IssueStatus getStatus(String status)
 	{
+		if (status == null)
+		{
+			return null;
+		}
 		if ("Resolved".equals(status))
 		{
 			return IssueStatus.RESOLVED;
