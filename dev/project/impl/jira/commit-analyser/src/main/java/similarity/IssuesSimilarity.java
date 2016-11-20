@@ -23,7 +23,6 @@ public class IssuesSimilarity
 	
 	public List<Pair<Integer, Double>> getIssueSimilarityList(JiraIssue issue)
 	{
-		dba = new DatabaseApplication();
 		List<Pair<Integer, Double>> similarities = new ArrayList<Pair<Integer, Double>>();
 		JiraProject project = issue.getJiraProject();
 		@SuppressWarnings("unchecked")

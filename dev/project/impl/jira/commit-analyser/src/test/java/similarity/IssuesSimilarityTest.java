@@ -19,10 +19,12 @@ import javafx.util.Pair;
 public class IssuesSimilarityTest {
 
 	private final static int ISSUE_ID = 1;
+	private final static int ISSUE2_ID = 2;
 	DatabaseManager dbm;
 	Session session;
 	Criteria criteria;
 	JiraIssue issue;
+	JiraIssue issue2;
 	IssuesSimilarity is;
 	List<Pair<Integer, Double>> similarityList;
 
@@ -33,6 +35,8 @@ public class IssuesSimilarityTest {
 		session = dbm.getSession();
 		criteria = session.createCriteria(JiraIssue.class);
 		issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
+		criteria = session.createCriteria(JiraIssue.class);
+		issue2 = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE2_ID)).list().get(0);
 		is = new IssuesSimilarity(issue);
 	}
 	
@@ -57,8 +61,34 @@ public class IssuesSimilarityTest {
 	@Test
 	public void getIssuesSimilarityTest() 
 	{
-		double result = -1.0;
-		assertNotEquals(result, -1.0);
+		double similarity = is.getIssuesSimilarity(issue,issue2);
+		assertTrue(similarity >= 0 && similarity <= 1);
 	}
-
+	
+	@Test
+	public void getIssuesSummariesSimilarityTest() 
+	{
+		double similarity = is.getIssuesSummariesSimilarity(issue,issue2);
+		assertTrue(similarity >= 0 && similarity <= 1);
+	}
+	
+	@Test
+	public void getIssuesDescriptionsSimilarityTest() 
+	{
+		double similarity = is.getIssuesDescriptionsSimilarity(issue,issue2);
+		assertTrue(similarity >= 0 && similarity <= 1);
+	}
+	
+	@Test
+	public void getIssuesCommentsSimilarityTest() 
+	{
+		double similarity = is.getIssuesCommentsSimilarity(issue,issue2);
+		assertTrue(similarity >= 0 && similarity <= 1);
+	}
+	
+	@Test
+	public void collectIssueCommentsTest() 
+	{
+		assertNotNull(is.collectIssueComments(issue));
+	}
 }
