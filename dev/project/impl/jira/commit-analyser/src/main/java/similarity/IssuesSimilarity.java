@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.collection.internal.PersistentSet;
-import org.hibernate.mapping.Set;
-
 import database.application.DatabaseApplication;
 import database.entity.IssueComment;
 import database.entity.JiraIssue;
@@ -43,77 +40,65 @@ public class IssuesSimilarity
 	
 	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		double issuesSimilarity = 1.0;
-		try 
-		{
-			/*double titlesSimilarity = getIssuesTitlesSimilarity(issue1, issue2);*/
-			/*double descriptionsSimilarity = getIssuesDescriptionsSimilarity(issue1, issue2);*/
-			/*double commentsSimilarity = getIssuesCommentsSimilarity(issue1, issue2);*/
-
-		    
-		} catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-		return issuesSimilarity;
+		return 0.45 * getIssuesSummariesSimilarity(issue1, issue2) 
+			   + 0.45 * getIssuesDescriptionsSimilarity(issue1, issue2)
+			   + 0.1 * getIssuesCommentsSimilarity(issue1, issue2);    
 	}
 	
-	public double getIssuesTitlesSimilarity(JiraIssue issue1, JiraIssue issue2)
+	public double getIssuesSummariesSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		try 
-		{
-			
-		    
-		} catch (Exception e) 
-		{
+		double summariesSimilarity = 0;
+		try {
+			summariesSimilarity = CosineTextSimilarity.getCosineSimilarity(issue1.getSummary(), 
+					                                                       issue2.getSummary());
+		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		return -1.0;
+		}   
+		return summariesSimilarity;
 	}
 	
 	public double getIssuesDescriptionsSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		try 
+		double descriptionsSimilarity = 0;
+	    String desc1 = issue1.getDescription();
+		String desc2 = issue2.getDescription();
+		if(desc1 != null && desc2 != null)
 		{
-			String description1 = issue1.getDescription();
-			String description2 = issue2.getDescription();
-			double descriptionSimilarity = 0;
-			if(description1 != null && description2 != null)
-			{
-			   descriptionSimilarity = CosineTextSimilarity.getCosineSimilarity(description1, description2);
-			   return descriptionSimilarity;
-		    }
-		    
-		} catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-		return -1.0;
+			try {
+			    descriptionsSimilarity = CosineTextSimilarity.getCosineSimilarity(desc1, desc2);
+			} catch (IOException e) {
+			     e.printStackTrace();
+			}
+		}   
+		return descriptionsSimilarity;
 	}
 	
 	public double getIssuesCommentsSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		try 
+		double commentsSimilarity = 0;
+		StringBuilder comments1 = collectIssueComments(issue1);
+		StringBuilder comments2 = collectIssueComments(issue2);
+		if(comments1.length() != 0 && comments2.length() != 0)
 		{
-			PersistentSet comments1 = (PersistentSet) issue1.getIssueComments();
-			Iterator<IssueComment> iterator = comments1.iterator();
-		    while(iterator.hasNext()) {
-		        IssueComment setElement = iterator.next();
-		        /*if(setElement==null) {
-		            iterator.remove();
-		        }
-		        else
-		        {
-		        	System.out.println(setElement.getContent());
-		        }*/
-		        if(setElement!=null) {
-		        	System.out.println(setElement.getContent());
-		        }
-		    }
-		} catch (Exception e) 
-		{
-			e.printStackTrace();
+			try {
+				commentsSimilarity = CosineTextSimilarity.getCosineSimilarity(comments1.toString()
+						                                                    , comments2.toString());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		return -1.0;
+		return commentsSimilarity;
+	}
+	
+	public StringBuilder collectIssueComments(JiraIssue issue)
+	{
+		StringBuilder sb = new StringBuilder();
+		Iterator<IssueComment> iterator = issue.getIssueComments().iterator();
+		while(iterator.hasNext())
+	    {
+	        IssueComment setElement = iterator.next();
+	        sb.append(setElement.getContent());
+	    }
+		return sb;
 	}
 }
