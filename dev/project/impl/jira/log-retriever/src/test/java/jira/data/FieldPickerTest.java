@@ -1,6 +1,6 @@
 package jira.data;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
@@ -20,18 +20,44 @@ public class FieldPickerTest
 {
 	private JiraUtil ju;
 	private Issue testIssueSrp;
+	private Issue testIssueMongo;
+	private Issue testIssueCam;
 
 	@Before
 	public void setUp()
 	{
 		ju = new JiraUtil();
-		testIssueSrp = getTestIssue();
+		setTestIssues();
 	}
 
 	@After
 	public void close()
 	{
 		ju.closeClientConnection();
+	}
+	
+	@Test
+	public void testGetFirstResponseDateNull()
+	{
+		assertNull(FieldPicker.getFirstResponseDate(null));
+	}
+	
+	@Test
+	public void testGetFirstResponseDateCase1() // contains field "First Response Date"
+	{
+		assertTrue(FieldPicker.getFirstResponseDate(testIssueSrp) == null || FieldPicker.getFirstResponseDate(testIssueSrp) instanceof Timestamp);
+	}
+	
+	@Test
+	public void testGetFirstResponseDateCase2() // no first response date field
+	{
+		assertTrue(FieldPicker.getFirstResponseDate(testIssueMongo) == null || FieldPicker.getFirstResponseDate(testIssueMongo) instanceof Timestamp);
+	}
+	
+	@Test
+	public void testGetFirstResponseDateCase3() // contains field "Date of 1st Reply"
+	{
+		assertTrue(FieldPicker.getFirstResponseDate(testIssueCam) == null || FieldPicker.getFirstResponseDate(testIssueCam) instanceof Timestamp);
 	}
 
 	@Test
@@ -117,6 +143,12 @@ public class FieldPickerTest
 	{
 		assertNull(FieldPicker.getStatus(null));
 	}
+	
+	@Test
+	public void testGetStatusResolved()
+	{
+		assertEquals(IssueStatus.RESOLVED, FieldPicker.getStatus("Resolved"));
+	}
 
 	@Test
 	public void testGetStatusDefault()
@@ -124,10 +156,16 @@ public class FieldPickerTest
 		assertEquals(IssueStatus.CLOSED, FieldPicker.getStatus("any"));
 	}
 
-	private Issue getTestIssue()
+	private void setTestIssues()
 	{
-		Promise<SearchResult> resultSpr = ju.getIssuesFromSpringProject(8, 1);
-		return testIssueSrp = resultSpr.claim().getIssues().iterator().next();
+		Promise<SearchResult> resultSpr = ju.getIssuesFromSpringProject(0, 1);
+		testIssueSrp = resultSpr.claim().getIssues().iterator().next();
+		
+		Promise<SearchResult> resultMongo = ju.getIssuesFromMongoDBProject(0, 1);
+		testIssueMongo = resultMongo.claim().getIssues().iterator().next();
+		
+		Promise<SearchResult> resultCam = ju.getIssuesFromCamundaProject(0, 1);
+		testIssueCam = resultCam.claim().getIssues().iterator().next();
 	}
 
 }
