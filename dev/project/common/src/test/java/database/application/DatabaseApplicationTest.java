@@ -20,9 +20,9 @@ public class DatabaseApplicationTest
 {
 
 	private final static int ISSUE_ID = 1;
-	DatabaseManager dbm;
-	Session session;
-	Criteria criteria;
+	private DatabaseManager dbm;
+	private Session session;
+	private Criteria criteria;
 	
 	@Before
 	public void setUp() {

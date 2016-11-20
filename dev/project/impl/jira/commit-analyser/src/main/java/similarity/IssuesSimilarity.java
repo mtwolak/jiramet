@@ -14,9 +14,9 @@ import lucene.CosineTextSimilarity;
 
 public class IssuesSimilarity 
 {
-	DatabaseApplication dba;
+	private DatabaseApplication dba;
 	
-	public IssuesSimilarity(JiraIssue issue)
+	public IssuesSimilarity()
 	{
 		dba = new DatabaseApplication();
 	}

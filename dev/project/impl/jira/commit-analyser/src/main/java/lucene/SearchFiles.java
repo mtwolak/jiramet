@@ -48,20 +48,15 @@ public class SearchFiles {
       "Usage:\tjava org.apache.lucene.demo.SearchFiles [-index dir] [-field f] [-repeat n] [-queries file] [-query string] [-raw] [-paging hitsPerPage]\n\nSee http://lucene.apache.org/core/4_1_0/demo/ for details.";
     if (args.length > 0 && ("-h".equals(args[0]) || "-help".equals(args[0]))) {
       System.out.println(usage);
-      System.exit(0);
+      /*System.exit(0);*/
     }
-/* test data - to replace in future   
-*   String index = "index";
-*/  String index = "src/main/java/lucene/index"; /* here put the path to generated indexes */
-/* test data - to replace in future */
+  
+    String index = "index"; /* here put the path to generated indexes */
     String field = "contents";
     String queries = null;
     int repeat = 0;
     boolean raw = false;
-/* test data - to replace in future   
-*   String queryString = null;  
-*/  String queryString = "logo"; /* here put the text you want to find in each indexes */
-/* test data - to replace in future */
+    String queryString = null; /* here put the text you want to find in each indexes */ 
     int hitsPerPage = 10;
     
     for(int i = 0;i < args.length;i++) {
@@ -86,7 +81,7 @@ public class SearchFiles {
         hitsPerPage = Integer.parseInt(args[i+1]);
         if (hitsPerPage <= 0) {
           System.err.println("There must be at least 1 hit per page.");
-          System.exit(1);
+          /*System.exit(1);*/
         }
         i++;
       }

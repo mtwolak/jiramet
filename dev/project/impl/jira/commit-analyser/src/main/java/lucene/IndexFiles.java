@@ -84,13 +84,13 @@ public class IndexFiles {
 
     if (docsPath == null) {
       System.err.println("Usage: " + usage);
-      System.exit(1);
+      /*System.exit(1);*/
     }
 
     final Path docDir = Paths.get(docsPath);
     if (!Files.isReadable(docDir)) {
       System.out.println("Document directory '" +docDir.toAbsolutePath()+ "' does not exist or is not readable, please check the path");
-      System.exit(1);
+      /*System.exit(1);*/
     }
     
     Date start = new Date();
@@ -154,7 +154,7 @@ public class IndexFiles {
    * @param path The file to index, or the directory to recurse into to find files to index
    * @throws IOException If there is a low-level I/O error
    */
-  static void indexDocs(final IndexWriter writer, Path path) throws IOException {
+  public static void indexDocs(final IndexWriter writer, Path path) throws IOException {
     if (Files.isDirectory(path)) {
       Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
         @Override
@@ -173,7 +173,7 @@ public class IndexFiles {
   }
 
   /** Indexes a single document */
-  static void indexDoc(IndexWriter writer, Path file, long lastModified) throws IOException {
+  public static void indexDoc(IndexWriter writer, Path file, long lastModified) throws IOException {
     try (InputStream stream = Files.newInputStream(file)) {
       // make a new, empty document
       Document doc = new Document();

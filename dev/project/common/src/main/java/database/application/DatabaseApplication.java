@@ -13,9 +13,9 @@ import database.manager.DatabaseManager;
 
 public class DatabaseApplication 
 {
-	DatabaseManager dbm;
-	Session session;
-	Criteria criteria;
+	private DatabaseManager dbm;
+	private Session session;
+	private Criteria criteria;
 	
 	public DatabaseApplication()
 	{

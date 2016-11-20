@@ -32,7 +32,7 @@ public class CosineTextSimilarity {
         v2 = toRealVector(f2);
     }
 
-    Directory createIndex(String s1, String s2) throws IOException {
+    public Directory createIndex(String s1, String s2) throws IOException {
         Directory directory = new RAMDirectory();
         Analyzer analyzer = new SimpleAnalyzer();
         IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
@@ -43,13 +43,13 @@ public class CosineTextSimilarity {
         return directory;
     }
 
-    void addDocument(IndexWriter writer, String content) throws IOException {
+    public void addDocument(IndexWriter writer, String content) throws IOException {
         Document doc = new Document();
         doc.add(new VecTextField(CONTENT, content, Store.YES));
         writer.addDocument(doc);
     }
 
-    double getCosineSimilarity() {
+    public double getCosineSimilarity() {
         return (v1.dotProduct(v2)) / (v1.getNorm() * v2.getNorm());
     }
 
@@ -58,7 +58,7 @@ public class CosineTextSimilarity {
         return new CosineTextSimilarity(s1, s2).getCosineSimilarity();
     }
 
-    Map<String, Integer> getTermFrequencies(IndexReader reader, int docId)
+    public Map<String, Integer> getTermFrequencies(IndexReader reader, int docId)
             throws IOException {
         Terms vector = reader.getTermVector(docId, CONTENT);
         TermsEnum termsEnum = null;
@@ -74,7 +74,7 @@ public class CosineTextSimilarity {
         return frequencies;
     }
 
-    RealVector toRealVector(Map<String, Integer> map) {
+    public RealVector toRealVector(Map<String, Integer> map) {
         RealVector vector = new ArrayRealVector(terms.size());
         int i = 0;
         for (String term : terms) {

@@ -25,10 +25,6 @@ public class CosineTextSimilarityTest {
 	private Directory directory = new RAMDirectory();
 	private Analyzer analyzer = new SimpleAnalyzer();
 	private Document doc = new Document();
-	
-	private IndexWriterConfig iwc;
-	private IndexWriter writer;
-	private IndexReader reader;
 	private CosineTextSimilarity cts;
 	
 	@Test
@@ -56,13 +52,13 @@ public class CosineTextSimilarityTest {
 	public void testGetTermFrequencies() 
 	{
 		try {
-            iwc = new IndexWriterConfig(analyzer);
-            writer = new IndexWriter(directory, iwc);
+			IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
+			IndexWriter writer = new IndexWriter(directory, iwc);
             doc.add(new VecTextField(CONTENT, TEXT_1, Store.YES));
             doc.add(new VecTextField(CONTENT, TEXT_2, Store.YES));
             writer.addDocument(doc);
             writer.close();
-            reader = DirectoryReader.open(directory);
+            IndexReader reader = DirectoryReader.open(directory);
 			cts = new CosineTextSimilarity(TEXT_1, TEXT_2);
 			assertNotNull(cts.getTermFrequencies(reader, 0));
 		} catch (IOException e) {

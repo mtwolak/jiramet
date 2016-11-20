@@ -20,13 +20,13 @@ public class IssuesSimilarityTest {
 
 	private final static int ISSUE_ID = 1;
 	private final static int ISSUE2_ID = 2;
-	DatabaseManager dbm;
-	Session session;
-	Criteria criteria;
-	JiraIssue issue;
-	JiraIssue issue2;
-	IssuesSimilarity is;
-	List<Pair<Integer, Double>> similarityList;
+	private DatabaseManager dbm;
+	private Session session;
+	private Criteria criteria;
+	private JiraIssue issue;
+	private JiraIssue issue2;
+	private IssuesSimilarity is;
+	private List<Pair<Integer, Double>> similarityList;
 
 	@Before
 	public void setUp() {
@@ -37,7 +37,7 @@ public class IssuesSimilarityTest {
 		issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
 		criteria = session.createCriteria(JiraIssue.class);
 		issue2 = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE2_ID)).list().get(0);
-		is = new IssuesSimilarity(issue);
+		is = new IssuesSimilarity();
 	}
 	
 	@After
