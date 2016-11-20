@@ -107,6 +107,7 @@ public class DatabaseManagerTest {
 			IssueStatus issueStatus, IssuePriority issuePriority) {
 		JiraIssue jiraIssue = new JiraIssue();
 		jiraIssue.setCode("Some Code");
+		jiraIssue.setSummary("Some summary");
 		jiraIssue.setIssueReporter(issueReporter);
 		jiraIssue.setIssueType(issueType);
 		jiraIssue.setIssueResolution(issueResolution);
