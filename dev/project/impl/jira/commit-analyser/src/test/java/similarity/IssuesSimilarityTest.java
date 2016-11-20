@@ -22,8 +22,6 @@ public class IssuesSimilarityTest
 	private final static int ISSUE_ID = 1;
 	private final static int ISSUE2_ID = 2;
 	private DatabaseManager dbm;
-	private Session session;
-	private Criteria criteria;
 	private JiraIssue issue;
 	private JiraIssue issue2;
 	private IssuesSimilarity is;
@@ -33,8 +31,8 @@ public class IssuesSimilarityTest
 	public void setUp() {
 		dbm = new DatabaseManager(DataBaseType.TEST);
 		dbm.init();
-		session = dbm.getSession();
-		criteria = session.createCriteria(JiraIssue.class);
+		Session session = dbm.getSession();
+		Criteria criteria = session.createCriteria(JiraIssue.class);
 		issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
 		criteria = session.createCriteria(JiraIssue.class);
 		issue2 = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE2_ID)).list().get(0);

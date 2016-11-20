@@ -13,13 +13,12 @@ import database.manager.DatabaseManager;
 
 public class DatabaseApplication
 {
-	private DatabaseManager dbm;
 	private Session session;
 	private Criteria criteria;
 
 	public DatabaseApplication()
 	{
-		dbm = new DatabaseManager(DataBaseType.PRODUCTION);
+		DatabaseManager dbm = new DatabaseManager(DataBaseType.PRODUCTION);
 		dbm.init();
 		session = dbm.getSession();
 	}
