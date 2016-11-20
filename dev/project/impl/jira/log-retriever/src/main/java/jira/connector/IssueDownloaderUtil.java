@@ -31,6 +31,7 @@ public class IssueDownloaderUtil
 		jiraIssue.setIssueResolution(issueResolution);
 		jiraIssue.setIssueStatus(issueStatus);
 		jiraIssue.setIssuePriority(issuePriority);
+		jiraIssue.setSummary(issue.getSummary());
 		jiraIssue.setCode(issue.getKey());
 		jiraIssue.setCreatedAt(new Timestamp(issue.getCreationDate().getMillis()));
 		jiraIssue.setDescription(issue.getDescription());

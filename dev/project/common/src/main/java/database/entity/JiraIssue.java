@@ -52,6 +52,9 @@ public class JiraIssue {
 	@JoinColumn(name = "ISSUE_PRIORITY_ID")
 	private IssuePriority issuePriority;
 
+	@Column(name = "SUMMARY", nullable = false)
+	private String summary;
+	
 	@Column(name = "CODE", nullable = false)
 	private String code;
 
@@ -124,6 +127,14 @@ public class JiraIssue {
 
 	public void setIssuePriority(IssuePriority issuePriority) {
 		this.issuePriority = issuePriority;
+	}
+	
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
 	public String getCode() {

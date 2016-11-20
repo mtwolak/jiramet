@@ -55,7 +55,7 @@ public class IssuesSimilarityTest {
 	}
 	
 	@Test
-	public void getIssueSimilarityTest() 
+	public void getIssuesSimilarityTest() 
 	{
 		double result = -1.0;
 		assertNotEquals(result, -1.0);
