@@ -16,7 +16,7 @@ import utils.DateConverter;
 public class FieldPicker
 {
 
-	public static Timestamp getFirstResponseDate(Issue issue)
+	public Timestamp getFirstResponseDate(Issue issue)
 	{
 		if (issue == null)
 		{
@@ -41,7 +41,7 @@ public class FieldPicker
 		return null;
 	}
 
-	public static Timestamp getFirstResolveDate(Issue issue)
+	public Timestamp getFirstResolveDate(Issue issue)
 	{
 		if (issue == null)
 		{
@@ -57,7 +57,7 @@ public class FieldPicker
 		return null;
 	}
 
-	public static String getAssignee(User agne)
+	public String getAssignee(User agne)
 	{
 		if (agne == null)
 		{
@@ -66,7 +66,7 @@ public class FieldPicker
 		return agne.getDisplayName();
 	}
 
-	public static String getReporter(User reporter)
+	public String getReporter(User reporter)
 	{
 		if (reporter == null)
 		{
@@ -75,7 +75,7 @@ public class FieldPicker
 		return reporter.getDisplayName();
 	}
 
-	public static String getResolution(Resolution resolution)
+	public String getResolution(Resolution resolution)
 	{
 		if (resolution == null)
 		{
@@ -84,7 +84,7 @@ public class FieldPicker
 		return resolution.getName();
 	}
 
-	public static String getType(IssueType type)
+	public String getType(IssueType type)
 	{
 		if (type == null)
 		{
@@ -93,7 +93,7 @@ public class FieldPicker
 		return type.getName();
 	}
 
-	public static String getPriority(BasicPriority priority)
+	public String getPriority(BasicPriority priority)
 	{
 		if (priority == null)
 		{
@@ -102,7 +102,7 @@ public class FieldPicker
 		return priority.getName();
 	}
 
-	public static IssueStatus getStatus(String status)
+	public IssueStatus getStatus(String status)
 	{
 		if (status == null)
 		{

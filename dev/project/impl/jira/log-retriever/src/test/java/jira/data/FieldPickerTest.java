@@ -19,6 +19,7 @@ import jira.connector.JiraUtil;
 public class FieldPickerTest
 {
 	private JiraUtil ju;
+	private FieldPicker fieldPicker;
 	private Issue testIssueSrp;
 	private Issue testIssueMongo;
 	private Issue testIssueCam;
@@ -27,6 +28,7 @@ public class FieldPickerTest
 	public void setUp()
 	{
 		ju = new JiraUtil();
+		fieldPicker = new FieldPicker();
 		setTestIssues();
 	}
 
@@ -39,121 +41,121 @@ public class FieldPickerTest
 	@Test
 	public void testGetFirstResponseDateNull()
 	{
-		assertNull(FieldPicker.getFirstResponseDate(null));
+		assertNull(fieldPicker.getFirstResponseDate(null));
 	}
 	
 	@Test
 	public void testGetFirstResponseDateCase1() // contains field "First Response Date"
 	{
-		assertTrue(FieldPicker.getFirstResponseDate(testIssueSrp) == null || FieldPicker.getFirstResponseDate(testIssueSrp) instanceof Timestamp);
+		assertTrue(fieldPicker.getFirstResponseDate(testIssueSrp) == null || fieldPicker.getFirstResponseDate(testIssueSrp) instanceof Timestamp);
 	}
 	
 	@Test
 	public void testGetFirstResponseDateCase2() // no first response date field
 	{
-		assertTrue(FieldPicker.getFirstResponseDate(testIssueMongo) == null || FieldPicker.getFirstResponseDate(testIssueMongo) instanceof Timestamp);
+		assertTrue(fieldPicker.getFirstResponseDate(testIssueMongo) == null || fieldPicker.getFirstResponseDate(testIssueMongo) instanceof Timestamp);
 	}
 	
 	@Test
 	public void testGetFirstResponseDateCase3() // contains field "Date of 1st Reply"
 	{
-		assertTrue(FieldPicker.getFirstResponseDate(testIssueCam) == null || FieldPicker.getFirstResponseDate(testIssueCam) instanceof Timestamp);
+		assertTrue(fieldPicker.getFirstResponseDate(testIssueCam) == null || fieldPicker.getFirstResponseDate(testIssueCam) instanceof Timestamp);
 	}
 
 	@Test
 	public void testGetFirstResolveDateNull()
 	{
-		assertNull(FieldPicker.getFirstResolveDate(null));
+		assertNull(fieldPicker.getFirstResolveDate(null));
 	}
 
 	@Test
 	public void testGetFirstResolveDate()
 	{
-		assertThat(FieldPicker.getFirstResolveDate(testIssueSrp), instanceOf(Timestamp.class));
+		assertThat(fieldPicker.getFirstResolveDate(testIssueSrp), instanceOf(Timestamp.class));
 	}
 
 	@Test
 	public void testGetAssignee()
 	{
-		assertThat(FieldPicker.getAssignee(testIssueSrp.getAssignee()), instanceOf(String.class));
+		assertThat(fieldPicker.getAssignee(testIssueSrp.getAssignee()), instanceOf(String.class));
 	}
 
 	@Test
 	public void testGetAssigneeNull()
 	{
-		assertEquals("Unassigned", FieldPicker.getAssignee(null));
+		assertEquals("Unassigned", fieldPicker.getAssignee(null));
 	}
 
 	@Test
 	public void testGetReporter()
 	{
-		assertThat(FieldPicker.getReporter(testIssueSrp.getReporter()), instanceOf(String.class));
+		assertThat(fieldPicker.getReporter(testIssueSrp.getReporter()), instanceOf(String.class));
 	}
 
 	@Test
 	public void testGetReporterNull()
 	{
-		assertEquals("NotIdentified", FieldPicker.getReporter(null));
+		assertEquals("NotIdentified", fieldPicker.getReporter(null));
 	}
 
 	@Test
 	public void testGetResolution()
 	{
-		assertThat(FieldPicker.getResolution(testIssueSrp.getResolution()), instanceOf(String.class));
+		assertThat(fieldPicker.getResolution(testIssueSrp.getResolution()), instanceOf(String.class));
 	}
 
 	@Test
 	public void testGetResolutionNull()
 	{
-		assertEquals("NotSelected", FieldPicker.getResolution(null));
+		assertEquals("NotSelected", fieldPicker.getResolution(null));
 	}
 
 	@Test
 	public void testGetType()
 	{
-		assertThat(FieldPicker.getType(testIssueSrp.getIssueType()), instanceOf(String.class));
+		assertThat(fieldPicker.getType(testIssueSrp.getIssueType()), instanceOf(String.class));
 	}
 
 	@Test
 	public void testGetTypeNull()
 	{
-		assertEquals("NotSelected", FieldPicker.getType(null));
+		assertEquals("NotSelected", fieldPicker.getType(null));
 	}
 
 	@Test
 	public void testGetPriority()
 	{
-		assertThat(FieldPicker.getPriority(testIssueSrp.getPriority()), instanceOf(String.class));
+		assertThat(fieldPicker.getPriority(testIssueSrp.getPriority()), instanceOf(String.class));
 	}
 
 	@Test
 	public void testGetPriorityNull()
 	{
-		assertEquals("NotSelected", FieldPicker.getPriority(null));
+		assertEquals("NotSelected", fieldPicker.getPriority(null));
 	}
 
 	@Test
 	public void testGetStatus()
 	{
-		assertThat(FieldPicker.getStatus(testIssueSrp.getStatus().getDescription()), instanceOf(IssueStatus.class));
+		assertThat(fieldPicker.getStatus(testIssueSrp.getStatus().getDescription()), instanceOf(IssueStatus.class));
 	}
 
 	@Test
 	public void testGetStatusNull()
 	{
-		assertNull(FieldPicker.getStatus(null));
+		assertNull(fieldPicker.getStatus(null));
 	}
 	
 	@Test
 	public void testGetStatusResolved()
 	{
-		assertEquals(IssueStatus.RESOLVED, FieldPicker.getStatus("Resolved"));
+		assertEquals(IssueStatus.RESOLVED, fieldPicker.getStatus("Resolved"));
 	}
 
 	@Test
 	public void testGetStatusDefault()
 	{
-		assertEquals(IssueStatus.CLOSED, FieldPicker.getStatus("any"));
+		assertEquals(IssueStatus.CLOSED, fieldPicker.getStatus("any"));
 	}
 
 	private void setTestIssues()
