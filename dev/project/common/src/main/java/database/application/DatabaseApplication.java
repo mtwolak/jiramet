@@ -6,6 +6,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import database.entity.AssignedIssue;
+import database.entity.Assignee;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import database.manager.DataBaseType;
@@ -31,6 +33,32 @@ public class DatabaseApplication
 		if (issues.size() >= 1)
 		{
 			return (JiraIssue) issues.get(0);
+		}
+
+		return null;
+	}
+	
+	@SuppressWarnings("rawtypes") //mathew, do poprawy
+	public AssignedIssue getAssignedIssue(int assignedIssueID) {
+		criteria = session.createCriteria(AssignedIssue.class);
+		List assignedIssues = criteria.add(Restrictions.eq("id", assignedIssueID)).list();
+
+		if (assignedIssues.size() >= 1)
+		{
+			return (AssignedIssue) assignedIssues.get(0);
+		}
+
+		return null;
+	}
+	
+	@SuppressWarnings("rawtypes") //mathew, do poprawy
+	public Assignee getAssignee(int assigneeID) {
+		criteria = session.createCriteria(Assignee.class);
+		List assigneeList = criteria.add(Restrictions.eq("id", assigneeID)).list();
+
+		if (assigneeList.size() >= 1)
+		{
+			return (Assignee) assigneeList.get(0);
 		}
 
 		return null;
@@ -71,6 +99,34 @@ public class DatabaseApplication
 		if (issues.size() >= 1)
 		{
 			return issues;
+		}
+
+		return null;
+	}
+	
+	@SuppressWarnings("rawtypes")	//mathew, do poprawy
+	public List getAssignedIssues(JiraProject projectID){
+		criteria = session.createCriteria(AssignedIssue.class);
+		criteria.add(Restrictions.eq("jiraProject", projectID));
+		List assignedIssues = criteria.list();
+
+		if (assignedIssues.size() >= 1)
+		{
+			return assignedIssues;
+		}
+
+		return null;
+	}
+	
+	@SuppressWarnings("rawtypes")	//mathew, do poprawy
+	public List getAssigneeList(JiraProject projectID){
+		criteria = session.createCriteria(Assignee.class);
+		criteria.add(Restrictions.eq("jiraProject", projectID));
+		List assigneeList = criteria.list();
+
+		if (assigneeList.size() >= 1)
+		{
+			return assigneeList;
 		}
 
 		return null;
