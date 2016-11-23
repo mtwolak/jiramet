@@ -26,7 +26,8 @@ public class DatabaseApplication
 	}
 
 	@SuppressWarnings("rawtypes")
-	public JiraIssue getJiraIssue(int issueID) {
+	public JiraIssue getJiraIssue(int issueID)
+	{
 		criteria = session.createCriteria(JiraIssue.class);
 		List issues = criteria.add(Restrictions.eq("id", issueID)).list();
 
@@ -37,9 +38,10 @@ public class DatabaseApplication
 
 		return null;
 	}
-	
-	@SuppressWarnings("rawtypes") //mathew, do poprawy
-	public AssignedIssue getAssignedIssue(int assignedIssueID) {
+
+	@SuppressWarnings("rawtypes") // mathew, do poprawy
+	public AssignedIssue getAssignedIssue(int assignedIssueID)
+	{
 		criteria = session.createCriteria(AssignedIssue.class);
 		List assignedIssues = criteria.add(Restrictions.eq("id", assignedIssueID)).list();
 
@@ -50,9 +52,10 @@ public class DatabaseApplication
 
 		return null;
 	}
-	
-	@SuppressWarnings("rawtypes") //mathew, do poprawy
-	public Assignee getAssignee(int assigneeID) {
+
+	@SuppressWarnings("rawtypes") // mathew, do poprawy
+	public Assignee getAssignee(int assigneeID)
+	{
 		criteria = session.createCriteria(Assignee.class);
 		List assigneeList = criteria.add(Restrictions.eq("id", assigneeID)).list();
 
@@ -65,7 +68,8 @@ public class DatabaseApplication
 	}
 
 	@SuppressWarnings("rawtypes")
-	public JiraProject getJiraProject(int projectID) {
+	public JiraProject getJiraProject(int projectID)
+	{
 		criteria = session.createCriteria(JiraProject.class);
 		List projects = criteria.add(Restrictions.eq("id", projectID)).list();
 
@@ -78,7 +82,8 @@ public class DatabaseApplication
 	}
 
 	@SuppressWarnings("rawtypes")
-	public List getJiraProjects() {
+	public List getJiraProjects()
+	{
 		criteria = session.createCriteria(JiraProject.class);
 		List projects = criteria.list();
 
@@ -91,7 +96,8 @@ public class DatabaseApplication
 	}
 
 	@SuppressWarnings("rawtypes")
-	public List getJiraIssues(JiraProject projectID) {
+	public List getJiraIssues(JiraProject projectID)
+	{
 		criteria = session.createCriteria(JiraIssue.class);
 		criteria.add(Restrictions.eq("jiraProject", projectID));
 		List issues = criteria.list();
@@ -103,9 +109,10 @@ public class DatabaseApplication
 
 		return null;
 	}
-	
-	@SuppressWarnings("rawtypes")	//mathew, do poprawy
-	public List getAssignedIssues(JiraProject projectID){
+
+	@SuppressWarnings("rawtypes") // mathew, do poprawy
+	public List getAssignedIssues(JiraProject projectID)
+	{
 		criteria = session.createCriteria(AssignedIssue.class);
 		criteria.add(Restrictions.eq("jiraProject", projectID));
 		List assignedIssues = criteria.list();
@@ -117,9 +124,10 @@ public class DatabaseApplication
 
 		return null;
 	}
-	
-	@SuppressWarnings("rawtypes")	//mathew, do poprawy
-	public List getAssigneeList(JiraProject projectID){
+
+	@SuppressWarnings("rawtypes") // mathew, do poprawy
+	public List getAssigneeList(JiraProject projectID)
+	{
 		criteria = session.createCriteria(Assignee.class);
 		criteria.add(Restrictions.eq("jiraProject", projectID));
 		List assigneeList = criteria.list();
@@ -132,7 +140,8 @@ public class DatabaseApplication
 		return null;
 	}
 
-	public void closeSession() {
+	public void closeSession()
+	{
 		session.close();
 	}
 
