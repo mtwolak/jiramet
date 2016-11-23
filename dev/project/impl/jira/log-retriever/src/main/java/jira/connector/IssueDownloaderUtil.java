@@ -16,13 +16,14 @@ public class IssueDownloaderUtil
 	public static boolean addSingleIssueToDatabase(IssueDbContext dbm, String projectName, Issue issue)
 	{
 		JiraProject jiraProject = dbm.getJiraProject(projectName);
+		FieldPicker fieldPicker = new FieldPicker();
 
-		IssuePriority issuePriority = dbm.addIssuePriorityIfNotExists(FieldPicker.getPriority(issue.getPriority()));
-		IssueResolution issueResolution = dbm.addIssueResolutionIfNotExists(FieldPicker.getResolution(issue.getResolution()));
-		IssueStatus issueStatus = FieldPicker.getStatus(issue.getStatus().getName());
-		IssueType issueType = dbm.addIssueTypeIfNotExists(FieldPicker.getType(issue.getIssueType()));
-		IssueReporter issueReporter = dbm.addIssueReporterIfNotExists(FieldPicker.getReporter(issue.getReporter()));
-		Assignee assignee = dbm.addAssigneeIfNotExists(FieldPicker.getAssignee(issue.getAssignee()));
+		IssuePriority issuePriority = dbm.addIssuePriorityIfNotExists(fieldPicker.getPriority(issue.getPriority()));
+		IssueResolution issueResolution = dbm.addIssueResolutionIfNotExists(fieldPicker.getResolution(issue.getResolution()));
+		IssueStatus issueStatus = fieldPicker.getStatus(issue.getStatus().getName());
+		IssueType issueType = dbm.addIssueTypeIfNotExists(fieldPicker.getType(issue.getIssueType()));
+		IssueReporter issueReporter = dbm.addIssueReporterIfNotExists(fieldPicker.getReporter(issue.getReporter()));
+		Assignee assignee = dbm.addAssigneeIfNotExists(fieldPicker.getAssignee(issue.getAssignee()));
 
 		JiraIssue jiraIssue = new JiraIssue();
 		jiraIssue.setJiraProject(jiraProject);
@@ -35,7 +36,7 @@ public class IssueDownloaderUtil
 		jiraIssue.setCode(issue.getKey());
 		jiraIssue.setCreatedAt(new Timestamp(issue.getCreationDate().getMillis()));
 		jiraIssue.setDescription(issue.getDescription());
-		jiraIssue.setFirstResponseDate(FieldPicker.getFirstResponseDate(issue));
+		jiraIssue.setFirstResponseDate(fieldPicker.getFirstResponseDate(issue));
 
 		JiraIssue addedIssue = dbm.addNewJiraIssue(jiraIssue);
 
@@ -44,7 +45,7 @@ public class IssueDownloaderUtil
 			AssignedIssue assignedIssue = new AssignedIssue();
 			assignedIssue.setAssignee(assignee);
 			assignedIssue.setJiraIssue(jiraIssue);
-			assignedIssue.setResolvedAt(FieldPicker.getFirstResolveDate(issue));
+			assignedIssue.setResolvedAt(fieldPicker.getFirstResolveDate(issue));
 			dbm.addNewAssignedIssue(assignedIssue);
 
 			List<IssueComment> issueComments = (List<IssueComment>) CommentDownloader.loadCommentsFromIssue(addedIssue,
