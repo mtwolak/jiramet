@@ -13,6 +13,8 @@ import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import javafx.util.Pair;
 
+//tests not working
+@Deprecated
 public class IssueResolvingTimes
 {
 

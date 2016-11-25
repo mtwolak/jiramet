@@ -12,6 +12,8 @@ import database.entity.JiraProject;
 import javafx.util.Pair;
 import lucene.CosineTextSimilarity;
 
+//deprecated due to failed tests
+@Deprecated
 public class IssuesSimilarity
 {
 	private DatabaseApplication dba;

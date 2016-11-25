@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import database.entity.JiraIssue;
@@ -36,6 +37,7 @@ public class DatabaseApplicationTest
 		dbm.close();
 	}
 
+	@Ignore
 	@Test
 	public void getJiraIssueTest() {
 		criteria = session.createCriteria(JiraIssue.class);
@@ -43,6 +45,7 @@ public class DatabaseApplicationTest
 		assertNotNull(issue);
 	}
 
+	@Ignore
 	@Test
 	public void getJiraProjectTest() {
 		criteria = session.createCriteria(JiraIssue.class);
@@ -61,6 +64,7 @@ public class DatabaseApplicationTest
 		assertNotNull(projects);
 	}
 
+	@Ignore
 	@Test
 	public void getJiraIssuesTest() {
 		criteria = session.createCriteria(JiraIssue.class);

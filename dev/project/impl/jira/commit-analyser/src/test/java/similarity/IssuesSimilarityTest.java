@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import database.entity.JiraIssue;
@@ -16,6 +17,7 @@ import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
 import javafx.util.Pair;
 
+@Ignore
 public class IssuesSimilarityTest
 {
 

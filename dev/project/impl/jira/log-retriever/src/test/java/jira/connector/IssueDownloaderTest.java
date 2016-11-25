@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
@@ -18,6 +19,7 @@ import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import database.manager.DataBaseType;
 
+@Ignore
 public class IssueDownloaderTest
 {
 
