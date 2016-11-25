@@ -7,7 +7,7 @@ public enum DataBaseType
 		@Override
 		public String getPathToSettings()
 		{
-			return "/resources/hibernateProduction.cfg.xml";
+			return "hibernateProduction.cfg.xml";
 		}
 	},
 	TEST
@@ -15,7 +15,7 @@ public enum DataBaseType
 		@Override
 		public String getPathToSettings()
 		{
-			return "/resources/hibernateTest.cfg.xml";
+			return "hibernateTest.cfg.xml";
 		}
 	};
 
