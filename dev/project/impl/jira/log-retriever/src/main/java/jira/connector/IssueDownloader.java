@@ -4,15 +4,16 @@ import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import com.atlassian.util.concurrent.Promise;
 
+import database.entity.JiraProject;
 import database.manager.DataBaseType;
 import jira.data.IssueDbContext;
+import jira.data.ProjectData;
 
 public class IssueDownloader
 {
 
 	private JiraUtil jiraUtil;
 	private IssueDbContext idc;
-	private static final int ISSUE_LIMIT_PER_CALL = 1000;
 
 	public IssueDownloader(DataBaseType dataBaseType)
 	{
@@ -20,84 +21,64 @@ public class IssueDownloader
 		idc = new IssueDbContext(dataBaseType);
 	}
 
-	public void retriveAllIssues()
+	public void retrieveAllIssues()
 	{
-		idc.initDbm();
-		addIssuesFromCamundaProject();
-		addIssuesFromMongoDBProject();
-		addIssuesFromSpringProject();
-		idc.closeDbm();
+		for (ProjectData project : ProjectData.values())
+		{
+			downloadAllIssuesFromProject(project);
+		}
 	}
 
-	private void addIssuesToDatabase(Promise<SearchResult> searchRes, String projectKey)
+	private void addIssuesToDatabase(Promise<SearchResult> searchRes, ProjectData project)
 	{
-		String projectName = IssueDownloaderUtil.addProjectToDatabase(idc, projectKey);
+		JiraProject addedJiraProject = IssueDownloaderUtil.addProjectToDatabase(idc, project);
 
-		if (!"".equals(projectName))
+		if (addedJiraProject != null)
 		{
 			for (Issue issue : searchRes.claim().getIssues())
 			{
-				IssueDownloaderUtil.addSingleIssueToDatabase(idc, projectName, issue);
+				IssueDownloaderUtil.addSingleIssueToDatabase(idc, project, issue);
 			}
 		}
 	}
 
-	public void addIssuesFromSpringProject()
+	public void downloadIssuesFromProject(ProjectData project, int startAt, int totalResults)
 	{
-		int startAt = 0;
-		int totalResults = jiraUtil.getTotalIssueCountFromSpringProject();
+		initIssueDbContext();
 
 		while (startAt < totalResults)
 		{
-			Promise<SearchResult> springRes = jiraUtil.getIssuesFromSpringProject(startAt, ISSUE_LIMIT_PER_CALL);
-			addIssuesFromProject(springRes, JiraUtil.JIRA_SPRING_FRAMEWORK_PROJECTKEY);
-			startAt += ISSUE_LIMIT_PER_CALL;
+			Promise<SearchResult> springRes = jiraUtil.getIssuesFromProject(project, startAt, project.getIssueLimitPerCall());
+			addIssuesFromProject(springRes, project);
+			startAt += project.getIssueLimitPerCall();
 		}
+		closeIssueDbContext();
 	}
-
-	public void addIssuesFromMongoDBProject()
+	
+	public void downloadAllIssuesFromProject(ProjectData project)
 	{
-		int startAt = 0;
-		int totalResults = jiraUtil.getTotalIssueCountFromMongoDBProject();
-
-		while (startAt < totalResults)
-		{
-			Promise<SearchResult> mongoRes = jiraUtil.getIssuesFromMongoDBProject(startAt, ISSUE_LIMIT_PER_CALL);
-			addIssuesFromProject(mongoRes, JiraUtil.JIRA_MONGODB_PROJECTKEY);
-			startAt += ISSUE_LIMIT_PER_CALL;
-		}
+		int totalResults = jiraUtil.getTotalIssueCountFromProject(project);
+		downloadIssuesFromProject(project, 0, totalResults);
 	}
 
-	public void addIssuesFromCamundaProject()
-	{
-		int startAt = 0;
-		int totalResults = jiraUtil.getTotalIssueCountFromCamundaProject();
-
-		while (startAt < totalResults)
-		{
-			Promise<SearchResult> camundaRes = jiraUtil.getIssuesFromCamundaProject(startAt, ISSUE_LIMIT_PER_CALL);
-			addIssuesFromProject(camundaRes, JiraUtil.JIRA_CAMUNDA_PROJECTKEY);
-			startAt += ISSUE_LIMIT_PER_CALL;
-		}
-	}
-
-	public void addIssuesFromProject(Promise<SearchResult> projRes, String projectKey)
+	public void addIssuesFromProject(Promise<SearchResult> projRes, ProjectData project)
 	{
 		if (projRes != null)
 		{
-			addIssuesToDatabase(projRes, projectKey);
+			addIssuesToDatabase(projRes, project);
 		}
 
 		jiraUtil.closeClientConnection();
 	}
 
-	public IssueDbContext getIssueDbContext()
+	public void  initIssueDbContext()
 	{
-		return idc;
+		idc.initDbm();
 	}
-
-	public JiraUtil getJiraUtil()
+	
+	public void  closeIssueDbContext()
 	{
-		return jiraUtil;
+		idc.closeDbm();
 	}
+	
 }
