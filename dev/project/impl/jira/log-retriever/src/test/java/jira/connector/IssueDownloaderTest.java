@@ -17,6 +17,7 @@ import com.atlassian.util.concurrent.Promise;
 
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
+import database.manager.DataBaseTestHelper;
 import database.manager.DataBaseType;
 
 @Ignore
@@ -25,7 +26,7 @@ public class IssueDownloaderTest
 
 	private IssueDownloader issueDownloader;
 	private JiraUtil jiraUtil;
-	private final static int issuesCount = 5;
+	private final static int issuesCount = 1;
 
 	@Before
 	public void setUp()

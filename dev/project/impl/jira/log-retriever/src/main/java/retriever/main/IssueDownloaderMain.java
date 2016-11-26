@@ -1,6 +1,7 @@
-package jira.connector;
+package retriever.main;
 
 import database.manager.DataBaseType;
+import jira.connector.IssueDownloader;
 
 public class IssueDownloaderMain
 {
