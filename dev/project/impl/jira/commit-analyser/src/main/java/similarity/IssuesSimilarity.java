@@ -10,10 +10,11 @@ import database.entity.IssueComment;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import javafx.util.Pair;
+import jira.JiraIssueSimilarity;
 import lucene.CosineTextSimilarity;
 
 //deprecated due to failed tests
-@Deprecated
+// @Deprecated
 public class IssuesSimilarity
 {
 	private DatabaseApplication dba;
@@ -23,8 +24,8 @@ public class IssuesSimilarity
 		dba = new DatabaseApplication();
 	}
 
-	public List<Pair<Integer, Double>> getIssueSimilarityList(JiraIssue issue) {
-		List<Pair<Integer, Double>> similarities = new ArrayList<Pair<Integer, Double>>();
+	public List<JiraIssueSimilarity> getIssueSimilarityList(JiraIssue issue) {
+		List<JiraIssueSimilarity> similarities = new ArrayList<JiraIssueSimilarity>();
 		JiraProject project = issue.getJiraProject();
 		@SuppressWarnings("unchecked")
 		List<JiraIssue> issues = dba.getJiraIssues(project);
@@ -32,7 +33,7 @@ public class IssuesSimilarity
 		{
 			if (jissue.getJiraIssueId() != issue.getJiraIssueId())
 				similarities
-						.add(new Pair<Integer, Double>(jissue.getJiraIssueId(), getIssuesSimilarity(issue, jissue)));
+						.add(new JiraIssueSimilarity(jissue, (long) getIssuesSimilarity(issue, jissue)));
 		}
 		dba.closeSession();
 

@@ -6,6 +6,12 @@ public class JiraIssueSimilarity {
 
 	private JiraIssue jiraIssue;
 	private long similarityLevel;
+	
+	public JiraIssueSimilarity(JiraIssue jiraIssue, long similarityLevel)
+	{
+		this.jiraIssue = jiraIssue;
+		this.similarityLevel = similarityLevel;
+	}
 
 	public JiraIssue getJiraIssue() {
 		return jiraIssue;
