@@ -20,31 +20,18 @@ import com.google.gson.JsonParser;
 
 import database.entity.IssueComment;
 import database.entity.JiraIssue;
-import jira.connector.JiraUtil;
+import jira.data.ProjectData;
 import utils.DateConverter;
 
 public class CommentDownloader
 {
 
-	public static Collection<IssueComment> loadCommentsFromIssue(JiraIssue issue, String projectName)
+	public static Collection<IssueComment> loadCommentsFromIssue(JiraIssue issue, ProjectData project)
 	{
 		StringBuilder url = new StringBuilder();
 		JsonObject json = null;
-
-		switch (projectName)
-		{
-		case "Spring Framework":
-			url.append(JiraUtil.JIRA_SPRING_URL);
-			break;
-		case "MongoDB Server":
-			url.append(JiraUtil.JIRA_MONGODB_URL);
-			break;
-		case "Camunda BPM":
-			url.append(JiraUtil.JIRA_CAMUNDA_URL);
-			break;
-		default:
-			break;
-		}
+		
+		url.append(project.getProjectURL());
 
 		if (url.length() == 0)
 		{

@@ -8,14 +8,16 @@ import com.atlassian.jira.rest.client.api.domain.Issue;
 import database.entity.*;
 import jira.data.FieldPicker;
 import jira.data.IssueDbContext;
+import jira.data.ProjectData;
 import jira.json.CommentDownloader;
 
 public class IssueDownloaderUtil
 {
 
-	public static boolean addSingleIssueToDatabase(IssueDbContext dbm, String projectName, Issue issue)
+	public static boolean addSingleIssueToDatabase(IssueDbContext dbm, ProjectData project, Issue issue)
 	{
-		JiraProject jiraProject = dbm.getJiraProject(projectName);
+
+		JiraProject jiraProject = dbm.getJiraProject(project.getProjectName());
 		FieldPicker fieldPicker = new FieldPicker();
 
 		IssuePriority issuePriority = dbm.addIssuePriorityIfNotExists(fieldPicker.getPriority(issue.getPriority()));
@@ -49,7 +51,7 @@ public class IssueDownloaderUtil
 			dbm.addNewAssignedIssue(assignedIssue);
 
 			List<IssueComment> issueComments = (List<IssueComment>) CommentDownloader.loadCommentsFromIssue(addedIssue,
-					projectName);
+					project);
 
 			for (IssueComment ic : issueComments)
 			{
@@ -69,29 +71,9 @@ public class IssueDownloaderUtil
 		return true;
 	}
 
-	public static String addProjectToDatabase(IssueDbContext dbm, String projectKey)
+	public static JiraProject addProjectToDatabase(IssueDbContext dbm, ProjectData project)
 	{
-
-		String projectName;
-
-		switch (projectKey)
-		{
-		case "SPR":
-			projectName = "Spring Framework";
-			break;
-		case "SERVER":
-			projectName = "MongoDB Server";
-			break;
-		case "CAM":
-			projectName = "Camunda BPM";
-			break;
-		default:
-			projectName = "";
-			break;
-		}
-
-		dbm.addProjectIfNotExists(projectName);
-		return projectName;
+		return dbm.addProjectIfNotExists(project.getProjectName());
 	}
 
 }

@@ -17,22 +17,28 @@ import com.atlassian.util.concurrent.Promise;
 
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
+import database.manager.DataBaseTestHelper;
 import database.manager.DataBaseType;
+import database.manager.DatabaseManager;
+import jira.data.ProjectData;
 
 @Ignore
 public class IssueDownloaderTest
 {
 
 	private IssueDownloader issueDownloader;
+	private DatabaseManager dbManager;
 	private JiraUtil jiraUtil;
-	private final static int issuesCount = 5;
+	private final static int issuesCount = 1;
 
 	@Before
 	public void setUp()
 	{
+		dbManager = new DatabaseManager(DataBaseType.TEST);
+		dbManager.init();
 		issueDownloader = new IssueDownloader(DataBaseType.TEST);
-		jiraUtil = issueDownloader.getJiraUtil();
-		issueDownloader.getIssueDbContext().initDbm();
+		jiraUtil = new JiraUtil();
+		issueDownloader.initIssueDbContext();
 		truncateAllTables();
 	}
 
@@ -40,14 +46,15 @@ public class IssueDownloaderTest
 	public void close()
 	{
 		truncateAllTables();
-		issueDownloader.getIssueDbContext().closeDbm();
+		issueDownloader.closeIssueDbContext();
+		dbManager.close();
 	}
 
 	@Test
 	public void testAddedIssuesSpring()
 	{
 		addIssuesFromSpringProject();
-		int springCount = getIssuesCount("Spring Framework");
+		int springCount = getIssuesCount(ProjectData.SPRING);
 		assertEquals(springCount, issuesCount);
 	}
 
@@ -55,7 +62,7 @@ public class IssueDownloaderTest
 	public void testAddedIssuesMongoDB()
 	{
 		addIssuesFromMongoDbProject();
-		int mongoCount = getIssuesCount("MongoDB Server");
+		int mongoCount = getIssuesCount(ProjectData.MONGODB);
 		assertEquals(mongoCount, issuesCount);
 	}
 
@@ -63,45 +70,52 @@ public class IssueDownloaderTest
 	public void testAddedIssuesCamunda()
 	{
 		addIssuesFromCamundaProject();
-		int camudaCount = getIssuesCount("Camunda BPM");
+		int camudaCount = getIssuesCount(ProjectData.CAMUNDA);
 		assertEquals(camudaCount, issuesCount);
 	}
-	
-	private void truncateAllTables() {
-		DataBaseTestHelper.truncateAllTables(issueDownloader.getIssueDbContext().getDbm());
+
+	private void truncateAllTables()
+	{
+		DataBaseTestHelper.truncateAllTables(dbManager);
 	}
 
 	private void addIssuesFromSpringProject()
 	{
-		Promise<SearchResult> springRes = jiraUtil.getIssuesFromSpringProject(0, issuesCount);
-		issueDownloader.addIssuesFromProject(springRes, JiraUtil.JIRA_SPRING_FRAMEWORK_PROJECTKEY);
+		Promise<SearchResult> springRes = jiraUtil.getIssuesFromProject(ProjectData.SPRING, 0, issuesCount);
+		issueDownloader.addIssuesFromProject(springRes, ProjectData.SPRING);
 	}
 
 	private void addIssuesFromMongoDbProject()
 	{
-		Promise<SearchResult> mongoRes = jiraUtil.getIssuesFromMongoDBProject(0, issuesCount);
-		issueDownloader.addIssuesFromProject(mongoRes, JiraUtil.JIRA_MONGODB_PROJECTKEY);
+		Promise<SearchResult> mongoRes = jiraUtil.getIssuesFromProject(ProjectData.MONGODB, 0, issuesCount);
+		issueDownloader.addIssuesFromProject(mongoRes, ProjectData.MONGODB);
 
 	}
 
 	private void addIssuesFromCamundaProject()
 	{
-		Promise<SearchResult> camundaRes = jiraUtil.getIssuesFromCamundaProject(0, issuesCount);
-		issueDownloader.addIssuesFromProject(camundaRes, JiraUtil.JIRA_CAMUNDA_PROJECTKEY);
+		Promise<SearchResult> camundaRes = jiraUtil.getIssuesFromProject(ProjectData.CAMUNDA, 0, issuesCount);
+		issueDownloader.addIssuesFromProject(camundaRes, ProjectData.CAMUNDA);
 
 	}
 
 	@SuppressWarnings("rawtypes")
-	private int getIssuesCount(String projectName)
+	private int getIssuesCount(ProjectData project)
 	{
-		JiraProject project = issueDownloader.getIssueDbContext().getJiraProject(projectName);
-		Session session = issueDownloader.getIssueDbContext().getDbm().getSession();
-		Criteria criteria = session.createCriteria(JiraIssue.class);
-		criteria.add(Restrictions.eq("jiraProject", project));
-		List issues = criteria.list();
+		Session session = dbManager.getSession();
+		Criteria criteriaProject = session.createCriteria(JiraProject.class);
+		List projects = criteriaProject.add(Restrictions.eq("projectName", project.getProjectName())).list();
+		if (!projects.isEmpty())
+		{
+			JiraProject jiraProject = (JiraProject) projects.get(0);
+			Criteria criteriaIssues = session.createCriteria(JiraIssue.class);
+			criteriaIssues.add(Restrictions.eq("jiraProject", jiraProject));
+			List issues = criteriaIssues.list();
+			session.close();
+			return issues.size();
+		}
 		session.close();
-
-		return issues.size();
+		return 0;
 	}
 
 }

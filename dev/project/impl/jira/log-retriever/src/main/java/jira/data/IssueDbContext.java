@@ -3,6 +3,7 @@ package jira.data;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.TransientObjectException;
@@ -16,6 +17,7 @@ public class IssueDbContext
 {
 
 	private DatabaseManager dbm;
+	private static final Logger LOGGER = Logger.getLogger(IssueDbContext.class);
 
 	public IssueDbContext(DataBaseType dataBaseType)
 	{
@@ -42,18 +44,20 @@ public class IssueDbContext
 		return false;
 	}
 
-	public boolean addProjectIfNotExists(String projectName)
+	public JiraProject addProjectIfNotExists(String projectName)
 	{
 
 		JiraProject jiraProject = new JiraProject();
 		jiraProject.setProjectName(projectName);
 
-		if (this.getJiraProject(projectName) == null)
+		JiraProject res = this.getJiraProject(projectName);
+
+		if (res == null)
 		{
 			dbm.persist(jiraProject);
-			return true;
+			return jiraProject;
 		}
-		return false;
+		return res;
 	}
 
 	public IssuePriority addIssuePriorityIfNotExists(String priorityName)
@@ -153,7 +157,7 @@ public class IssueDbContext
 		Criteria criteria = session.createCriteria(Assignee.class);
 		List assignees = criteria.add(Restrictions.eq("name", assigneeName)).list();
 		session.close();
-		if (assignees.size() >= 1)
+		if (!assignees.isEmpty())
 		{
 			return (Assignee) assignees.get(0);
 		}
@@ -172,7 +176,7 @@ public class IssueDbContext
 		{
 			List comments = criteria.list();
 			session.close();
-			if (comments.size() >= 1)
+			if (!comments.isEmpty())
 			{
 				return (IssueComment) comments.get(0);
 			}
@@ -189,7 +193,7 @@ public class IssueDbContext
 		Criteria criteria = session.createCriteria(IssuePriority.class);
 		List priorities = criteria.add(Restrictions.eq("priorityName", priorityName)).list();
 		session.close();
-		if (priorities.size() >= 1)
+		if (!priorities.isEmpty())
 		{
 			return (IssuePriority) priorities.get(0);
 		}
@@ -204,7 +208,7 @@ public class IssueDbContext
 		Criteria criteria = session.createCriteria(IssueReporter.class);
 		List reporters = criteria.add(Restrictions.eq("fullName", reporterName)).list();
 		session.close();
-		if (reporters.size() >= 1)
+		if (!reporters.isEmpty())
 		{
 			return (IssueReporter) reporters.get(0);
 		}
@@ -219,7 +223,7 @@ public class IssueDbContext
 		Criteria criteria = session.createCriteria(IssueResolution.class);
 		List resolutions = criteria.add(Restrictions.eq("resolutionName", resolutionName)).list();
 		session.close();
-		if (resolutions.size() >= 1)
+		if (!resolutions.isEmpty())
 		{
 			return (IssueResolution) resolutions.get(0);
 		}
@@ -234,7 +238,7 @@ public class IssueDbContext
 		Criteria criteria = session.createCriteria(IssueType.class);
 		List types = criteria.add(Restrictions.eq("typeName", typeName)).list();
 		session.close();
-		if (types.size() >= 1)
+		if (!types.isEmpty())
 		{
 			return (IssueType) types.get(0);
 		}
@@ -251,7 +255,7 @@ public class IssueDbContext
 		criteria.add(Restrictions.eq("jiraProject", project));
 		List issues = criteria.list();
 		session.close();
-		if (issues.size() >= 1)
+		if (!issues.isEmpty())
 		{
 			return (JiraIssue) issues.get(0);
 		}
@@ -266,7 +270,7 @@ public class IssueDbContext
 		Criteria criteria = session.createCriteria(JiraProject.class);
 		List projects = criteria.add(Restrictions.eq("projectName", projectName)).list();
 		session.close();
-		if (projects.size() >= 1)
+		if (!projects.isEmpty())
 		{
 			return (JiraProject) projects.get(0);
 		}
@@ -281,7 +285,7 @@ public class IssueDbContext
 		Criteria criteria = session.createCriteria(JiraIssue.class);
 		List issues = criteria.add(Restrictions.eq("code", jiraIssue.getCode())).list();
 		session.close();
-		if (issues.size() >= 1)
+		if (!issues.isEmpty())
 		{
 			return (JiraIssue) issues.get(0);
 		}
@@ -300,16 +304,13 @@ public class IssueDbContext
 		{
 			List assignedIssues = criteria.list();
 			session.close();
-			if (assignedIssues.size() >= 1)
+			if (!assignedIssues.isEmpty())
 			{
 				return (AssignedIssue) assignedIssues.get(0);
 			}
-		} catch (TransientObjectException e) // zabezpieczenie przed zbyt duzym
-												// Issue -> czasem sie wywala
-												// jak description jest mega
-												// dlugie wiec trzeba takie
-												// pomijac
+		} catch (TransientObjectException e)
 		{
+			LOGGER.error("Cannot save AssignedIssue object", e);
 		}
 		return null;
 	}
@@ -324,7 +325,7 @@ public class IssueDbContext
 		{
 			List<IssueComment> result = criteria.list();
 			session.close();
-			if (result.size() > 0)
+			if (!result.isEmpty())
 			{
 				Timestamp minDate = result.stream().map(u -> u.getAddedAt()).min(Timestamp::compareTo).get();
 				issue.setFirstResponseDate(minDate);
@@ -332,6 +333,7 @@ public class IssueDbContext
 			}
 		} catch (TransientObjectException e)
 		{
+			LOGGER.error("Cannot update JiraIssue object", e);
 		}
 		return issue;
 	}
@@ -346,7 +348,7 @@ public class IssueDbContext
 		{
 			List<AssignedIssue> result = criteria.list();
 			session.close();
-			if (result.size() > 0)
+			if (!result.isEmpty())
 			{
 				Timestamp minDate = result.get(0).getResolvedAt();
 				issue.setFirstResponseDate(minDate);
@@ -354,6 +356,7 @@ public class IssueDbContext
 			}
 		} catch (TransientObjectException e)
 		{
+			LOGGER.error("Cannot update JiraIssue object", e);
 		}
 	}
 
@@ -366,10 +369,4 @@ public class IssueDbContext
 	{
 		dbm.close();
 	}
-
-	public DatabaseManager getDbm()
-	{
-		return dbm;
-	}
-
 }
