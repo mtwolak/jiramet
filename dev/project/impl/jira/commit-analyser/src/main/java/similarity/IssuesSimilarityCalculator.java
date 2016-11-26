@@ -9,31 +9,29 @@ import database.application.DatabaseApplication;
 import database.entity.IssueComment;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
-import javafx.util.Pair;
+import jira.IssuesSimilarity;
 import jira.JiraIssueSimilarity;
 import lucene.CosineTextSimilarity;
 
-//deprecated due to failed tests
-// @Deprecated
-public class IssuesSimilarity
+public class IssuesSimilarityCalculator implements IssuesSimilarity
 {
 	private DatabaseApplication dba;
 
-	public IssuesSimilarity()
+	public IssuesSimilarityCalculator()
 	{
 		dba = new DatabaseApplication();
 	}
 
-	public List<JiraIssueSimilarity> getIssueSimilarityList(JiraIssue issue) {
+	public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue jiraIssue) {
 		List<JiraIssueSimilarity> similarities = new ArrayList<JiraIssueSimilarity>();
-		JiraProject project = issue.getJiraProject();
+		JiraProject project = jiraIssue.getJiraProject();
 		@SuppressWarnings("unchecked")
 		List<JiraIssue> issues = dba.getJiraIssues(project);
-		for (JiraIssue jissue : issues)
+		for (JiraIssue issue : issues)
 		{
-			if (jissue.getJiraIssueId() != issue.getJiraIssueId())
+			if (issue.getJiraIssueId() != jiraIssue.getJiraIssueId())
 				similarities
-						.add(new JiraIssueSimilarity(jissue, (long) getIssuesSimilarity(issue, jissue)));
+						.add(new JiraIssueSimilarity(issue, (long) getIssuesSimilarity(jiraIssue, issue)));
 		}
 		dba.closeSession();
 

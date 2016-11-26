@@ -6,5 +6,5 @@ import database.entity.JiraIssue;
 
 public interface IssuesSimilarity
 {
-	public List<JiraIssueSimilarity> getIssuesSimilarity(JiraIssue jiraIssue);
+	public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue jiraIssue);
 }

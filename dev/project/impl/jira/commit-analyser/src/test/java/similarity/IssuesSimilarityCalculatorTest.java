@@ -17,26 +17,26 @@ import database.entity.JiraIssue;
 import jira.JiraIssueSimilarity;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IssuesSimilarityTest
+public class IssuesSimilarityCalculatorTest
 {
 	@Mock
-	private IssuesSimilarity is;
+	private IssuesSimilarityCalculator is;
 	private double similarity;
 
 	@Before
     public void setUp() {
-        is = Mockito.mock(IssuesSimilarity.class);
+        is = Mockito.mock(IssuesSimilarityCalculator.class);
     } 
 	
 	@Test
 	public void getSimilarityListTest() {
 		List<JiraIssueSimilarity> similarityList = new ArrayList<JiraIssueSimilarity>();
-		Mockito.when(is.getIssueSimilarityList(Matchers.any(JiraIssue.class))).thenReturn(similarityList);
+		Mockito.when(is.getIssuesSimilarityList(Matchers.any(JiraIssue.class))).thenReturn(similarityList);
 	}
 	
 	@Test
 	public void getSimilarityListTest2() {
-		assertNotNull(is.getIssueSimilarityList(Matchers.any(JiraIssue.class)));
+		assertNotNull(is.getIssuesSimilarityList(Matchers.any(JiraIssue.class)));
 	}
 
 	@Test
