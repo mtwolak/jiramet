@@ -160,13 +160,13 @@ public class FieldPickerTest
 
 	private void setTestIssues()
 	{
-		Promise<SearchResult> resultSpr = ju.getIssuesFromSpringProject(0, 1);
+		Promise<SearchResult> resultSpr = ju.getIssuesFromProject(ProjectData.SPRING, 0,1);
 		testIssueSrp = resultSpr.claim().getIssues().iterator().next();
 		
-		Promise<SearchResult> resultMongo = ju.getIssuesFromMongoDBProject(0, 1);
+		Promise<SearchResult> resultMongo = ju.getIssuesFromProject(ProjectData.MONGODB, 0,1);
 		testIssueMongo = resultMongo.claim().getIssues().iterator().next();
 		
-		Promise<SearchResult> resultCam = ju.getIssuesFromCamundaProject(0, 1);
+		Promise<SearchResult> resultCam = ju.getIssuesFromProject(ProjectData.CAMUNDA, 0,1);
 		testIssueCam = resultCam.claim().getIssues().iterator().next();
 	}
 

@@ -15,12 +15,10 @@ import com.atlassian.jira.rest.client.auth.AnonymousAuthenticationHandler;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import com.atlassian.util.concurrent.Promise;
 
+import jira.data.ProjectData;
+
 public class JiraUtilTest {
-	
-	private static final String JIRA_SPRING_URL = "https://jira.spring.io";
-	private static final String JIRA_MONGODB_URL = "https://jira.mongodb.org";
-	private static final String JIRA_CAMUNDA_URL = "https://app.camunda.com/jira/";
-	
+		
 	private JiraUtil ju = new JiraUtil();
 	private JiraRestClientFactory factory = new AsynchronousJiraRestClientFactory();
 	
@@ -32,7 +30,7 @@ public class JiraUtilTest {
 	public void testOpenSpringClientConnection() 
 	{
 		try {
-			uri = new URI(JIRA_SPRING_URL);
+			uri = new URI(ProjectData.SPRING.getProjectURL());
 			client = factory.create(uri, new AnonymousAuthenticationHandler());
 			assertNotNull(client);
 		} catch (URISyntaxException e) {
@@ -44,7 +42,7 @@ public class JiraUtilTest {
 	public void testOpenMongoDBClientConnection() 
 	{
 		try {
-			uri = new URI(JIRA_MONGODB_URL);
+			uri = new URI(ProjectData.MONGODB.getProjectURL());
 			client = factory.create(uri, new AnonymousAuthenticationHandler());
 			assertNotNull(client);
 		} catch (URISyntaxException e) {
@@ -56,7 +54,7 @@ public class JiraUtilTest {
 	public void testOpenCamundaClientConnection() 
 	{
 		try {
-			uri = new URI(JIRA_CAMUNDA_URL);
+			uri = new URI(ProjectData.CAMUNDA.getProjectURL());
 			client = factory.create(uri, new AnonymousAuthenticationHandler());
 			assertNotNull(client);
 		} catch (URISyntaxException e) {
@@ -67,21 +65,21 @@ public class JiraUtilTest {
 	@Test
 	public void testGetIssuesFromSpringProject() 
 	{		
-		searchResult = ju.getIssuesFromSpringProject(0,1);
+		searchResult = ju.getIssuesFromProject(ProjectData.SPRING, 0,1);
 		assertNotNull(searchResult);
 	}
 	
 	@Test
 	public void testGetIssuesFromMongoDBProject() 
 	{
-		searchResult = ju.getIssuesFromMongoDBProject(0,1);
+		searchResult = ju.getIssuesFromProject(ProjectData.MONGODB, 0,1);
 		assertNotNull(searchResult);
 	}
 	
 	@Test
 	public void testGetIssuesFromCamundaProject() 
 	{
-		searchResult = ju.getIssuesFromCamundaProject(0,1);
+		searchResult = ju.getIssuesFromProject(ProjectData.CAMUNDA, 0,1);
 		assertNotNull(searchResult);
 	}
 	
@@ -95,19 +93,19 @@ public class JiraUtilTest {
 	@Test
 	public void testGetTotalIssueCountFromSpringProject()
 	{
-		assertThat(ju.getTotalIssueCountFromSpringProject(), instanceOf(Integer.class));
+		assertThat(ju.getTotalIssueCountFromProject(ProjectData.SPRING), instanceOf(Integer.class));
 	}
 
 	@Test
 	public void testGetTotalIssueCountFromMongoDBProject()
 	{
-		assertThat(ju.getTotalIssueCountFromMongoDBProject(), instanceOf(Integer.class));
+		assertThat(ju.getTotalIssueCountFromProject(ProjectData.MONGODB), instanceOf(Integer.class));
 	}
 
 	@Test
 	public void testGetTotalIssueCountFromCamundaProject()
 	{
-		assertThat(ju.getTotalIssueCountFromCamundaProject(), instanceOf(Integer.class));
+		assertThat(ju.getTotalIssueCountFromProject(ProjectData.CAMUNDA), instanceOf(Integer.class));
 	}
 
 }
