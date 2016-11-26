@@ -55,7 +55,7 @@ public class CosineTextSimilarity
 		return (v1.dotProduct(v2)) / (v1.getNorm() * v2.getNorm());
 	}
 
-	public static double getCosineSimilarity(String s1, String s2) throws IOException {
+	public double getCosineSimilarity(String s1, String s2) throws IOException {
 		return new CosineTextSimilarity(s1, s2).getCosineSimilarity();
 	}
 

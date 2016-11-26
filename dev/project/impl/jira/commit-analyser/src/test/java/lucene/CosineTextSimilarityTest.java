@@ -41,18 +41,6 @@ public class CosineTextSimilarityTest
 	}
 
 	@Test
-	public void testGetCosineSimilarityStringString() throws Exception {
-		try
-		{
-			cts = new CosineTextSimilarity(TEXT_1, TEXT_2);
-			assertNotNull(CosineTextSimilarity.getCosineSimilarity(TEXT_1, TEXT_2));
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	@Test
 	public void testGetTermFrequencies() {
 		try
 		{

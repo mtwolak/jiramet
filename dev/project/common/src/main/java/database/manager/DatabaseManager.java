@@ -10,7 +10,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 //deprecated due to failed junit tests
-@Deprecated
+// @Deprecated
 public class DatabaseManager {
 
 	private SessionFactory factory;
