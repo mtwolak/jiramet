@@ -2,11 +2,9 @@ package similarity;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import database.application.DatabaseApplication;
-import database.entity.IssueComment;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import jira.IssuesSimilarity;
@@ -16,89 +14,83 @@ import lucene.CosineTextSimilarity;
 public class IssuesSimilarityCalculator implements IssuesSimilarity
 {
 	private DatabaseApplication dba;
+	private IssuesSimilarityParameters isp;
+	private IssuesSimilarityHelper ish;
+	private CosineTextSimilarity cts;
+	private double similarity;
 
 	public IssuesSimilarityCalculator()
 	{
 		dba = new DatabaseApplication();
+		isp = new IssuesSimilarityParameters();
+		ish = new IssuesSimilarityHelper();
 	}
 
 	public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue jiraIssue) {
-		List<JiraIssueSimilarity> similarities = new ArrayList<JiraIssueSimilarity>();
+		List<JiraIssueSimilarity> similarityList = new ArrayList<JiraIssueSimilarity>();
 		JiraProject project = jiraIssue.getJiraProject();
 		@SuppressWarnings("unchecked")
 		List<JiraIssue> issues = dba.getJiraIssues(project);
 		for (JiraIssue issue : issues)
 		{
 			if (issue.getJiraIssueId() != jiraIssue.getJiraIssueId())
-				similarities
-						.add(new JiraIssueSimilarity(issue, (long) getIssuesSimilarity(jiraIssue, issue)));
+				similarityList.add(new JiraIssueSimilarity(issue, (long) getIssuesSimilarity(jiraIssue, issue)));
 		}
 		dba.closeSession();
 
-		return similarities;
+		return similarityList;
 	}
 
 	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2) {
-		return 0.45 * getIssuesSummariesSimilarity(issue1, issue2)
-				+ 0.45 * getIssuesDescriptionsSimilarity(issue1, issue2)
-				+ 0.1 * getIssuesCommentsSimilarity(issue1, issue2);
+		return isp.getSummaryWeight() * getIssuesSummariesSimilarity(issue1, issue2)
+				+ isp.getDescriptionWeight() * getIssuesDescriptionsSimilarity(issue1, issue2)
+				+ isp.getCommentsWeight() * getIssuesCommentsSimilarity(issue1, issue2);
 	}
 
 	public double getIssuesSummariesSimilarity(JiraIssue issue1, JiraIssue issue2) {
-		double summariesSimilarity = 0;
+		similarity = 0;
 		try
 		{
-			summariesSimilarity = CosineTextSimilarity.getCosineSimilarity(issue1.getSummary(), issue2.getSummary());
+			similarity = cts.getCosineSimilarity(issue1.getSummary(), issue2.getSummary());
 		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		return summariesSimilarity;
+		return similarity;
 	}
 
 	public double getIssuesDescriptionsSimilarity(JiraIssue issue1, JiraIssue issue2) {
-		double descriptionsSimilarity = 0;
+		similarity = 0;
 		String desc1 = issue1.getDescription();
 		String desc2 = issue2.getDescription();
 		if (desc1 != null && desc2 != null)
 		{
 			try
 			{
-				descriptionsSimilarity = CosineTextSimilarity.getCosineSimilarity(desc1, desc2);
+				similarity = cts.getCosineSimilarity(desc1, desc2);
 			} catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
-		return descriptionsSimilarity;
+		return similarity;
 	}
 
 	public double getIssuesCommentsSimilarity(JiraIssue issue1, JiraIssue issue2) {
-		double commentsSimilarity = 0;
-		StringBuilder comments1 = collectIssueComments(issue1);
-		StringBuilder comments2 = collectIssueComments(issue2);
+		similarity = 0;
+		StringBuilder comments1 = ish.collectIssueComments(issue1);
+		StringBuilder comments2 = ish.collectIssueComments(issue2);
 		if (comments1.length() != 0 && comments2.length() != 0)
 		{
 			try
 			{
-				commentsSimilarity = CosineTextSimilarity.getCosineSimilarity(comments1.toString(),
-						comments2.toString());
+				similarity = cts.getCosineSimilarity(comments1.toString(), comments2.toString());
 			} catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
-		return commentsSimilarity;
+		return similarity;
 	}
 
-	public StringBuilder collectIssueComments(JiraIssue issue) {
-		StringBuilder sb = new StringBuilder();
-		Iterator<IssueComment> iterator = issue.getIssueComments().iterator();
-		while (iterator.hasNext())
-		{
-			IssueComment setElement = iterator.next();
-			sb.append(setElement.getContent());
-		}
-		return sb;
-	}
 }

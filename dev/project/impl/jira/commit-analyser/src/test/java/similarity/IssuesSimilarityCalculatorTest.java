@@ -20,52 +20,46 @@ import jira.JiraIssueSimilarity;
 public class IssuesSimilarityCalculatorTest
 {
 	@Mock
-	private IssuesSimilarityCalculator is;
+	private IssuesSimilarityCalculator isc;
 	private double similarity;
 
 	@Before
-    public void setUp() {
-        is = Mockito.mock(IssuesSimilarityCalculator.class);
-    } 
-	
+	public void setUp() {
+		isc = Mockito.mock(IssuesSimilarityCalculator.class);
+	}
+
 	@Test
 	public void getSimilarityListTest() {
 		List<JiraIssueSimilarity> similarityList = new ArrayList<JiraIssueSimilarity>();
-		Mockito.when(is.getIssuesSimilarityList(Matchers.any(JiraIssue.class))).thenReturn(similarityList);
+		Mockito.when(isc.getIssuesSimilarityList(Matchers.any(JiraIssue.class))).thenReturn(similarityList);
 	}
-	
+
 	@Test
 	public void getSimilarityListTest2() {
-		assertNotNull(is.getIssuesSimilarityList(Matchers.any(JiraIssue.class)));
+		assertNotNull(isc.getIssuesSimilarityList(Matchers.any(JiraIssue.class)));
 	}
 
 	@Test
 	public void getIssuesSimilarityTest() {
-		assertNotNull(is.getIssuesSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class)));
+		assertNotNull(isc.getIssuesSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class)));
 	}
 
 	@Test
 	public void getIssuesSummariesSimilarityTest() {
-		similarity = is.getIssuesSummariesSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class));
+		similarity = isc.getIssuesSummariesSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class));
 		assertTrue(similarity >= 0 && similarity <= 1);
 	}
 
 	@Test
 	public void getIssuesDescriptionsSimilarityTest() {
-		similarity = is.getIssuesDescriptionsSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class));
+		similarity = isc.getIssuesDescriptionsSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class));
 		assertTrue(similarity >= 0 && similarity <= 1);
 	}
 
 	@Test
 	public void getIssuesCommentsSimilarityTest() {
-		similarity = is.getIssuesCommentsSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class));
+		similarity = isc.getIssuesCommentsSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class));
 		assertTrue(similarity >= 0 && similarity <= 1);
 	}
 
-	@Test
-	public void collectIssueCommentsTest() {
-		StringBuilder sb = new StringBuilder("test");
-		Mockito.when(is.collectIssueComments(Matchers.any(JiraIssue.class))).thenReturn(sb);
-		assertNotNull(is.collectIssueComments(Matchers.any(JiraIssue.class)));
-	}
 }
