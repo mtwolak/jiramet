@@ -9,13 +9,13 @@ import database.manager.DataBaseType;
 import jira.IssuesSimilarity;
 import jira.JiraWebLogDownloader;
 import jira.KnnResolvable;
-import jira.connector.IssueDownloader;
+import retriever.main.IssueDownloaderMain;
 
 public class Main {
 	
 	//cały main
 	public static void main(String args[]) {
-//		JiraWebLogDownloader downloader = (JiraWebLogDownloader) new IssueDownloader(DataBaseType.PRODUCTION);
+//		JiraWebLogDownloader downloader = (JiraWebLogDownloader) new IssueDownloaderMain();
 //		IssuesSimilarity issuesSimilarity = (IssuesSimilarity) new similarity.IssuesSimilarity();
 //		KnnResolvable resolvable = (KnnResolvable) new Object();
 //		try {
