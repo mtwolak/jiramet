@@ -2,23 +2,20 @@ package database.manager;
 
 public enum DataBaseType
 {
-	PRODUCTION
-	{
-		@Override
-		public String getPathToSettings()
-		{
-			return "/resources/hibernateProduction.cfg.xml";
-		}
-	},
-	TEST
-	{
-		@Override
-		public String getPathToSettings()
-		{
-			return "/resources/hibernateTest.cfg.xml";
-		}
-	};
+	PRODUCTION("hibernateProduction.cfg.xml"), TEST("hibernateTest.cfg.xml");
 
-	public abstract String getPathToSettings();
+	private String configurationFilename;
+
+	private DataBaseType(String configurationFilename)
+	{
+		this.configurationFilename = configurationFilename;
+	}
+
+	public String getSettingsPath()
+	{
+		return HIBERNATE_PATH + configurationFilename;
+	}
+
+	private static final String HIBERNATE_PATH = "/resources/hibernate/";
 
 }

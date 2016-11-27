@@ -17,7 +17,7 @@ public class DatabaseManager {
 	
 	public DatabaseManager(DataBaseType dataBaseType)
 	{
-		this.pathToSettings = dataBaseType.getPathToSettings();
+		this.pathToSettings = dataBaseType.getSettingsPath();
 	}
 
 	public void init() {
