@@ -15,6 +15,16 @@ import utils.DateConverter;
 
 public class FieldPicker
 {
+	private DateFormat defaultFormat;
+	private String firstResponse;
+	private String firstReply;
+
+	public FieldPicker()
+	{
+		defaultFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+		firstResponse = "First Response Date";
+		firstReply = "Date of 1st Reply";
+	}
 
 	public Timestamp getFirstResponseDate(Issue issue)
 	{
@@ -22,23 +32,21 @@ public class FieldPicker
 		{
 			return null;
 		}
-		if (issue.getFieldByName("First Response Date") != null
-				&& issue.getFieldByName("First Response Date").getValue() != null)
+		if (issue.getFieldByName(firstResponse) != null && issue.getFieldByName(firstResponse).getValue() != null)
 		{
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSX");
-			Timestamp firstResponseDate = DateConverter.convertStringToTimestamp(
-					issue.getFieldByName("First Response Date").getValue().toString(), format);
-			return firstResponseDate;
+			return convertToTimeStamp(issue.getFieldByName(firstResponse).getValue().toString());
 		}
-		if (issue.getFieldByName("Date of 1st Reply") != null
-				&& issue.getFieldByName("Date of 1st Reply").getValue() != null)
+		if (issue.getFieldByName(firstReply) != null && issue.getFieldByName(firstReply).getValue() != null)
 		{
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSX");
-			Timestamp firstResponseDate = DateConverter
-					.convertStringToTimestamp(issue.getFieldByName("Date of 1st Reply").getValue().toString(), format);
-			return firstResponseDate;
+			return convertToTimeStamp(issue.getFieldByName(firstReply).getValue().toString());
 		}
 		return null;
+	}
+
+	private Timestamp convertToTimeStamp(String date)
+	{
+		Timestamp timestamp = DateConverter.convertStringToTimestamp(date, defaultFormat);
+		return timestamp;
 	}
 
 	public Timestamp getFirstResolveDate(Issue issue)
@@ -49,10 +57,7 @@ public class FieldPicker
 		}
 		if (issue.getFieldByName("Resolved") != null && issue.getFieldByName("Resolved").getValue() != null)
 		{
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-			Timestamp resolved = DateConverter
-					.convertStringToTimestamp(issue.getFieldByName("Resolved").getValue().toString(), format);
-			return resolved;
+			return convertToTimeStamp(issue.getFieldByName("Resolved").getValue().toString());
 		}
 		return null;
 	}
