@@ -1,5 +1,6 @@
 #Project properties
 ALFA=0.9
+PREDICTION_PRINTING=FILE
 #Hibernate
 HIBERNATE_DRIVER_CLASS=com.mysql.jdbc.Driver
 HIBERNATE_USER=root
