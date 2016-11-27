@@ -165,6 +165,44 @@ public class IssueDbContext
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Assignee> getAllAssignees()
+	{
+		Session session = dbm.getSession();
+		List<Assignee> assignees = session.createCriteria(Assignee.class).list();
+		session.close();
+		return assignees;
+	}
+
+	public void updateAssignees(List<Assignee> assignees)
+	{
+		Session session = dbm.getSession();
+		for (Assignee assignee : assignees)
+		{
+			dbm.persist(assignee);
+		}
+		session.close();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<IssueReporter> getAllReporters()
+	{
+		Session session = dbm.getSession();
+		List<IssueReporter> reporters = session.createCriteria(IssueReporter.class).list();
+		session.close();
+		return reporters;
+	}
+	
+	public void updateReporters(List<IssueReporter> reporters)
+	{
+		Session session = dbm.getSession();
+		for (IssueReporter reporter : reporters)
+		{
+			dbm.persist(reporter);
+		}
+		session.close();
+	}
+
 	@SuppressWarnings("rawtypes")
 	public IssueComment getCommentIssue(String content, JiraIssue jiraIssue)
 	{
