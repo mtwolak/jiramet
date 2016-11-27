@@ -2,10 +2,10 @@ package jira;
 
 import database.entity.JiraIssue;
 
-public class JiraIssueSimilarity {
+public class JiraIssueSimilarity implements Comparable<JiraIssueSimilarity> {
 
 	private JiraIssue jiraIssue;
-	private long similarityLevel;
+	private Long similarityLevel;
 	
 	public JiraIssueSimilarity(JiraIssue jiraIssue, long similarityLevel)
 	{
@@ -28,6 +28,13 @@ public class JiraIssueSimilarity {
 	public void setSimilarityLevel(long similarityLevel) {
 		this.similarityLevel = similarityLevel;
 	}
+
+	@Override
+	public int compareTo(JiraIssueSimilarity o)
+	{
+		return this.similarityLevel.compareTo(o.similarityLevel);
+	}
+
 
 	
 }

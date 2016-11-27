@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface KnnResolvable {
 	
-	List<AssigneeTimeResolve> getPrediction(JiraIssueSimilarity jiraIssueSimilarity);
+	List<AssigneeTimeResolve> getPrediction(List<JiraIssueSimilarity> jiraIssueSimilarities);
 
 }
