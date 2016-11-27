@@ -9,19 +9,21 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
+import utils.properties.hibernate.HibernateConfiguration;
+
 public class DatabaseManager {
 
 	private SessionFactory factory;
-	private final String pathToSettings;
+	private final HibernateConfiguration hibernateConfiguration;
 	private static final Logger LOGGER = Logger.getLogger(DatabaseManager.class);
 	
-	public DatabaseManager(DataBaseType dataBaseType)
+	public DatabaseManager(HibernateConfiguration hibernateConfiguration)
 	{
-		this.pathToSettings = dataBaseType.getSettingsPath();
+		this.hibernateConfiguration = hibernateConfiguration;
 	}
 
 	public void init() {
-		Configuration config = new Configuration().configure(pathToSettings);
+		Configuration config = hibernateConfiguration.getConfiguration();
 		ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(config.getProperties())
 				.buildServiceRegistry();
 		factory = config.buildSessionFactory(serviceRegistry);

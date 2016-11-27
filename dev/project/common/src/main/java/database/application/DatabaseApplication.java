@@ -8,8 +8,8 @@ import org.hibernate.criterion.Restrictions;
 
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
-import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
+import utils.properties.hibernate.HibernateProductionConfiguration;
 
 public class DatabaseApplication
 {
@@ -18,7 +18,7 @@ public class DatabaseApplication
 
 	public DatabaseApplication()
 	{
-		DatabaseManager dbm = new DatabaseManager(DataBaseType.PRODUCTION);
+		DatabaseManager dbm = new DatabaseManager(new HibernateProductionConfiguration());
 		dbm.init();
 		session = dbm.getSession();
 	}

@@ -12,9 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import database.entity.JiraIssue;
-import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
 import javafx.util.Pair;
+import utils.properties.hibernate.HibernateTestConfiguration;
 
 public class IssuesSimilarityTest
 {
@@ -29,7 +29,7 @@ public class IssuesSimilarityTest
 
 	@Before
 	public void setUp() {
-		dbm = new DatabaseManager(DataBaseType.TEST);
+		dbm = new DatabaseManager(new HibernateTestConfiguration());
 		dbm.init();
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(JiraIssue.class);
