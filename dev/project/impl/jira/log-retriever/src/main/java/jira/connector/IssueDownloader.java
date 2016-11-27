@@ -45,12 +45,13 @@ public class IssueDownloader
 	public void downloadIssuesFromProject(ProjectData project, int startAt, int totalResults)
 	{
 		initIssueDbContext();
+		int counter = startAt;
 
-		while (startAt < totalResults)
+		while (counter < totalResults)
 		{
-			Promise<SearchResult> springRes = jiraUtil.getIssuesFromProject(project, startAt, project.getIssueLimitPerCall());
+			Promise<SearchResult> springRes = jiraUtil.getIssuesFromProject(project, counter, project.getIssueLimitPerCall());
 			addIssuesFromProject(springRes, project);
-			startAt += project.getIssueLimitPerCall();
+			counter += project.getIssueLimitPerCall();
 		}
 		closeIssueDbContext();
 	}
