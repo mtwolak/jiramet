@@ -18,9 +18,9 @@ import com.atlassian.util.concurrent.Promise;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import database.manager.DataBaseTestHelper;
-import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
 import jira.data.ProjectData;
+import utils.properties.hibernate.HibernateTestConfiguration;
 
 @Ignore
 public class IssueDownloaderTest
@@ -34,9 +34,9 @@ public class IssueDownloaderTest
 	@Before
 	public void setUp()
 	{
-		dbManager = new DatabaseManager(DataBaseType.TEST);
+		dbManager = new DatabaseManager(new HibernateTestConfiguration());
 		dbManager.init();
-		issueDownloader = new IssueDownloader(DataBaseType.TEST);
+		issueDownloader = new IssueDownloader(new HibernateTestConfiguration());
 		jiraUtil = new JiraUtil();
 		issueDownloader.initIssueDbContext();
 		truncateAllTables();

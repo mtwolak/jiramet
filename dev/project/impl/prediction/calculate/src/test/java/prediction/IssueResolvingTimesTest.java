@@ -56,5 +56,4 @@ public class IssueResolvingTimesTest
 		assertTrue(prediction3 == 3.9 || prediction3 == 3.33 || prediction3 == 2.0);
 	}
 
-
 }

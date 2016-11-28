@@ -4,6 +4,11 @@ jdk:
   - oraclejdk7
   - openjdk7
   - openjdk6
+sudo: required
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 script:
   - jdk_switcher use oraclejdk8
-sudo: required
+  - mvn -f dev/project/pom.xml clean install

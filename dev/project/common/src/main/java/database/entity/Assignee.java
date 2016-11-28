@@ -61,4 +61,10 @@ public class Assignee {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return getName();
+	}
 }

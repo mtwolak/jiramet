@@ -5,9 +5,9 @@ import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import com.atlassian.util.concurrent.Promise;
 
 import database.entity.JiraProject;
-import database.manager.DataBaseType;
 import jira.data.IssueDbContext;
 import jira.data.ProjectData;
+import utils.properties.hibernate.HibernateConfiguration;
 
 public class IssueDownloader
 {
@@ -15,10 +15,10 @@ public class IssueDownloader
 	private JiraUtil jiraUtil;
 	private IssueDbContext idc;
 
-	public IssueDownloader(DataBaseType dataBaseType)
+	public IssueDownloader(HibernateConfiguration hibernateConfiguration)
 	{
 		jiraUtil = new JiraUtil();
-		idc = new IssueDbContext(dataBaseType);
+		idc = new IssueDbContext(hibernateConfiguration);
 	}
 
 	public void retrieveAllIssues()

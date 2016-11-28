@@ -1,18 +1,20 @@
 package retriever.main;
 
-import database.manager.DataBaseType;
 import jira.JiraWebLogDownloader;
 import jira.anonymization.NameRandomizer;
 import jira.connector.IssueDownloader;
+import jira.data.ProjectData;
+import utils.properties.hibernate.HibernateProductionConfiguration;
 
 public class IssueDownloaderMain implements JiraWebLogDownloader
 {
+
 	@Override
 	public void retrieveAllIssues()
 	{
-		IssueDownloader id = new IssueDownloader(DataBaseType.PRODUCTION);
+		IssueDownloader id = new IssueDownloader(new HibernateProductionConfiguration());
 		id.retrieveAllIssues();
-		NameRandomizer.randomizeAllNames(DataBaseType.PRODUCTION);
+		NameRandomizer.randomizeAllNames(new HibernateProductionConfiguration());
 	}
 
 }

@@ -32,7 +32,7 @@ public class JiraIssueSimilarity implements Comparable<JiraIssueSimilarity> {
 	@Override
 	public int compareTo(JiraIssueSimilarity o)
 	{
-		return Double.compare(this.similarityLevel, o.similarityLevel);
+		return Double.compare(similarityLevel, o.similarityLevel);
 	}
 
 

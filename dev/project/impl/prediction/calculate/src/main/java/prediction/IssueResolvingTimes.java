@@ -39,7 +39,8 @@ public class IssueResolvingTimes
 
 			if (assigneeIssueSimilarities.size() > 0)
 			{
-				AssigneeTimeResolve assigneeTimeResolve = getSingleIssueResolvingTimePrediction(assigneeIssueSimilarities, assignee);
+				AssigneeTimeResolve assigneeTimeResolve = getSingleIssueResolvingTimePrediction(
+						assigneeIssueSimilarities, assignee);
 				if (assigneeTimeResolve != null)
 				{
 					result.add(assigneeTimeResolve);

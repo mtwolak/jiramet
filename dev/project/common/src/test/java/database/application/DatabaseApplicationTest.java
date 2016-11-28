@@ -2,85 +2,106 @@ package database.application;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
-import database.manager.DataBaseType;
-import database.manager.DatabaseManager;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DatabaseApplicationTest
 {
-
-	private final static int ISSUE_ID = 1;
-	private DatabaseManager dbm;
+	@Mock
+	private SessionFactory sessionFactory;
+	@Mock
 	private Session session;
+	@Mock
 	private Criteria criteria;
+	@Mock
+	private JiraProject jiraProject;
+	
+	private Criterion criterion;
+	private Criterion expectation;
+	private ArgumentCaptor<Criterion> captor;
 
+	DatabaseApplication serviceUnderTest;
+	
 	@Before
 	public void setUp() {
-		dbm = new DatabaseManager(DataBaseType.TEST);
-		dbm.init();
-		session = dbm.getSession();
+		Mockito.reset(sessionFactory, session, criteria);
+		Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
+		Mockito.when(session.createCriteria(JiraIssue.class)).thenReturn(criteria);
+		Mockito.when(criteria.setFetchMode(Mockito.anyString(), (FetchMode) Mockito.anyObject())).thenReturn(criteria);
+		Mockito.when(criteria.setFirstResult(Mockito.anyInt())).thenReturn(criteria);
+		Mockito.when(criteria.setMaxResults(Mockito.anyInt())).thenReturn(criteria);
+		Mockito.when(criteria.createAlias(Mockito.anyString(), Mockito.anyString())).thenReturn(criteria);
+		Mockito.when(criteria.add((Criterion) Mockito.anyObject())).thenReturn(criteria);
+		serviceUnderTest = new DatabaseApplication(sessionFactory);
+	}
+	
+	public void changeSetup() {
+		Mockito.reset(criteria);
+		Mockito.when(session.createCriteria(JiraProject.class)).thenReturn(criteria);
+		Mockito.when(criteria.setFetchMode(Mockito.anyString(), (FetchMode) Mockito.anyObject())).thenReturn(criteria);
+		Mockito.when(criteria.setFirstResult(Mockito.anyInt())).thenReturn(criteria);
+		Mockito.when(criteria.setMaxResults(Mockito.anyInt())).thenReturn(criteria);
+		Mockito.when(criteria.createAlias(Mockito.anyString(), Mockito.anyString())).thenReturn(criteria);
+		Mockito.when(criteria.add((Criterion) Mockito.anyObject())).thenReturn(criteria);
 	}
 
-	@After
-	public void close() {
-		dbm.close();
-	}
-
-	@Ignore
 	@Test
 	public void getJiraIssueTest() {
-		criteria = session.createCriteria(JiraIssue.class);
-		JiraIssue issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
-		assertNotNull(issue);
+		captor = ArgumentCaptor.forClass(Criterion.class);
+	    serviceUnderTest.getJiraIssue(1);
+	    // ensure a call to criteria.add and record the argument the method call had
+	    Mockito.verify(criteria).add(captor.capture());
+	    criterion = captor.getValue();
+	    expectation = Restrictions.eq("id", 1);
+	    // toString() because two instances seem never two be equal
+	    assertEquals(expectation.toString(), criterion.toString());
 	}
-
-	@Ignore
+	
 	@Test
 	public void getJiraProjectTest() {
-		criteria = session.createCriteria(JiraIssue.class);
-		JiraIssue issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
-		int project = issue.getJiraProject().getJiraProjectId();
-		criteria = session.createCriteria(JiraProject.class);
-		JiraProject projectFromDB = (JiraProject) criteria.add(Restrictions.eq("id", project)).list().get(0);
-		assertSame(project, projectFromDB.getJiraProjectId());
+		changeSetup();
+		captor = ArgumentCaptor.forClass(Criterion.class);
+		jiraProject = serviceUnderTest.getJiraProject(1);
+	    Mockito.verify(criteria).add(captor.capture());
+	    criterion = captor.getValue();
+	    expectation = Restrictions.eq("id", 1);
+	    assertEquals(expectation.toString(), criterion.toString());
+	}
+	
+	@Test
+	public void getJiraIssuesTest() {
+		captor = ArgumentCaptor.forClass(Criterion.class);
+		serviceUnderTest.getJiraIssues(jiraProject);
+	    Mockito.verify(criteria).add(captor.capture());
+	    criterion = captor.getValue();
+	    expectation = Restrictions.eq("jiraProject", jiraProject);
+	    assertEquals(expectation.toString(), criterion.toString());
 	}
 
 	@Test
 	public void getJiraProjectsTest() {
-		criteria = session.createCriteria(JiraProject.class);
-		@SuppressWarnings("rawtypes")
-		List projects = criteria.list();
-		assertNotNull(projects);
+	    assertNull(serviceUnderTest.getJiraProjects());
 	}
-
-	@Ignore
-	@Test
-	public void getJiraIssuesTest() {
-		criteria = session.createCriteria(JiraIssue.class);
-		JiraIssue issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
-		JiraProject project = issue.getJiraProject();
-		criteria = session.createCriteria(JiraIssue.class);
-		criteria.add(Restrictions.eq("jiraProject", project));
-		@SuppressWarnings("rawtypes")
-		List issues = criteria.list();
-		assertNotNull(issues);
-	}
-
+	
 	@Test
 	public void closeSessionTest() {
-		session.close();
-		assertEquals("SessionImpl(<closed>)", session.toString());
+		serviceUnderTest.closeSession();
+		assertFalse(session.isOpen());
 	}
 
 }
