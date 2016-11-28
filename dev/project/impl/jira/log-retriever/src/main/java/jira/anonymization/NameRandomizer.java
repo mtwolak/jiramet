@@ -6,14 +6,14 @@ import org.kohsuke.randname.RandomNameGenerator;
 
 import database.entity.Assignee;
 import database.entity.IssueReporter;
-import database.manager.DataBaseType;
 import jira.data.IssueDbContext;
+import utils.properties.hibernate.HibernateConfiguration;
 
 public class NameRandomizer
 {
-	public static void randomizeAllNames(DataBaseType database)
+	public static void randomizeAllNames(HibernateConfiguration hibernateConfiguration)
 	{
-		IssueDbContext idc = new IssueDbContext(database);
+		IssueDbContext idc = new IssueDbContext(hibernateConfiguration);
 		idc.initDbm();
 		
 		List<Assignee> assignees = idc.getAllAssignees();

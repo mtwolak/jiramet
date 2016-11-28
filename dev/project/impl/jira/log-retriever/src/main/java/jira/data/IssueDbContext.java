@@ -10,8 +10,8 @@ import org.hibernate.TransientObjectException;
 import org.hibernate.criterion.Restrictions;
 
 import database.entity.*;
-import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
+import utils.properties.hibernate.HibernateConfiguration;
 
 public class IssueDbContext
 {
@@ -19,9 +19,9 @@ public class IssueDbContext
 	private DatabaseManager dbm;
 	private static final Logger LOGGER = Logger.getLogger(IssueDbContext.class);
 
-	public IssueDbContext(DataBaseType dataBaseType)
+	public IssueDbContext(HibernateConfiguration hibernateConfiguration)
 	{
-		dbm = new DatabaseManager(dataBaseType);
+		dbm = new DatabaseManager(hibernateConfiguration);
 	}
 
 	public JiraIssue addNewJiraIssue(JiraIssue jiraIssue)

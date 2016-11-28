@@ -14,8 +14,8 @@ import org.junit.Test;
 
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
-import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
+import utils.properties.hibernate.HibernateTestConfiguration;
 
 public class DatabaseApplicationTest
 {
@@ -27,7 +27,7 @@ public class DatabaseApplicationTest
 
 	@Before
 	public void setUp() {
-		dbm = new DatabaseManager(DataBaseType.TEST);
+		dbm = new DatabaseManager(new HibernateTestConfiguration());
 		dbm.init();
 		session = dbm.getSession();
 	}

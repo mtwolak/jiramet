@@ -18,9 +18,9 @@ import org.junit.Test;
 import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
-import database.manager.DataBaseType;
 import database.manager.DatabaseManager;
 import javafx.util.Pair;
+import utils.properties.hibernate.HibernateTestConfiguration;
 
 @Ignore
 public class IssueResolvingTimesTest
@@ -36,7 +36,7 @@ public class IssueResolvingTimesTest
 	@Before
 	public void setUp()
 	{
-		dbm = new DatabaseManager(DataBaseType.TEST);
+		dbm = new DatabaseManager(new HibernateTestConfiguration());
 		dbm.init();
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(JiraIssue.class);
@@ -56,28 +56,28 @@ public class IssueResolvingTimesTest
 		dbm.close();
 	}
 
-	@Test
-	public void getIssueResolvingTimesTest()
-	{
-		List<Pair<Integer, Double>> issueResolvingTimesPrediction = irt.getIssueResolvingTimesPrediction(issue,
-				similarityList);
-		assertNotNull(issueResolvingTimesPrediction);
-	}
-
-	@Test
-	public void getAssigneeSimilaritiesTest() throws Exception
-	{
-		List<Pair<Integer, Double>> assigneeSimilarities = irt.getAssigneeSimilarities(issue.getJiraProject(),
-				ASSIGNEE_ID, similarityList);
-		assertNotNull(assigneeSimilarities);
-	}
-
-	@Test
-	public void getIssuesResolvingTimesTest() throws Exception
-	{
-		List<Pair<Integer, Double>> issuesResolvingTimes = irt.getIssuesResolvingTimes(issue.getJiraProject(),
-				ASSIGNEE_ID);
-		assertNotNull(issuesResolvingTimes);
-	}
+//	@Test
+//	public void getIssueResolvingTimesTest()
+//	{
+//		List<Pair<Integer, Double>> issueResolvingTimesPrediction = irt.getIssueResolvingTimesPrediction(issue,
+//				similarityList);
+//		assertNotNull(issueResolvingTimesPrediction);
+//	}
+//
+//	@Test
+//	public void getAssigneeSimilaritiesTest() throws Exception
+//	{
+//		List<Pair<Integer, Double>> assigneeSimilarities = irt.getAssigneeSimilarities(issue.getJiraProject(),
+//				ASSIGNEE_ID, similarityList);
+//		assertNotNull(assigneeSimilarities);
+//	}
+//
+//	@Test
+//	public void getIssuesResolvingTimesTest() throws Exception
+//	{
+//		List<Pair<Integer, Double>> issuesResolvingTimes = irt.getIssuesResolvingTimes(issue.getJiraProject(),
+//				ASSIGNEE_ID);
+//		assertNotNull(issuesResolvingTimes);
+//	}
 
 }

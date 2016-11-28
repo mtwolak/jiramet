@@ -1,0 +1,17 @@
+package utils.properties;
+
+public enum Property
+{
+	//Project properties
+	ALFA,
+	PREDICTION_PRINTING,
+	//Hibernate properties
+	HIBERNATE_DRIVER_CLASS,
+	HIBERNATE_USER,
+	HIBERNATE_PASSWORD,
+	HIBERNATE_DIALECT,
+	HIBERNATE_SCHEMA_PRODUCTION,
+	HIBERNATE_SCHEMA_TEST,
+	//Test property
+	NOT_EXISTING_TEST_PROPERTY;
+}

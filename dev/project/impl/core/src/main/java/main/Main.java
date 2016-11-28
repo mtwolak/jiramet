@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.List;
 
 import database.entity.JiraIssue;
-import database.manager.DataBaseType;
 import jira.IssuesSimilarity;
 import jira.JiraWebLogDownloader;
 import jira.KnnResolvable;
