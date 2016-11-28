@@ -9,12 +9,6 @@ import utils.properties.hibernate.HibernateProductionConfiguration;
 public class IssueDownloaderMain implements JiraWebLogDownloader
 {
 
-	public static void main(String[] args) throws Exception
-	{
-		IssueDownloader id = new IssueDownloader(new HibernateProductionConfiguration());
-		id.downloadAllIssuesFromProject(ProjectData.MONGODB);
-	}
-
 	@Override
 	public void retrieveAllIssues()
 	{

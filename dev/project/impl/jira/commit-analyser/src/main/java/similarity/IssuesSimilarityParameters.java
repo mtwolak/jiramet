@@ -1,5 +1,6 @@
 package similarity;
 
+//TODO: Marcin W.
 public class IssuesSimilarityParameters
 {
 	private final double SUMMARY_WEIGHT = 0.45;

@@ -5,9 +5,9 @@ import database.entity.JiraIssue;
 public class JiraIssueSimilarity implements Comparable<JiraIssueSimilarity> {
 
 	private JiraIssue jiraIssue;
-	private Long similarityLevel;
+	private Double similarityLevel;
 	
-	public JiraIssueSimilarity(JiraIssue jiraIssue, long similarityLevel)
+	public JiraIssueSimilarity(JiraIssue jiraIssue, double similarityLevel)
 	{
 		this.jiraIssue = jiraIssue;
 		this.similarityLevel = similarityLevel;
@@ -21,18 +21,18 @@ public class JiraIssueSimilarity implements Comparable<JiraIssueSimilarity> {
 		this.jiraIssue = jiraIssue;
 	}
 
-	public long getSimilarityLevel() {
+	public double getSimilarityLevel() {
 		return similarityLevel;
 	}
 
-	public void setSimilarityLevel(long similarityLevel) {
+	public void setSimilarityLevel(double similarityLevel) {
 		this.similarityLevel = similarityLevel;
 	}
 
 	@Override
 	public int compareTo(JiraIssueSimilarity o)
 	{
-		return this.similarityLevel.compareTo(o.similarityLevel);
+		return Double.compare(similarityLevel, o.similarityLevel);
 	}
 
 

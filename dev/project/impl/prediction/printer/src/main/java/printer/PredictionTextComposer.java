@@ -3,7 +3,7 @@ package printer;
 import java.util.List;
 
 import database.entity.JiraIssue;
-import jira.AssigneeIssueTime;
+import jira.AssigneeTimeResolve;
 import jira.prediction.PredictionPrintable;
 
 public class PredictionTextComposer extends PredictionPrintable
@@ -13,7 +13,7 @@ public class PredictionTextComposer extends PredictionPrintable
 	private static final int DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE = 200;
 
 	@Override
-	public String getPrediction(JiraIssue newIssue, List<AssigneeIssueTime> assigneeIssueTimes)
+	public String getPrediction(JiraIssue newIssue, List<AssigneeTimeResolve> assigneeIssueTimes)
 	{
 		String informationAboutIssue = getInformationAboutIssue(newIssue);
 		String informationAboutAssigneeAndTheirTime = getInformationAboutAssigneeAndTheirTime(assigneeIssueTimes);
@@ -27,13 +27,13 @@ public class PredictionTextComposer extends PredictionPrintable
 				.append(newIssue.getDescription()).append(NEW_LINE).toString();
 	}
 
-	private String getInformationAboutAssigneeAndTheirTime(List<AssigneeIssueTime> assigneeIssueTimes)
+	private String getInformationAboutAssigneeAndTheirTime(List<AssigneeTimeResolve> assigneeIssueTimes)
 	{
 		StringBuilder sb = new StringBuilder(DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE * assigneeIssueTimes.size());
-		for (AssigneeIssueTime assigneeIssueTime : assigneeIssueTimes)
+		for (AssigneeTimeResolve assigneeIssueTime : assigneeIssueTimes)
 		{
 			sb.append("Assignee: ").append(assigneeIssueTime.getAssignee()).append(", time: ")
-					.append(assigneeIssueTime.getResolveTime()).append(NEW_LINE);
+					.append(assigneeIssueTime.getPredictedTime()).append(NEW_LINE);
 		}
 		return sb.toString();
 	}

@@ -9,7 +9,7 @@ import org.junit.Test;
 import database.entity.Assignee;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
-import jira.AssigneeIssueTime;
+import jira.AssigneeTimeResolve;
 //ignored due to broken preferences
 @Ignore
 public class PredictionTextComposerTest
@@ -37,12 +37,12 @@ public class PredictionTextComposerTest
 		return jiraProject;
 	}
 
-	private List<AssigneeIssueTime> createAssigneeAndTimes()
+	private List<AssigneeTimeResolve> createAssigneeAndTimes()
 	{
-		List<AssigneeIssueTime> assigneeIssueTimes = new ArrayList<>();
-		assigneeIssueTimes.add(new AssigneeIssueTime(createAssignee("Marcin"), 12));
-		assigneeIssueTimes.add(new AssigneeIssueTime(createAssignee("Tomasz"), 2.67));
-		assigneeIssueTimes.add(new AssigneeIssueTime(createAssignee("Michal"), 3.14));
+		List<AssigneeTimeResolve> assigneeIssueTimes = new ArrayList<>();
+		assigneeIssueTimes.add(new AssigneeTimeResolve(createAssignee("Marcin"), 12));
+		assigneeIssueTimes.add(new AssigneeTimeResolve(createAssignee("Tomasz"), 2.67));
+		assigneeIssueTimes.add(new AssigneeTimeResolve(createAssignee("Michal"), 3.14));
 		return assigneeIssueTimes;
 	}
 

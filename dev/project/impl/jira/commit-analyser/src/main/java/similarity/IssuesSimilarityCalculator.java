@@ -34,7 +34,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		for (JiraIssue issue : issues)
 		{
 			if (issue.getJiraIssueId() != jiraIssue.getJiraIssueId())
-				similarityList.add(new JiraIssueSimilarity(issue, (long) getIssuesSimilarity(jiraIssue, issue)));
+				similarityList.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(jiraIssue, issue)));
 		}
 		dba.closeSession();
 
