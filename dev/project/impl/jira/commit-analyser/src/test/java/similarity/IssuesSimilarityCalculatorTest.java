@@ -2,9 +2,6 @@ package similarity;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +11,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import database.entity.JiraIssue;
-import jira.JiraIssueSimilarity;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IssuesSimilarityCalculatorTest
@@ -30,12 +26,6 @@ public class IssuesSimilarityCalculatorTest
 
 	@Test
 	public void getSimilarityListTest() {
-		List<JiraIssueSimilarity> similarityList = new ArrayList<JiraIssueSimilarity>();
-		Mockito.when(isc.getIssuesSimilarityList(Matchers.any(JiraIssue.class))).thenReturn(similarityList);
-	}
-
-	@Test
-	public void getSimilarityListTest2() {
 		assertNotNull(isc.getIssuesSimilarityList(Matchers.any(JiraIssue.class)));
 	}
 

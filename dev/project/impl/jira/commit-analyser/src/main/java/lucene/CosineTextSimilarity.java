@@ -34,13 +34,13 @@ public class CosineTextSimilarity
 		v2 = toRealVector(f2);
 	}
 
-	public Directory createIndex(String s1, String s2) throws IOException {
+	public Directory createIndex(String text1, String text2) throws IOException {
 		Directory directory = new RAMDirectory();
 		Analyzer analyzer = new SimpleAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 		IndexWriter writer = new IndexWriter(directory, iwc);
-		addDocument(writer, s1);
-		addDocument(writer, s2);
+		addDocument(writer, text1);
+		addDocument(writer, text2);
 		writer.close();
 		return directory;
 	}
