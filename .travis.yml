@@ -4,6 +4,13 @@ jdk:
   - oraclejdk7
   - openjdk7
   - openjdk6
+sudo: false
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 script:
   - jdk_switcher use oraclejdk8
-sudo: required
+  - mvn clean install
+  - mvn test
+  - mvn clean verify
