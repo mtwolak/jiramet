@@ -11,6 +11,6 @@ addons:
       - oracle-java8-installer
 script:
   - jdk_switcher use oraclejdk8
-  - mvn clean install
-  - mvn test
-  - mvn clean verify
+  - mvn -f dev/project/pom.xml clean install
+  - mvn -f dev/project/pom.xml test
+  - mvn -f dev/project/pom.xml clean verify
