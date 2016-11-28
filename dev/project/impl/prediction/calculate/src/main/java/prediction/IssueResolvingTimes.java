@@ -71,10 +71,7 @@ public class IssueResolvingTimes
 		}
 		if (selectedIssues > 0)
 		{
-			AssigneeTimeResolve assigneeTimeResolve = new AssigneeTimeResolve();
-			assigneeTimeResolve.setAssignee(assignee);
-			assigneeTimeResolve.setPredictedTime(helper.getIssuesResolvingTime(assigneeTopSimilarities));
-
+			AssigneeTimeResolve assigneeTimeResolve = new AssigneeTimeResolve(assignee, helper.getIssuesResolvingTime(assigneeTopSimilarities));
 			return assigneeTimeResolve;
 		}
 		return null;
