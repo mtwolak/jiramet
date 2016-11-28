@@ -1,83 +1,60 @@
 package prediction;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import database.application.DatabaseApplication;
-import database.entity.JiraIssue;
-import database.entity.JiraProject;
-import database.manager.DataBaseType;
-import database.manager.DatabaseManager;
-import javafx.util.Pair;
-
-@Ignore
 public class IssueResolvingTimesTest
 {
 
-	private final static int ISSUE_ID = 1;
-	private final static int ASSIGNEE_ID = 1;
-	private DatabaseManager dbm;
-	private JiraIssue issue;
-	private List<Pair<Integer, Double>> similarityList;
+	private TestDataHolder testData;
 	private IssueResolvingTimes irt;
+	private double prediction1;
+	private double prediction2;
+	private double prediction3;
 
 	@Before
 	public void setUp()
 	{
-		dbm = new DatabaseManager(DataBaseType.TEST);
-		dbm.init();
-		Session session = dbm.getSession();
-		Criteria criteria = session.createCriteria(JiraIssue.class);
-		issue = (JiraIssue) criteria.add(Restrictions.eq("id", ISSUE_ID)).list().get(0);
-		similarityList = new ArrayList<Pair<Integer, Double>>();
 		irt = new IssueResolvingTimes();
-		for (int i = 1; i < 50; i++)
-		{
-			if (i != issue.getJiraIssueId())
-				similarityList.add(new Pair<Integer, Double>(i, Math.random()));
-		}
-	}
-
-	@After
-	public void close()
-	{
-		dbm.close();
+		testData = new TestDataHolder();
 	}
 
 	@Test
-	public void getIssueResolvingTimesTest()
+	public void testGetIssueResolvingTimePrediction()
 	{
-		List<Pair<Integer, Double>> issueResolvingTimesPrediction = irt.getIssueResolvingTimesPrediction(issue,
-				similarityList);
-		assertNotNull(issueResolvingTimesPrediction);
+		assertNotNull(irt.getIssueResolvingTimePrediction(testData.getIssueSimilarities()));
+	}
+	
+	@Test
+	public void testGetIssueResolvingTimePredictionSize()
+	{
+		assertEquals(irt.getIssueResolvingTimePrediction(testData.getIssueSimilarities()).size(), 3);
+	}
+	
+	@Test
+	public void testPrediction1()
+	{
+		prediction1 = irt.getIssueResolvingTimePrediction(testData.getIssueSimilarities()).get(0).getPredictedTime();
+		assertTrue(prediction1 == 3.9 || prediction1 == 3.33 || prediction1 == 2.0);
+	}
+	
+	@Test
+	public void testPrediction2()
+	{
+		prediction2 = irt.getIssueResolvingTimePrediction(testData.getIssueSimilarities()).get(1).getPredictedTime();
+		assertTrue(prediction2 == 3.9 || prediction2 == 3.33 || prediction2 == 2.0);
+	}
+	
+	@Test
+	public void testPrediction3()
+	{
+		prediction3 = irt.getIssueResolvingTimePrediction(testData.getIssueSimilarities()).get(2).getPredictedTime();
+		assertTrue(prediction3 == 3.9 || prediction3 == 3.33 || prediction3 == 2.0);
 	}
 
-	@Test
-	public void getAssigneeSimilaritiesTest() throws Exception
-	{
-		List<Pair<Integer, Double>> assigneeSimilarities = irt.getAssigneeSimilarities(issue.getJiraProject(),
-				ASSIGNEE_ID, similarityList);
-		assertNotNull(assigneeSimilarities);
-	}
-
-	@Test
-	public void getIssuesResolvingTimesTest() throws Exception
-	{
-		List<Pair<Integer, Double>> issuesResolvingTimes = irt.getIssuesResolvingTimes(issue.getJiraProject(),
-				ASSIGNEE_ID);
-		assertNotNull(issuesResolvingTimes);
-	}
 
 }

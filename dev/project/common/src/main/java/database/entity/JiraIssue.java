@@ -185,9 +185,9 @@ public class JiraIssue {
 		return jiraIssueId;
 	}
 
-//	public void setAssignedIssues(Set<AssignedIssue> assignedIssues) {
-//		this.assignedIssues = assignedIssues;
-//	}
+	public void setAssignedIssues(Set<AssignedIssue> assignedIssues) {
+		this.assignedIssues = assignedIssues;
+	}
 
 
 }
