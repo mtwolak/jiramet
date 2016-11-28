@@ -4,7 +4,7 @@ jdk:
   - oraclejdk7
   - openjdk7
   - openjdk6
-sudo: false
+sudo: required
 addons:
   apt:
     packages:
@@ -12,5 +12,3 @@ addons:
 script:
   - jdk_switcher use oraclejdk8
   - mvn -f dev/project/pom.xml clean install
-  - mvn -f dev/project/pom.xml test
-  - mvn -f dev/project/pom.xml clean verify
