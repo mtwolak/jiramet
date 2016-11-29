@@ -1,32 +1,48 @@
 package utils.properties;
 
-import org.junit.Assert;
-import org.junit.Before;
+import static org.junit.Assert.*;
+
+import java.util.Properties;
+
+import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.hamcrest.Matchers.*;
-
+@RunWith(MockitoJUnitRunner.class)
 public class PropertiesReaderTest
 {
-	private PropertiesReader preferencesReader;
 
-	@Before
-	public void setUp()
-	{
-		preferencesReader = new PropertiesReader();
-	}
+	@Mock
+	private Properties properties;
 
 	@Test
-	public void shouldReadPropertyFromFile()
+	public void shouldReturnPropertyAsDouble() throws Exception
 	{
-		String value = preferencesReader.get(Property.ALFA);
+		PropertiesReader propertiesReader = getPropertyReader();
+		Mockito.when(properties.getProperty(Property.SUMMARY_WEIGHT.name())).thenReturn("0.99");
 
-		Assert.assertThat(value, is("0.9"));
+		assertThat(propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT), Matchers.is(0.99));
+
 	}
 
-	@Test(expected = PropertyNotFoundException.class)
-	public void shouldThrowPropertyNotFoundExceptionWhenThereIsNoProperty()
+	private PropertiesReader getPropertyReader()
 	{
-		preferencesReader.get(Property.NOT_EXISTING_TEST_PROPERTY);
+		return new PropertiesReader(null)
+		{
+			@Override
+			protected void loadPropertiesFromFile(String propertyPath)
+			{
+			}
+
+			@Override
+			protected Properties getProperties()
+			{
+				return properties;
+			}
+		};
 	}
+
 }

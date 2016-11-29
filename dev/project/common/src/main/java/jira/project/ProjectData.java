@@ -2,91 +2,41 @@ package jira.data;
 
 public enum ProjectData
 {
-	SPRING
+	SPRING("https://jira.spring.io", "SPR", "Spring Framework", 1000),
+	MONGODB("https://jira.mongodb.org", "SERVER", "MongoDB Server", 500),
+	CAMUNDA("https://app.camunda.com/jira", "CAM", "Camunda BPM", 800);
+
+	private String projectURL;
+	private String projectKey;
+	private String projectName;
+	private int issueLimit;
+
+	private ProjectData(String projectURL, String projectKey, String projectName, int issueLimit)
 	{
-		@Override
-		public String getProjectURL()
-		{
-			return "https://jira.spring.io";
-		}
+		this.projectURL = projectURL;
+		this.projectKey = projectKey;
+		this.projectName = projectName;
+		this.issueLimit = issueLimit;
+	}
 
-		@Override
-		public String getProjectKey()
-		{
-			return "SPR";
-		}
-
-		@Override
-		public String getProjectName()
-		{
-			return "Spring Framework";
-		}
-
-		@Override
-		public int getIssueLimitPerCall()
-		{
-			return 1000;
-		}
-	},
-	MONGODB
+	public String getProjectURL()
 	{
-		@Override
-		public String getProjectURL()
-		{
-			return "https://jira.mongodb.org";
-		}
+		return projectURL;
+	}
 
-		@Override
-		public String getProjectKey()
-		{
-			return "SERVER";
-		}
-
-		@Override
-		public String getProjectName()
-		{
-			return "MongoDB Server";
-		}
-		
-		@Override
-		public int getIssueLimitPerCall()
-		{
-			return 500;
-		}
-	},
-	CAMUNDA
+	public String getProjectKey()
 	{
-		@Override
-		public String getProjectURL()
-		{
-			return "https://app.camunda.com/jira";
-		}
+		return projectKey;
+	}
 
-		@Override
-		public String getProjectKey()
-		{
-			return "CAM";
-		}
+	public String getProjectName()
+	{
+		return projectName;
+	}
 
-		@Override
-		public String getProjectName()
-		{
-			return "Camunda BPM";
-		}
-		
-		@Override
-		public int getIssueLimitPerCall()
-		{
-			return 800;
-		}
-	};
-
-	public abstract String getProjectURL();
-
-	public abstract String getProjectKey();
-
-	public abstract String getProjectName();
-	
-	public abstract int getIssueLimitPerCall();
+	public int getIssueLimitPerCall()
+	{
+		return issueLimit;
+	}
 
 }

@@ -35,7 +35,7 @@ public class DatabaseApplicationTest
 	private Criterion expectation;
 	private ArgumentCaptor<Criterion> captor;
 
-	DatabaseApplication serviceUnderTest;
+	private DatabaseApplication serviceUnderTest;
 	
 	@Before
 	public void setUp() {

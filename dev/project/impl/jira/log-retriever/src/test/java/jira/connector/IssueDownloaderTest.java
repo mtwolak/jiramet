@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import com.atlassian.util.concurrent.Promise;
@@ -20,6 +21,7 @@ import database.entity.JiraProject;
 import database.manager.DataBaseTestHelper;
 import database.manager.DatabaseManager;
 import jira.project.ProjectData;
+import utils.properties.PropertiesReader;
 import utils.properties.hibernate.HibernateTestConfiguration;
 
 @Ignore
@@ -30,13 +32,16 @@ public class IssueDownloaderTest
 	private DatabaseManager dbManager;
 	private JiraUtil jiraUtil;
 	private final static int issuesCount = 1;
+	
+	@Mock
+	private PropertiesReader propertiesReader;
 
 	@Before
 	public void setUp()
 	{
-		dbManager = new DatabaseManager(new HibernateTestConfiguration());
+		dbManager = new DatabaseManager(new HibernateTestConfiguration(propertiesReader));
 		dbManager.init();
-		issueDownloader = new IssueDownloader(new HibernateTestConfiguration());
+		issueDownloader = new IssueDownloader(new HibernateTestConfiguration(propertiesReader));
 		jiraUtil = new JiraUtil();
 		issueDownloader.initIssueDbContext();
 		truncateAllTables();
@@ -46,8 +51,6 @@ public class IssueDownloaderTest
 	public void close()
 	{
 		truncateAllTables();
-		issueDownloader.closeIssueDbContext();
-		dbManager.close();
 	}
 
 	@Test

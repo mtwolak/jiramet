@@ -403,8 +403,4 @@ public class IssueDbContext
 		dbm.init();
 	}
 
-	public void closeDbm()
-	{
-		dbm.close();
-	}
 }

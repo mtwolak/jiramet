@@ -34,7 +34,6 @@ public class NameRandomizer
 		idc.updateAssignees(assignees);
 		idc.updateReporters(reporters);
 		
-		idc.closeDbm();
 	}
 
 }

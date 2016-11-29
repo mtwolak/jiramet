@@ -1,0 +1,56 @@
+Project name: Spring Framework
+Issue description: Hey,
+
+in my application I implemented a method to get the currently connected user count backed by the implementations of the SimpUserRegistry interface, which is used for monitoring purposes. Unfortunately, this involves creating a completely new HashSet every time.
+
+What about an additional method to just get the user count in a more allocation-friendly manner? Much like Method.getParameterCount() in Java 8.
+
+Attached you will find my proposal, but if I missed something feel free to adjust it accordingly.
+
+Cheers,
+Christoph
+Assignee: Stéphane Nicoll, time: 534.24
+Assignee: nebhale, time: 157.0
+Assignee: Brian Clozel, time: 353.14
+Assignee: Rob Winch, time: 39.09
+Assignee: Dave Syer, time: 540.1
+Assignee: Adrian Colyer, time: 48.48
+Assignee: Rossen Stoyanchev, time: 408.9
+Assignee: Ben Alex, time: 6.0
+Assignee: Micha Kiener, time: 66.0
+Assignee: Luke Taylor, time: 289.6
+Assignee: Juergen Hoeller, time: 117.98
+Assignee: Gary Russell, time: 0.0
+Assignee: Jeremy Grelle, time: 85.78
+Assignee: Alef Arendsen, time: 75.2
+Assignee: Phil Webb, time: 35.4
+Assignee: Keith Donald, time: 44.06
+Assignee: Josh Long, time: 1000.36
+Assignee: Unassigned, time: 711.29
+Assignee: Thomas Risberg, time: 243.85
+Assignee: John Lewis, time: 231.38
+Assignee: Erwin Vervaet, time: 43.37
+Assignee: Carlos Sanchez, time: 203.58
+Assignee: Darren Davison, time: 533.77
+Assignee: Dmitriy Kopylenko, time: 17.04
+Assignee: Ramnivas Laddad, time: 19.76
+Assignee: Rob Harrop, time: 172.59
+Assignee: Christian Dupuis, time: 218.48
+Assignee: Scott Andrews, time: 137.05
+Assignee: Chris Beams, time: 203.87
+Assignee: Stevo Slavić, time: 1675.0
+Assignee: Oliver Gierke, time: 303.55
+Assignee: Andy Clement, time: 0.89
+Assignee: Violeta Georgieva, time: 49.0
+Assignee: Sam Brannen, time: 182.14
+Assignee: Michael Isvy, time: 648.14
+Assignee: Sébastien Deleuze, time: 44.59
+Assignee: Colin Sampaleanu, time: 647.11
+Assignee: Rod Johnson, time: 113.31
+Assignee: Arjen Poutsma, time: 367.55
+Assignee: Rick Evans, time: 55.51
+Assignee: Glyn Normington, time: 58.0
+Assignee: Costin Leau, time: 81.44
+Assignee: Mark Fisher, time: 90.64
+Assignee: Trevor Marshall, time: 134.63
+Assignee: Mark Pollack, time: 8.41

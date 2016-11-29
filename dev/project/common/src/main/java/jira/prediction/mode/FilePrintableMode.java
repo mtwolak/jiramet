@@ -1,20 +1,20 @@
 package jira.prediction.mode;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import utils.properties.PropertiesReader;
+import utils.properties.Property;
 
 public class FilePrintableMode implements PrintableMode
 {
 
-	private static final String FILE_TO_WRITE_TEXT = "../../prediction.txt";
-
 	@Override
-	public void print(String textToPrint)
+	public void print(String textToPrint, PropertiesReader propertiesReader)
 	{
 		try
 		{
-			FileWriter fw = new FileWriter(new File(FILE_TO_WRITE_TEXT));
+			FileWriter fw = new FileWriter(propertiesReader.getAsString(Property.PREDICTION_FILE_SAVE_PATH));
 			fw.write(textToPrint);
 			fw.close();
 		} catch (IOException e)

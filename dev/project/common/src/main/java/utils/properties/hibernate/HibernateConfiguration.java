@@ -16,13 +16,19 @@ import utils.properties.Property;
 
 public abstract class HibernateConfiguration
 {
-	public abstract Property getConnectionUrl();
+	private PropertiesReader propertiesReader;
 
+	public HibernateConfiguration(PropertiesReader propertiesReader)
+	{
+		this.propertiesReader = propertiesReader;
+	}
+	
+	public abstract Property getConnectionUrl();
+	
 	public Configuration getConfiguration()
 	{
-		PropertiesReader propertiesReader = new PropertiesReader();
 		Configuration configuration = new Configuration();
-		setConnectionProperties(configuration, propertiesReader);
+		setConnectionProperties(configuration);
 		setEntityClassess(configuration);
 		return configuration;
 	}
@@ -36,12 +42,12 @@ public abstract class HibernateConfiguration
 				.addAnnotatedClass(Assignee.class);
 	}
 
-	private void setConnectionProperties(Configuration configuration, PropertiesReader propertiesReader)
+	private void setConnectionProperties(Configuration configuration)
 	{
-		configuration.setProperty("hibernate.connection.url", propertiesReader.get(getConnectionUrl()))
-				.setProperty("hibernate.connection.driver_class", propertiesReader.get(Property.HIBERNATE_DRIVER_CLASS))
-				.setProperty("hibernate.connection.username", propertiesReader.get(Property.HIBERNATE_USER))
-				.setProperty("hibernate.connection.password", propertiesReader.get(Property.HIBERNATE_PASSWORD))
-				.setProperty("hibernate.dialect", propertiesReader.get(Property.HIBERNATE_DIALECT));
+		configuration.setProperty("hibernate.connection.url", propertiesReader.getAsString(getConnectionUrl()))
+				.setProperty("hibernate.connection.driver_class", propertiesReader.getAsString(Property.HIBERNATE_DRIVER_CLASS))
+				.setProperty("hibernate.connection.username", propertiesReader.getAsString(Property.HIBERNATE_USER))
+				.setProperty("hibernate.connection.password", propertiesReader.getAsString(Property.HIBERNATE_PASSWORD))
+				.setProperty("hibernate.dialect", propertiesReader.getAsString(Property.HIBERNATE_DIALECT));
 	}
 }

@@ -2,9 +2,8 @@ package utils.properties;
 
 public enum Property
 {
-	//Project properties
-	ALFA,
 	PREDICTION_PRINTING,
+	PREDICTION_FILE_SAVE_PATH,
 	//Hibernate properties
 	HIBERNATE_DRIVER_CLASS,
 	HIBERNATE_USER,
@@ -12,6 +11,8 @@ public enum Property
 	HIBERNATE_DIALECT,
 	HIBERNATE_SCHEMA_PRODUCTION,
 	HIBERNATE_SCHEMA_TEST,
-	//Test property
-	NOT_EXISTING_TEST_PROPERTY;
+	//Issue similarity parameters
+	SUMMARY_WEIGHT,
+	DESCRIPTION_WEIGHT,
+	COMMENTS_WEIGHT,
 }
