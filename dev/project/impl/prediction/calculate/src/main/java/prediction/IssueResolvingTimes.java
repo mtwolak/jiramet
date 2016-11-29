@@ -14,7 +14,7 @@ public class IssueResolvingTimes
 
 	private static final double MIN_ALPHA = 0.01;
 	private static final int MAX_RESULTS = 5; // k from model
-	IssueResolvingTimesHelper helper;
+	private IssueResolvingTimesHelper helper;
 
 	public IssueResolvingTimes()
 	{

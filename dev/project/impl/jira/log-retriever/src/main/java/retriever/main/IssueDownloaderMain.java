@@ -9,7 +9,7 @@ import utils.properties.hibernate.HibernateProductionConfiguration;
 
 public class IssueDownloaderMain implements JiraWebLogDownloader
 {
-	IssueDownloader id;	
+	private IssueDownloader id;	
 	private PropertiesReader propertiesReader;
 
 	public IssueDownloaderMain(PropertiesReader propertiesReader)
