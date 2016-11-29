@@ -9,7 +9,7 @@ import java.util.Properties;
 public class PropertiesReader
 {
 	private Properties properties;
-	private static final String PROPERTY_FILENAME = "C:/properties.txt";
+	private static final String PROPERTY_FILENAME = "../../properties.txt";
 
 	public PropertiesReader()
 	{
