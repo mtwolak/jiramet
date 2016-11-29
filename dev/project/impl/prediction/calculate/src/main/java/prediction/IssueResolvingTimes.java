@@ -8,17 +8,21 @@ import java.util.Set;
 import database.entity.Assignee;
 import jira.AssigneeTimeResolve;
 import jira.JiraIssueSimilarity;
+import utils.properties.PropertiesReader;
+import utils.properties.Property;
 
 public class IssueResolvingTimes
 {
 
-	private static final double MIN_ALPHA = 0.01;
-	private static final int MAX_RESULTS = 5; // k from model
+	private int maxResults; // k from model
 	private IssueResolvingTimesHelper helper;
+	private PropertiesReader propertiesReader;
 
-	public IssueResolvingTimes()
+	public IssueResolvingTimes(PropertiesReader propertiesReader)
 	{
-		helper = new IssueResolvingTimesHelper();
+		this.helper = new IssueResolvingTimesHelper();
+		this.propertiesReader = propertiesReader;
+		this.maxResults = propertiesReader.getAsInt(Property.MODEL_K);
 	}
 
 	public List<AssigneeTimeResolve> getIssueResolvingTimePrediction(List<JiraIssueSimilarity> issueSimilarities)
@@ -56,7 +60,7 @@ public class IssueResolvingTimes
 		int selectedIssues = 0;
 		Collections.sort(assigneeIssueSimilarities);
 		boolean checker = false;
-		AssigneeTopSimilarities assigneeTopSimilarities = new AssigneeTopSimilarities(MAX_RESULTS);
+		AssigneeTopSimilarities assigneeTopSimilarities = new AssigneeTopSimilarities(maxResults);
 
 		for (int i = 0; i < assigneeIssueSimilarities.size() && !checker; i++)
 		{
@@ -79,12 +83,12 @@ public class IssueResolvingTimes
 
 	private boolean checkConditions(JiraIssueSimilarity jiraIssueSimilarity)
 	{
-		return jiraIssueSimilarity.getSimilarityLevel() >= MIN_ALPHA
+		return jiraIssueSimilarity.getSimilarityLevel() >= propertiesReader.getAsDouble(Property.MODEL_MIN_ALPHA)
 				&& jiraIssueSimilarity.getJiraIssue().getCreatedAt() != null;
 	}
 
 	private boolean checkIfIsEnough(int selectedIssues)
 	{
-		return selectedIssues == MAX_RESULTS;
+		return selectedIssues == maxResults;
 	}
 }

@@ -41,7 +41,7 @@ public class PredictionModelViewer
 
 	private KnnResolvable getKnn()
 	{
-		return new PredictionMain();
+		return new PredictionMain(propertiesReader);
 	}
 
 	private IssuesSimilarity getIssuesSimilarity()

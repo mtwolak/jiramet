@@ -27,6 +27,16 @@ public class PropertiesReaderTest
 		assertThat(propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT), Matchers.is(0.99));
 
 	}
+	
+	@Test
+	public void shouldReturnPropertyAsInt() throws Exception
+	{
+		PropertiesReader propertiesReader = getPropertyReader();
+		Mockito.when(properties.getProperty(Property.SUMMARY_WEIGHT.name())).thenReturn("5");
+
+		assertThat(propertiesReader.getAsInt(Property.SUMMARY_WEIGHT), Matchers.is(5));
+
+	}
 
 	private PropertiesReader getPropertyReader()
 	{

@@ -66,4 +66,9 @@ public class PropertiesReader
 		return propertyToRead != null ? this.properties.getProperty(propertyToRead.name()) : null;
 	}
 
+	public int getAsInt(Property property)
+	{
+		return Integer.valueOf(getAsString(property));
+	}
+
 }

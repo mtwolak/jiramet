@@ -15,4 +15,7 @@ public enum Property
 	SUMMARY_WEIGHT,
 	DESCRIPTION_WEIGHT,
 	COMMENTS_WEIGHT,
+	//model parameters
+	MODEL_MIN_ALPHA, 
+	MODEL_K
 }

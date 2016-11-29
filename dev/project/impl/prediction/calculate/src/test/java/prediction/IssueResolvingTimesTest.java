@@ -6,7 +6,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import utils.properties.PropertiesReader;
+import utils.properties.Property;
+
+@RunWith(MockitoJUnitRunner.class)
 public class IssueResolvingTimesTest
 {
 
@@ -15,11 +23,16 @@ public class IssueResolvingTimesTest
 	private double prediction1;
 	private double prediction2;
 	private double prediction3;
+	
+	@Mock
+	private PropertiesReader propertiesReader;
 
 	@Before
 	public void setUp()
 	{
-		irt = new IssueResolvingTimes();
+		Mockito.when(propertiesReader.getAsInt(Property.MODEL_K)).thenReturn(5);
+		Mockito.when(propertiesReader.getAsDouble(Property.MODEL_MIN_ALPHA)).thenReturn(0.01);
+		irt = new IssueResolvingTimes(propertiesReader);
 		testData = new TestDataHolder();
 	}
 
