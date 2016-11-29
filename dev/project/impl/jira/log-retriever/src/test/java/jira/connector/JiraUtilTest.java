@@ -15,7 +15,7 @@ import com.atlassian.jira.rest.client.auth.AnonymousAuthenticationHandler;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import com.atlassian.util.concurrent.Promise;
 
-import jira.data.ProjectData;
+import jira.project.ProjectData;
 
 public class JiraUtilTest {
 		

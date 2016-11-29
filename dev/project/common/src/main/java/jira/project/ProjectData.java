@@ -1,4 +1,4 @@
-package jira.data;
+package jira.project;
 
 public enum ProjectData
 {

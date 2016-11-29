@@ -15,6 +15,7 @@ import com.atlassian.util.concurrent.Promise;
 
 import database.entity.IssueStatus;
 import jira.connector.JiraUtil;
+import jira.project.ProjectData;
 
 public class FieldPickerTest
 {

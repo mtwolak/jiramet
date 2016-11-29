@@ -8,8 +8,8 @@ import com.atlassian.jira.rest.client.api.domain.Issue;
 import database.entity.*;
 import jira.data.FieldPicker;
 import jira.data.IssueDbContext;
-import jira.data.ProjectData;
 import jira.json.CommentDownloader;
+import jira.project.ProjectData;
 
 public class IssueDownloaderUtil
 {

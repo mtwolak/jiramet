@@ -1,8 +1,10 @@
-package jira.data;
+package jira.project;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import jira.project.ProjectData;
 
 public class ProjectDataTest
 {
