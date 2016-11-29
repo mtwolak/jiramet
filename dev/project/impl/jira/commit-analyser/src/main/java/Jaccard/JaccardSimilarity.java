@@ -1,4 +1,4 @@
-package Jaccard;
+package jaccard;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ public class JaccardSimilarity
 {
 	private static final int K = 3;
 	
-	public final double similarity(String text1, String text2) {
+	public double getJaccardSimilarity(String text1, String text2) {
         Map<String, Integer> profile1 = getProfile(text1);
         Map<String, Integer> profile2 = getProfile(text2);
 
@@ -30,8 +30,8 @@ public class JaccardSimilarity
         return 1.0 * inter / union.size();
     }
 	
-	public double distance(String text1, String text2) {
-        return 1.0 - similarity(text1, text2);
+	public double getDistance(String text1, String text2) {
+        return 1.0 - getJaccardSimilarity(text1, text2);
     }
 	
 	public Map<String, Integer> getProfile(String string) {
