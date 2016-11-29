@@ -85,6 +85,6 @@ public class IssueResolvingTimes
 
 	private boolean checkIfIsEnough(int selectedIssues)
 	{
-		return selectedIssues == MAX_RESULTS ? true : false;
+		return selectedIssues == MAX_RESULTS;
 	}
 }
