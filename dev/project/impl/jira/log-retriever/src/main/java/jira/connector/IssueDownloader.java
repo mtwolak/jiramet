@@ -6,7 +6,7 @@ import com.atlassian.util.concurrent.Promise;
 
 import database.entity.JiraProject;
 import jira.data.IssueDbContext;
-import jira.data.ProjectData;
+import jira.project.ProjectData;
 import utils.properties.hibernate.HibernateConfiguration;
 
 public class IssueDownloader

@@ -19,7 +19,7 @@ import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import database.manager.DataBaseTestHelper;
 import database.manager.DatabaseManager;
-import jira.data.ProjectData;
+import jira.project.ProjectData;
 import utils.properties.hibernate.HibernateTestConfiguration;
 
 @Ignore

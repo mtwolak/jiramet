@@ -3,17 +3,29 @@ package retriever.main;
 import jira.JiraWebLogDownloader;
 import jira.anonymization.NameRandomizer;
 import jira.connector.IssueDownloader;
-import jira.data.ProjectData;
+import jira.project.ProjectData;
 import utils.properties.hibernate.HibernateProductionConfiguration;
 
 public class IssueDownloaderMain implements JiraWebLogDownloader
 {
+	IssueDownloader id;
+
+	public IssueDownloaderMain()
+	{
+		id = new IssueDownloader(new HibernateProductionConfiguration());
+	}
 
 	@Override
 	public void retrieveAllIssues()
 	{
-		IssueDownloader id = new IssueDownloader(new HibernateProductionConfiguration());
 		id.retrieveAllIssues();
+		NameRandomizer.randomizeAllNames(new HibernateProductionConfiguration());
+	}
+
+	@Override
+	public void retrieveIssuesFromProject(ProjectData project)
+	{
+		id.downloadAllIssuesFromProject(project);
 		NameRandomizer.randomizeAllNames(new HibernateProductionConfiguration());
 	}
 
