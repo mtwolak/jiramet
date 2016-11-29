@@ -30,9 +30,6 @@ public class DatabaseManager {
 		factory = config.buildSessionFactory(serviceRegistry);
 	}
 
-	public void close() {
-	}
-
 	public void persist(Object entity) {
 		Session session = factory.openSession();
 		try {
