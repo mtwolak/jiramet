@@ -53,7 +53,6 @@ public class IssueDownloader
 			addIssuesFromProject(springRes, project);
 			counter += project.getIssueLimitPerCall();
 		}
-		closeIssueDbContext();
 	}
 	
 	public void downloadAllIssuesFromProject(ProjectData project)
@@ -75,11 +74,6 @@ public class IssueDownloader
 	public void  initIssueDbContext()
 	{
 		idc.initDbm();
-	}
-	
-	public void  closeIssueDbContext()
-	{
-		idc.closeDbm();
 	}
 	
 }

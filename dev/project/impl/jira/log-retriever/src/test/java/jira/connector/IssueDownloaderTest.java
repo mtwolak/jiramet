@@ -51,8 +51,6 @@ public class IssueDownloaderTest
 	public void close()
 	{
 		truncateAllTables();
-		issueDownloader.closeIssueDbContext();
-		dbManager.close();
 	}
 
 	@Test
