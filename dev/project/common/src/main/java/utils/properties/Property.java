@@ -3,6 +3,7 @@ package utils.properties;
 public enum Property
 {
 	PREDICTION_PRINTING,
+	PREDICTION_FILE_SAVE_PATH,
 	//Hibernate properties
 	HIBERNATE_DRIVER_CLASS,
 	HIBERNATE_USER,
@@ -13,5 +14,5 @@ public enum Property
 	//Issue similarity parameters
 	SUMMARY_WEIGHT,
 	DESCRIPTION_WEIGHT,
-	COMMENTS_WEIGHT
+	COMMENTS_WEIGHT,
 }

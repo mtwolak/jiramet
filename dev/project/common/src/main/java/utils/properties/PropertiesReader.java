@@ -40,11 +40,20 @@ public class PropertiesReader
 	public String getAsString(Property propertyToRead)
 	{
 		String property = getProperty(propertyToRead);
+		checkForPropertyCorrection(propertyToRead, property);
+		return property;
+	}
+
+	private void checkForPropertyCorrection(Property propertyToRead, String property)
+	{
 		if (property == null)
 		{
 			throw new PropertyNotFoundException(propertyToRead);
 		}
-		return property;
+		if (property.equals(""))
+		{
+			throw new PropertyEmptyException(propertyToRead);
+		}
 	}
 
 	public double getAsDouble(Property property)

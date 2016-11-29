@@ -22,7 +22,7 @@ public abstract class PredictionPrintable
 	{
 		PredictionPrintMode predictionPrintMode = PredictionPrintMode
 				.fromString(propertiesReader.getAsString(Property.PREDICTION_PRINTING));
-		predictionPrintMode.print(getPrediction(newIssue, assigneeIssueTimes));
+		predictionPrintMode.print(getPrediction(newIssue, assigneeIssueTimes), propertiesReader);
 	}
 
 }

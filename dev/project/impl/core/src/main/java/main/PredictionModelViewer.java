@@ -10,6 +10,7 @@ import jira.KnnResolvable;
 import jira.prediction.PredictionPrintable;
 import prediction.main.PredictionMain;
 import printer.PredictionTextComposer;
+import retriever.main.IssueDownloaderMain;
 import similarity.IssuesSimilarityCalculator;
 import utils.properties.PropertiesReader;
 
@@ -25,7 +26,7 @@ public class PredictionModelViewer
 
 	public void show()
 	{
-//		new IssueDownloaderMain().retrieveAllIssues();
+//		new IssueDownloaderMain(propertiesReader).retrieveAllIssues();
 		JiraIssue issue = getJiraIssueFromDb();
 		System.out.println(issue.getSummary());
 		List<JiraIssueSimilarity> issuesSimilarityList = new IssuesSimilarityCalculator(propertiesReader)

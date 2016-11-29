@@ -3,6 +3,7 @@ package jira.prediction;
 import jira.prediction.mode.ConsolePrintableMode;
 import jira.prediction.mode.FilePrintableMode;
 import jira.prediction.mode.PrintableMode;
+import utils.properties.PropertiesReader;
 
 public enum PredictionPrintMode
 {
@@ -27,8 +28,8 @@ public enum PredictionPrintMode
 		throw new IncorrectPredictionModeException(preditionMode);
 	}
 
-	public void print(String textToPrint)
+	public void print(String textToPrint, PropertiesReader propertiesReader)
 	{
-		printableMode.print(textToPrint);
+		printableMode.print(textToPrint, propertiesReader);
 	}
 }
