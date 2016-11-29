@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import database.manager.DatabaseManager;
+import utils.properties.PropertiesReader;
 import utils.properties.hibernate.HibernateProductionConfiguration;
 
 public class DatabaseApplication
@@ -21,9 +22,9 @@ public class DatabaseApplication
 	@SuppressWarnings("rawtypes")
 	private List projects;
 	
-	public DatabaseApplication()
+	public DatabaseApplication(PropertiesReader propertiesReader)
 	{
-		DatabaseManager dbm = new DatabaseManager(new HibernateProductionConfiguration());
+		DatabaseManager dbm = new DatabaseManager(new HibernateProductionConfiguration(propertiesReader));
 		dbm.init();
 		session = dbm.getSession();
 	}

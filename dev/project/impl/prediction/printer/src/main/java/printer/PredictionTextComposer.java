@@ -5,9 +5,15 @@ import java.util.List;
 import database.entity.JiraIssue;
 import jira.AssigneeTimeResolve;
 import jira.prediction.PredictionPrintable;
+import utils.properties.PropertiesReader;
 
 public class PredictionTextComposer extends PredictionPrintable
 {
+	public PredictionTextComposer(PropertiesReader propertiesReader)
+	{
+		super(propertiesReader);
+	}
+
 	private static final String NEW_LINE = "\n";
 	private static final int DEFAULT_CAPACITY_STRINGBUILDER_ISSUE_INFORMATION = 500;
 	private static final int DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE = 200;

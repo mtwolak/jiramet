@@ -9,14 +9,19 @@ import utils.properties.Property;
 
 public abstract class PredictionPrintable
 {
+	protected PropertiesReader propertiesReader;
+
+	public PredictionPrintable(PropertiesReader propertiesReader)
+	{
+		this.propertiesReader = propertiesReader;
+	}
+
 	public abstract String getPrediction(JiraIssue newIssue, List<AssigneeTimeResolve> assigneeIssueTimes);
 
 	public void printPrediction(JiraIssue newIssue, List<AssigneeTimeResolve> assigneeIssueTimes)
 	{
-//		PredictionPrintMode predictionPrintMode = PredictionPrintMode
-//				.fromString(new PropertiesReader().get(Property.PREDICTION_PRINTING));
 		PredictionPrintMode predictionPrintMode = PredictionPrintMode
-		.fromString("Console");
+				.fromString(propertiesReader.get(Property.PREDICTION_PRINTING));
 		predictionPrintMode.print(getPrediction(newIssue, assigneeIssueTimes));
 	}
 

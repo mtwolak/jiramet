@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.junit.Assert.*;
 
@@ -19,6 +20,7 @@ import database.entity.IssueType;
 import database.entity.JiraIssue;
 import database.jira.JiraAssigneeLoader;
 import database.jira.JiraIssueLoader;
+import utils.properties.PropertiesReader;
 import utils.properties.hibernate.HibernateTestConfiguration;
 
 public class DatabaseManagerTest {
@@ -26,10 +28,13 @@ public class DatabaseManagerTest {
 	private final static String REPORTER_NAME = "Marcin";
 	private final static String ASSIGNEE_NAME = "Michal";
 	private DatabaseManager databaseManager;
+	
+	@Mock
+	private PropertiesReader propertiesReaderMock;
 
 	@Before
 	public void setUp() {
-		databaseManager = new DatabaseManager(new HibernateTestConfiguration());
+		databaseManager = new DatabaseManager(new HibernateTestConfiguration(propertiesReaderMock));
 		databaseManager.init();
 	}
 

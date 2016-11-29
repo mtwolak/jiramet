@@ -3,21 +3,37 @@ package printer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import database.entity.Assignee;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import jira.AssigneeTimeResolve;
+import utils.properties.PropertiesReader;
+import utils.properties.Property;
 
+@RunWith(MockitoJUnitRunner.class)
 public class PredictionTextComposerTest
 {
+
+	@Mock
+	private PropertiesReader propertiesReader;
+
+	@Before
+	public void setup()
+	{
+		Mockito.when(propertiesReader.get(Property.PREDICTION_PRINTING)).thenReturn("CONSOLE");
+	}
 
 	@Test
 	public void shouldPrintPredictionToFile()
 	{
-		PredictionTextComposer predictionTextComposer = new PredictionTextComposer();
+		PredictionTextComposer predictionTextComposer = new PredictionTextComposer(propertiesReader);
 		predictionTextComposer.printPrediction(createJiraIssue(), createAssigneeAndTimes());
 	}
 

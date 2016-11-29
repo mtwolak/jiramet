@@ -9,29 +9,27 @@ import java.util.Properties;
 public class PropertiesReader
 {
 	private Properties properties;
-	private static final String PROPERTY_FILENAME = "../../properties.txt";
 
-	public PropertiesReader()
+	public PropertiesReader(String propertyPath)
 	{
 		this.properties = new Properties();
-		loadPropertiesFromFile();
+		loadPropertiesFromFile(propertyPath);
 	}
 
-	private void loadPropertiesFromFile()
+	private void loadPropertiesFromFile(String propertyPath)
 	{
 		try
 		{
-			this.properties.load(getPropertiesFromFile());
+			this.properties.load(getPropertiesFromFile(propertyPath));
 		} catch (IOException e)
 		{
 			throw new PropertyNotFoundException();
 		}
 	}
 
-	private InputStream getPropertiesFromFile() throws IOException
+	private InputStream getPropertiesFromFile(String propertyPath) throws IOException
 	{
-		System.out.println(new File(PROPERTY_FILENAME));
-		return new FileInputStream(new File(PROPERTY_FILENAME));
+		return new FileInputStream(new File(propertyPath));
 	}
 
 	public String get(Property propertyToRead)

@@ -10,6 +10,7 @@ import database.entity.JiraProject;
 import jira.IssuesSimilarity;
 import jira.JiraIssueSimilarity;
 import lucene.CosineTextSimilarity;
+import utils.properties.PropertiesReader;
 
 public class IssuesSimilarityCalculator implements IssuesSimilarity
 {
@@ -19,9 +20,9 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	private CosineTextSimilarity cts;
 	private double similarity;
 
-	public IssuesSimilarityCalculator()
+	public IssuesSimilarityCalculator(PropertiesReader propertiesReader)
 	{
-		dba = new DatabaseApplication();
+		dba = new DatabaseApplication(propertiesReader);
 		isp = new IssuesSimilarityParameters();
 		ish = new IssuesSimilarityHelper();
 	}

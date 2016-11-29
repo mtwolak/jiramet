@@ -16,13 +16,19 @@ import utils.properties.Property;
 
 public abstract class HibernateConfiguration
 {
-	public abstract Property getConnectionUrl();
+	private PropertiesReader propertiesReader;
 
+	public HibernateConfiguration(PropertiesReader propertiesReader)
+	{
+		this.propertiesReader = propertiesReader;
+	}
+	
+	public abstract Property getConnectionUrl();
+	
 	public Configuration getConfiguration()
 	{
-		PropertiesReader propertiesReader = new PropertiesReader();
 		Configuration configuration = new Configuration();
-		setConnectionProperties(configuration, propertiesReader);
+		setConnectionProperties(configuration);
 		setEntityClassess(configuration);
 		return configuration;
 	}
@@ -36,7 +42,7 @@ public abstract class HibernateConfiguration
 				.addAnnotatedClass(Assignee.class);
 	}
 
-	private void setConnectionProperties(Configuration configuration, PropertiesReader propertiesReader)
+	private void setConnectionProperties(Configuration configuration)
 	{
 		configuration.setProperty("hibernate.connection.url", propertiesReader.get(getConnectionUrl()))
 				.setProperty("hibernate.connection.driver_class", propertiesReader.get(Property.HIBERNATE_DRIVER_CLASS))
