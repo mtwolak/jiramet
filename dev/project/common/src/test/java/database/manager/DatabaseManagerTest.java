@@ -41,7 +41,6 @@ public class DatabaseManagerTest {
 	@After
 	public void close() {
 		truncateAllTables();
-		databaseManager.close();
 	}
 
 	private void truncateAllTables() {
