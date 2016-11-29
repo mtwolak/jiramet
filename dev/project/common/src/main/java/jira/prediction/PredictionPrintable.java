@@ -13,8 +13,10 @@ public abstract class PredictionPrintable
 
 	public void printPrediction(JiraIssue newIssue, List<AssigneeTimeResolve> assigneeIssueTimes)
 	{
+//		PredictionPrintMode predictionPrintMode = PredictionPrintMode
+//				.fromString(new PropertiesReader().get(Property.PREDICTION_PRINTING));
 		PredictionPrintMode predictionPrintMode = PredictionPrintMode
-				.fromString(new PropertiesReader().get(Property.PREDICTION_PRINTING));
+		.fromString("Console");
 		predictionPrintMode.print(getPrediction(newIssue, assigneeIssueTimes));
 	}
 

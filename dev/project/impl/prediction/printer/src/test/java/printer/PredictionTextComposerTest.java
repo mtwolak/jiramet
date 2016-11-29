@@ -10,8 +10,7 @@ import database.entity.Assignee;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import jira.AssigneeTimeResolve;
-//ignored due to broken preferences
-@Ignore
+
 public class PredictionTextComposerTest
 {
 
