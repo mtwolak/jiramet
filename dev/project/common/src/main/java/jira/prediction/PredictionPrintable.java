@@ -21,7 +21,7 @@ public abstract class PredictionPrintable
 	public void printPrediction(JiraIssue newIssue, List<AssigneeTimeResolve> assigneeIssueTimes)
 	{
 		PredictionPrintMode predictionPrintMode = PredictionPrintMode
-				.fromString(propertiesReader.get(Property.PREDICTION_PRINTING));
+				.fromString(propertiesReader.getAsString(Property.PREDICTION_PRINTING));
 		predictionPrintMode.print(getPrediction(newIssue, assigneeIssueTimes));
 	}
 

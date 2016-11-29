@@ -27,7 +27,7 @@ public class PredictionTextComposerTest
 	@Before
 	public void setup()
 	{
-		Mockito.when(propertiesReader.get(Property.PREDICTION_PRINTING)).thenReturn("CONSOLE");
+		Mockito.when(propertiesReader.getAsString(Property.PREDICTION_PRINTING)).thenReturn("CONSOLE");
 	}
 
 	@Test

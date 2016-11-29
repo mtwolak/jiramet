@@ -44,10 +44,10 @@ public abstract class HibernateConfiguration
 
 	private void setConnectionProperties(Configuration configuration)
 	{
-		configuration.setProperty("hibernate.connection.url", propertiesReader.get(getConnectionUrl()))
-				.setProperty("hibernate.connection.driver_class", propertiesReader.get(Property.HIBERNATE_DRIVER_CLASS))
-				.setProperty("hibernate.connection.username", propertiesReader.get(Property.HIBERNATE_USER))
-				.setProperty("hibernate.connection.password", propertiesReader.get(Property.HIBERNATE_PASSWORD))
-				.setProperty("hibernate.dialect", propertiesReader.get(Property.HIBERNATE_DIALECT));
+		configuration.setProperty("hibernate.connection.url", propertiesReader.getAsString(getConnectionUrl()))
+				.setProperty("hibernate.connection.driver_class", propertiesReader.getAsString(Property.HIBERNATE_DRIVER_CLASS))
+				.setProperty("hibernate.connection.username", propertiesReader.getAsString(Property.HIBERNATE_USER))
+				.setProperty("hibernate.connection.password", propertiesReader.getAsString(Property.HIBERNATE_PASSWORD))
+				.setProperty("hibernate.dialect", propertiesReader.getAsString(Property.HIBERNATE_DIALECT));
 	}
 }

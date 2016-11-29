@@ -11,23 +11,25 @@ import jira.IssuesSimilarity;
 import jira.JiraIssueSimilarity;
 import lucene.CosineTextSimilarity;
 import utils.properties.PropertiesReader;
+import utils.properties.Property;
 
 public class IssuesSimilarityCalculator implements IssuesSimilarity
 {
 	private DatabaseApplication dba;
-	private IssuesSimilarityParameters isp;
 	private IssuesSimilarityHelper ish;
 	private CosineTextSimilarity cts;
 	private double similarity;
+	private PropertiesReader propertiesReader;
 
 	public IssuesSimilarityCalculator(PropertiesReader propertiesReader)
 	{
-		dba = new DatabaseApplication(propertiesReader);
-		isp = new IssuesSimilarityParameters();
-		ish = new IssuesSimilarityHelper();
+		this.propertiesReader = propertiesReader;
+		this.dba = new DatabaseApplication(propertiesReader);
+		this.ish = new IssuesSimilarityHelper();
 	}
 
-	public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue jiraIssue) {
+	public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue jiraIssue)
+	{
 		List<JiraIssueSimilarity> similarityList = new ArrayList<JiraIssueSimilarity>();
 		JiraProject project = jiraIssue.getJiraProject();
 		@SuppressWarnings("unchecked")
@@ -42,18 +44,20 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		return similarityList;
 	}
 
-	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2) {
-		return isp.getSummaryWeight() * getIssuesSummariesSimilarity(issue1, issue2)
-				+ isp.getDescriptionWeight() * getIssuesDescriptionsSimilarity(issue1, issue2)
-				+ isp.getCommentsWeight() * getIssuesCommentsSimilarity(issue1, issue2);
+	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2)
+	{
+		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) * getIssuesSummariesSimilarity(issue1, issue2)
+				+ propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT) * getIssuesDescriptionsSimilarity(issue1, issue2)
+				+ propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) * getIssuesCommentsSimilarity(issue1, issue2);
 	}
 
-	public double getIssuesSummariesSimilarity(JiraIssue issue1, JiraIssue issue2) {
+	public double getIssuesSummariesSimilarity(JiraIssue issue1, JiraIssue issue2)
+	{
 		similarity = 0;
 		try
 		{
-				cts = new CosineTextSimilarity(issue1.getSummary(), issue2.getSummary());
-				similarity = cts.getCosineSimilarity();
+			cts = new CosineTextSimilarity(issue1.getSummary(), issue2.getSummary());
+			similarity = cts.getCosineSimilarity();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -61,7 +65,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		return similarity;
 	}
 
-	public double getIssuesDescriptionsSimilarity(JiraIssue issue1, JiraIssue issue2) {
+	public double getIssuesDescriptionsSimilarity(JiraIssue issue1, JiraIssue issue2)
+	{
 		similarity = 0;
 		String desc1 = issue1.getDescription();
 		String desc2 = issue2.getDescription();
@@ -78,7 +83,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		return similarity;
 	}
 
-	public double getIssuesCommentsSimilarity(JiraIssue issue1, JiraIssue issue2) {
+	public double getIssuesCommentsSimilarity(JiraIssue issue1, JiraIssue issue2)
+	{
 		similarity = 0;
 		StringBuilder comments1 = ish.collectIssueComments(issue1);
 		StringBuilder comments2 = ish.collectIssueComments(issue2);

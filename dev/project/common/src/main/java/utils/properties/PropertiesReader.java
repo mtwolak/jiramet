@@ -12,11 +12,16 @@ public class PropertiesReader
 
 	public PropertiesReader(String propertyPath)
 	{
-		this.properties = new Properties();
+		this.properties = getProperties();
 		loadPropertiesFromFile(propertyPath);
 	}
 
-	private void loadPropertiesFromFile(String propertyPath)
+	protected Properties getProperties()
+	{
+		return new Properties();
+	}
+
+	protected void loadPropertiesFromFile(String propertyPath)
 	{
 		try
 		{
@@ -32,7 +37,7 @@ public class PropertiesReader
 		return new FileInputStream(new File(propertyPath));
 	}
 
-	public String get(Property propertyToRead)
+	public String getAsString(Property propertyToRead)
 	{
 		String property = getProperty(propertyToRead);
 		if (property == null)
@@ -40,6 +45,11 @@ public class PropertiesReader
 			throw new PropertyNotFoundException(propertyToRead);
 		}
 		return property;
+	}
+
+	public double getAsDouble(Property property)
+	{
+		return Double.valueOf(getAsString(property));
 	}
 
 	private String getProperty(Property propertyToRead)
