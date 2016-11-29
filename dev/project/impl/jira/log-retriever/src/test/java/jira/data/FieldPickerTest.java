@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.atlassian.jira.rest.client.api.domain.Issue;
@@ -19,22 +19,22 @@ import jira.project.ProjectData;
 
 public class FieldPickerTest
 {
-	private JiraUtil ju;
-	private FieldPicker fieldPicker;
-	private Issue testIssueSrp;
-	private Issue testIssueMongo;
-	private Issue testIssueCam;
+	private static JiraUtil ju;
+	private static FieldPicker fieldPicker;
+	private static Issue testIssueSrp;
+	private static Issue testIssueMongo;
+	private static Issue testIssueCam;
 
-	@Before
-	public void setUp()
+	@BeforeClass
+	public static void setUp()
 	{
 		ju = new JiraUtil();
 		fieldPicker = new FieldPicker();
 		setTestIssues();
 	}
 
-	@After
-	public void close()
+	@AfterClass
+	public static void close()
 	{
 		ju.closeClientConnection();
 	}
@@ -159,7 +159,7 @@ public class FieldPickerTest
 		assertEquals(IssueStatus.CLOSED, fieldPicker.getStatus("any"));
 	}
 
-	private void setTestIssues()
+	private static void setTestIssues()
 	{
 		Promise<SearchResult> resultSpr = ju.getIssuesFromProject(ProjectData.SPRING, 0,1);
 		testIssueSrp = resultSpr.claim().getIssues().iterator().next();
