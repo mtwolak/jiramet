@@ -51,7 +51,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		similarity = 0;
 		try
 		{
-			similarity = cts.getCosineSimilarity(issue1.getSummary(), issue2.getSummary());
+				cts = new CosineTextSimilarity(issue1.getSummary(), issue2.getSummary());
+				similarity = cts.getCosineSimilarity();
 		} catch (IOException e)
 		{
 			e.printStackTrace();

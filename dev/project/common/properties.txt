@@ -1,0 +1,10 @@
+#Project properties
+ALFA=0.9
+PREDICTION_PRINTING=FILE
+#Hibernate
+HIBERNATE_DRIVER_CLASS=com.mysql.jdbc.Driver
+HIBERNATE_USER=root
+HIBERNATE_PASSWORD=qwerty
+HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5Dialect
+HIBERNATE_SCHEMA_PRODUCTION=jdbc:mysql://localhost:3306/JIRA
+HIBERNATE_SCHEMA_TEST=jdbc:mysql://localhost:3306/JIRATest

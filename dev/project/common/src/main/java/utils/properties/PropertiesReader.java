@@ -9,7 +9,7 @@ import java.util.Properties;
 public class PropertiesReader
 {
 	private Properties properties;
-	private static final String PROPERTY_FILENAME = "../../properties.txt";
+	private static final String PROPERTY_FILENAME = "C:/properties.txt";
 
 	public PropertiesReader()
 	{
@@ -30,6 +30,7 @@ public class PropertiesReader
 
 	private InputStream getPropertiesFromFile() throws IOException
 	{
+		System.out.println(new File(PROPERTY_FILENAME));
 		return new FileInputStream(new File(PROPERTY_FILENAME));
 	}
 
