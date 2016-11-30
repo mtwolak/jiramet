@@ -60,7 +60,7 @@ public class IssueResolvingTimesHelper
 			result += resolveTime * jis.getSimilarityLevel();
 			sumAlpha += jis.getSimilarityLevel();
 		}
-		return Math.round((result / sumAlpha)*100.0)/100.0; //potwierdzcie czy zaokraglac czy lepiej nie
+		return Math.round((result / sumAlpha)*100.0)/100.0;
 	}
 
 	private double getResolveTimeInDays(Timestamp start, Timestamp finish)
