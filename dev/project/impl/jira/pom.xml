@@ -8,7 +8,7 @@
   <artifactId>jira</artifactId>
   <packaging>pom</packaging>
   <modules>
-  	<module>commit-analyser</module>
-  	<module>log-retriever</module>
+  	<module>issues-comparator</module>
+  	<module>issues-retriever</module>
   </modules>
 </project>

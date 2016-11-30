@@ -34,7 +34,7 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-	<artifactId>log-retriever</artifactId>
+	<artifactId>issues-retriever</artifactId>
 	<build>
 		<plugins>
 			<plugin>

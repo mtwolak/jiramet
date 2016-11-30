@@ -31,12 +31,12 @@
   	</dependency>
   	<dependency>
   		<groupId>project</groupId>
-  		<artifactId>log-retriever</artifactId>
+  		<artifactId>issues-retriever</artifactId>
   		<version>1</version>
   	</dependency>
   	<dependency>
   		<groupId>project</groupId>
-  		<artifactId>commit-analyser</artifactId>
+  		<artifactId>issues-comparator</artifactId>
   		<version>1</version>
   	</dependency>
   	<dependency>
