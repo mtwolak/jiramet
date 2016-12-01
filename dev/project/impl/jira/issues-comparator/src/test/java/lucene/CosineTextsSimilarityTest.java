@@ -16,7 +16,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.junit.Test;
 
-public class CosineTextSimilarityTest
+public class CosineTextsSimilarityTest
 {
 
 	private static final String CONTENT = "Content";
@@ -26,14 +26,14 @@ public class CosineTextSimilarityTest
 	private Directory directory = new RAMDirectory();
 	private Analyzer analyzer = new SimpleAnalyzer();
 	private Document doc = new Document();
-	private CosineTextSimilarity cts;
+	private CosineTextsSimilarity cts;
 
 	@Test
 	public void testGetCosineTextSimilarity() {
 		try
 		{
-			cts = new CosineTextSimilarity(TEXT_1, TEXT_2);
-			assertNotNull(cts.getCosineSimilarity());
+			cts = new CosineTextsSimilarity(TEXT_1, TEXT_2);
+			assertNotNull(cts.getSimilarity());
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -51,7 +51,7 @@ public class CosineTextSimilarityTest
 			writer.addDocument(doc);
 			writer.close();
 			IndexReader reader = DirectoryReader.open(directory);
-			cts = new CosineTextSimilarity(TEXT_1, TEXT_2);
+			cts = new CosineTextsSimilarity(TEXT_1, TEXT_2);
 			assertNotNull(cts.getTermFrequencies(reader, 0));
 		} catch (IOException e)
 		{

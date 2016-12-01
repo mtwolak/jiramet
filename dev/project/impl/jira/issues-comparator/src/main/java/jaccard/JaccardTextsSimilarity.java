@@ -7,11 +7,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class JaccardSimilarity
+import similarity.TextsSimilarity;
+
+public class JaccardTextsSimilarity implements TextsSimilarity
 {
 	private static final int K = 3;
 	
-	public double getJaccardSimilarity(String text1, String text2) {
+	public double getSimilarity(String text1, String text2) {
         Map<String, Integer> profile1 = getProfile(text1);
         Map<String, Integer> profile2 = getProfile(text2);
 
@@ -31,7 +33,7 @@ public class JaccardSimilarity
     }
 	
 	public double getDistance(String text1, String text2) {
-        return 1.0 - getJaccardSimilarity(text1, text2);
+        return 1.0 - getSimilarity(text1, text2);
     }
 	
 	public Map<String, Integer> getProfile(String string) {

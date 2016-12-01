@@ -9,7 +9,7 @@ import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import jira.IssuesSimilarity;
 import jira.JiraIssueSimilarity;
-import lucene.CosineTextSimilarity;
+import lucene.CosineTextsSimilarity;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
@@ -17,7 +17,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 {
 	private DatabaseApplication dba;
 	private IssuesSimilarityHelper ish;
-	private CosineTextSimilarity cts;
+	private CosineTextsSimilarity cts;
 	private double similarity;
 	private PropertiesReader propertiesReader;
 
@@ -56,8 +56,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		similarity = 0;
 		try
 		{
-			cts = new CosineTextSimilarity(issue1.getSummary(), issue2.getSummary());
-			similarity = cts.getCosineSimilarity();
+			cts = new CosineTextsSimilarity(issue1.getSummary(), issue2.getSummary());
+			similarity = cts.getSimilarity();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -72,13 +72,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		String desc2 = issue2.getDescription();
 		if (desc1 != null && desc2 != null)
 		{
-			try
-			{
-				similarity = cts.getCosineSimilarity(desc1, desc2);
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			similarity = cts.getSimilarity(desc1, desc2);
 		}
 		return similarity;
 	}
@@ -90,13 +84,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		StringBuilder comments2 = ish.collectIssueComments(issue2);
 		if (comments1.length() != 0 && comments2.length() != 0)
 		{
-			try
-			{
-				similarity = cts.getCosineSimilarity(comments1.toString(), comments2.toString());
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			similarity = cts.getSimilarity(comments1.toString(), comments2.toString());
 		}
 		return similarity;
 	}

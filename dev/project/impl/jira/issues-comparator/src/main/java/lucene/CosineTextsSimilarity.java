@@ -14,7 +14,9 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.store.*;
 import org.apache.lucene.util.*;
 
-public class CosineTextSimilarity
+import similarity.TextsSimilarity;
+
+public class CosineTextsSimilarity implements TextsSimilarity
 {
 
 	public static final String CONTENT = "Content";
@@ -23,7 +25,7 @@ public class CosineTextSimilarity
 	private final RealVector v1;
 	private final RealVector v2;
 
-	public CosineTextSimilarity(String s1, String s2) throws IOException
+	public CosineTextsSimilarity(String s1, String s2) throws IOException
 	{
 		Directory directory = createIndex(s1, s2);
 		IndexReader reader = DirectoryReader.open(directory);
@@ -51,12 +53,18 @@ public class CosineTextSimilarity
 		writer.addDocument(doc);
 	}
 
-	public double getCosineSimilarity() {
+	public double getSimilarity() {
 		return (v1.dotProduct(v2)) / (v1.getNorm() * v2.getNorm());
 	}
 
-	public double getCosineSimilarity(String s1, String s2) throws IOException {
-		return new CosineTextSimilarity(s1, s2).getCosineSimilarity();
+	public double getSimilarity(String s1, String s2) {
+		double similarity = 0.0;
+		try {
+			similarity = new CosineTextsSimilarity(s1, s2).getSimilarity();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return similarity;
 	}
 
 	public Map<String, Integer> getTermFrequencies(IndexReader reader, int docId) throws IOException {
