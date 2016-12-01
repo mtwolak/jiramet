@@ -46,45 +46,24 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 
 	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) * getIssuesSummariesSimilarity(issue1, issue2)
-				+ propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT) * getIssuesDescriptionsSimilarity(issue1, issue2)
-				+ propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) * getIssuesCommentsSimilarity(issue1, issue2);
+		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) * getSimilarity(issue1.getSummary(), issue2.getSummary())
+				+ propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT) * getSimilarity(issue1.getDescription(), issue2.getDescription())
+				+ propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) * getSimilarity(issue1.getSummary(), ish.collectIssueComments(issue2).toString());
 	}
 
-	public double getIssuesSummariesSimilarity(JiraIssue issue1, JiraIssue issue2)
+	public double getSimilarity(String text1, String text2)
 	{
-		similarity = 0;
+		similarity = 0.0;
 		try
 		{
-			cts = new CosineTextsSimilarity(issue1.getSummary(), issue2.getSummary());
-			similarity = cts.getSimilarity();
+			if(text1 != null && text2 != null)
+			{
+				cts = new CosineTextsSimilarity(text1, text2);
+				similarity = cts.getSimilarity();
+			}
 		} catch (IOException e)
 		{
 			e.printStackTrace();
-		}
-		return similarity;
-	}
-
-	public double getIssuesDescriptionsSimilarity(JiraIssue issue1, JiraIssue issue2)
-	{
-		similarity = 0;
-		String desc1 = issue1.getDescription();
-		String desc2 = issue2.getDescription();
-		if (desc1 != null && desc2 != null)
-		{
-			similarity = cts.getSimilarity(desc1, desc2);
-		}
-		return similarity;
-	}
-
-	public double getIssuesCommentsSimilarity(JiraIssue issue1, JiraIssue issue2)
-	{
-		similarity = 0;
-		StringBuilder comments1 = ish.collectIssueComments(issue1);
-		StringBuilder comments2 = ish.collectIssueComments(issue2);
-		if (comments1.length() != 0 && comments2.length() != 0)
-		{
-			similarity = cts.getSimilarity(comments1.toString(), comments2.toString());
 		}
 		return similarity;
 	}

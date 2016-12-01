@@ -17,7 +17,6 @@ public class IssuesSimilarityCalculatorTest
 {
 	@Mock
 	private IssuesSimilarityCalculator isc;
-	private double similarity;
 
 	@Before
 	public void setUp() {
@@ -35,21 +34,9 @@ public class IssuesSimilarityCalculatorTest
 	}
 
 	@Test
-	public void getIssuesSummariesSimilarityTest() {
-		similarity = isc.getIssuesSummariesSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class));
-		assertTrue(similarity >= 0 && similarity <= 1);
-	}
-
-	@Test
-	public void getIssuesDescriptionsSimilarityTest() {
-		similarity = isc.getIssuesDescriptionsSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class));
-		assertTrue(similarity >= 0 && similarity <= 1);
-	}
-
-	@Test
-	public void getIssuesCommentsSimilarityTest() {
-		similarity = isc.getIssuesCommentsSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class));
-		assertTrue(similarity >= 0 && similarity <= 1);
+	public void getSimilarityTest2() {
+		Mockito.when(isc.getSimilarity(Matchers.anyString(), Matchers.anyString())).thenReturn(0.5);
+		assertTrue(0.5 == isc.getSimilarity("abc", "def"));
 	}
 
 }
