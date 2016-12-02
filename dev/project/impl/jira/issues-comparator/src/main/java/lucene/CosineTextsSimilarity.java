@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.math3.linear.*;
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.*;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.document.*;
@@ -14,7 +15,9 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.store.*;
 import org.apache.lucene.util.*;
 
+import database.application.DatabaseApplication;
 import similarity.TextsSimilarity;
+import similarity.exceptions.SimilarityRangeException;
 
 public class CosineTextsSimilarity implements TextsSimilarity
 {
@@ -24,6 +27,7 @@ public class CosineTextsSimilarity implements TextsSimilarity
 	private final Set<String> terms = new HashSet<>();
 	private final RealVector v1;
 	private final RealVector v2;
+	private Logger logger;
 
 	public CosineTextsSimilarity(String s1, String s2) throws IOException
 	{
@@ -59,9 +63,14 @@ public class CosineTextsSimilarity implements TextsSimilarity
 
 	@Override
 	public double getSimilarity(String text1, String text2) {
+		logger = Logger.getLogger(DatabaseApplication.class.getName());
 		double similarity = 0.0;
 		try {
 			similarity = new CosineTextsSimilarity(text1, text2).getSimilarity();
+			if(similarity < 0 || similarity > 1)
+				throw new SimilarityRangeException();
+		} catch (SimilarityRangeException e) {
+			logger.error(e);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

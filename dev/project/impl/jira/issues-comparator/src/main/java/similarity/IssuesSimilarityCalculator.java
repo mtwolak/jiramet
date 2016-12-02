@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import jira.IssuesSimilarity;
 import jira.JiraIssueSimilarity;
 import lucene.CosineTextsSimilarity;
+import similarity.exceptions.SimilarityRangeException;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
@@ -19,6 +22,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity, TextsSimila
 	private IssuesSimilarityHelper ish;
 	private CosineTextsSimilarity cts;
 	private PropertiesReader propertiesReader;
+	private Logger logger;
 
 	public IssuesSimilarityCalculator(PropertiesReader propertiesReader)
 	{
@@ -52,16 +56,22 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity, TextsSimila
 	}
 
 	@Override
-	public double getSimilarity(String text1, String text2)
+	public double getSimilarity(String text1, String text2) 
 	{
 		double similarity = 0.0;
 		try
 		{
+			logger = Logger.getLogger(IssuesSimilarityCalculator.class.getName());
 			if(text1 != null && text2 != null)
 			{
 				cts = new CosineTextsSimilarity(text1, text2);
 				similarity = cts.getSimilarity();
 			}
+			if(similarity < 0 || similarity > 1)
+				throw new SimilarityRangeException();
+		} catch(SimilarityRangeException ex)
+		{
+			logger.error(ex);
 		} catch (IOException e)
 		{
 			e.printStackTrace();

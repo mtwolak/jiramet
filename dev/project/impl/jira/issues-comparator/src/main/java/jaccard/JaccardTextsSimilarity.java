@@ -7,14 +7,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
+import database.application.DatabaseApplication;
 import similarity.TextsSimilarity;
+import similarity.exceptions.SimilarityRangeException;
 
 public class JaccardTextsSimilarity implements TextsSimilarity
 {
 	private static final int K = 3;
+	private Logger logger;
 	
 	@Override
 	public double getSimilarity(String text1, String text2) {
+		logger = Logger.getLogger(DatabaseApplication.class.getName());
         Map<String, Integer> profile1 = getProfile(text1);
         Map<String, Integer> profile2 = getProfile(text2);
 
@@ -23,14 +29,23 @@ public class JaccardTextsSimilarity implements TextsSimilarity
         union.addAll(profile2.keySet());
 
         int inter = 0;
+        double similarity = 0.0;
 
         for (String key : union) {
-            if (profile1.containsKey(key) && profile2.containsKey(key)) {
+            if (profile1.containsKey(key) && profile2.containsKey(key))
                 inter++;
-            }
         }
-
-        return 1.0 * inter / union.size();
+		try {
+			
+           similarity = 1.0 * inter / union.size();
+        
+           if(similarity < 0 || similarity > 1)
+              throw new SimilarityRangeException();
+           
+		} catch (SimilarityRangeException e) {
+			logger.error(e);
+		}
+        return similarity;
     }
 	
 	public double getDistance(String text1, String text2) {
