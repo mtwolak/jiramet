@@ -95,6 +95,7 @@ public class DatabaseApplicationTest
 
 	@Test
 	public void getJiraProjectsTest() {
+		changeSetup();
 	    assertNull(serviceUnderTest.getJiraProjects());
 	}
 	
