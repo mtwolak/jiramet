@@ -34,7 +34,7 @@ public class JaccardTextsSimilarityTest
 	
 	@Test
 	public void testGetDistance2() {
-		assertEquals(distance, 1.0 - similarity, 0);
+		assertEquals(distance, 1.0 - similarity, 0.01);
 	}
 	
 	@Test

@@ -36,7 +36,7 @@ public class IssuesSimilarityCalculatorTest
 	@Test
 	public void getSimilarityTest2() {
 		Mockito.when(isc.getSimilarity(Matchers.anyString(), Matchers.anyString())).thenReturn(0.5);
-		assertTrue(0.5 == isc.getSimilarity("abc", "def"));
+		assertEquals(0.5, isc.getSimilarity("abc", "def"), 0.01);
 	}
 
 }

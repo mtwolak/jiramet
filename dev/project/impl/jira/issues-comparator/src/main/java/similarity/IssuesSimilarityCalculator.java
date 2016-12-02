@@ -18,7 +18,6 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity, TextsSimila
 	private DatabaseApplication dba;
 	private IssuesSimilarityHelper ish;
 	private CosineTextsSimilarity cts;
-	private double similarity;
 	private PropertiesReader propertiesReader;
 
 	public IssuesSimilarityCalculator(PropertiesReader propertiesReader)
@@ -55,7 +54,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity, TextsSimila
 	@Override
 	public double getSimilarity(String text1, String text2)
 	{
-		similarity = 0.0;
+		double similarity = 0.0;
 		try
 		{
 			if(text1 != null && text2 != null)
