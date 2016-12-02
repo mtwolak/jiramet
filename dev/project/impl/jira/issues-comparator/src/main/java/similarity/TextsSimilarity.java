@@ -2,5 +2,5 @@ package similarity;
 
 public interface TextsSimilarity 
 {
-	public double getSimilarity(String s1, String s2);
+	public double getSimilarity(String text1, String text2);
 }

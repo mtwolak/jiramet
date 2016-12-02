@@ -57,10 +57,11 @@ public class CosineTextsSimilarity implements TextsSimilarity
 		return (v1.dotProduct(v2)) / (v1.getNorm() * v2.getNorm());
 	}
 
-	public double getSimilarity(String s1, String s2) {
+	@Override
+	public double getSimilarity(String text1, String text2) {
 		double similarity = 0.0;
 		try {
-			similarity = new CosineTextsSimilarity(s1, s2).getSimilarity();
+			similarity = new CosineTextsSimilarity(text1, text2).getSimilarity();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

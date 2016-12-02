@@ -28,6 +28,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		this.ish = new IssuesSimilarityHelper();
 	}
 
+	@Override
 	public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue jiraIssue)
 	{
 		List<JiraIssueSimilarity> similarityList = new ArrayList<JiraIssueSimilarity>();

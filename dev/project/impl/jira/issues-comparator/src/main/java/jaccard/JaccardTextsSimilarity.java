@@ -13,6 +13,7 @@ public class JaccardTextsSimilarity implements TextsSimilarity
 {
 	private static final int K = 3;
 	
+	@Override
 	public double getSimilarity(String text1, String text2) {
         Map<String, Integer> profile1 = getProfile(text1);
         Map<String, Integer> profile2 = getProfile(text2);
