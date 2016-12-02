@@ -10,7 +10,7 @@ import org.hibernate.criterion.Restrictions;
 
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
-import database.exceptions.DatabaseAccessException;
+import database.exception.DatabaseAccessException;
 import database.manager.DatabaseManager;
 import utils.properties.PropertiesReader;
 import utils.properties.hibernate.HibernateProductionConfiguration;

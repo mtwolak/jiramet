@@ -1,4 +1,4 @@
-package database.exceptions;
+package database.exception;
 
 public class DatabaseAccessException extends Exception {
 
