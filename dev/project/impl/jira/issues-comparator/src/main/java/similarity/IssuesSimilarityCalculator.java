@@ -13,7 +13,7 @@ import lucene.CosineTextsSimilarity;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
-public class IssuesSimilarityCalculator implements IssuesSimilarity
+public class IssuesSimilarityCalculator implements IssuesSimilarity, TextsSimilarity
 {
 	private DatabaseApplication dba;
 	private IssuesSimilarityHelper ish;
@@ -52,6 +52,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 				+ propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) * getSimilarity(issue1.getSummary(), ish.collectIssueComments(issue2).toString());
 	}
 
+	@Override
 	public double getSimilarity(String text1, String text2)
 	{
 		similarity = 0.0;
