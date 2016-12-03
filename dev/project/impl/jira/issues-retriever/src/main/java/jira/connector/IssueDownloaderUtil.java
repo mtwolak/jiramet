@@ -17,11 +17,18 @@ public class IssueDownloaderUtil
 	public static boolean addSingleIssueToDatabase(IssueDbContext dbm, ProjectData project, Issue issue)
 	{
 
+		if (issue.getDescription() == null || "".equals(issue.getDescription()) || issue.getSummary() == null
+				|| "".equals(issue.getSummary()))
+		{
+			return false;
+		}
+
 		JiraProject jiraProject = dbm.getJiraProject(project.getProjectName());
 		FieldPicker fieldPicker = new FieldPicker();
 
 		IssuePriority issuePriority = dbm.addIssuePriorityIfNotExists(fieldPicker.getPriority(issue.getPriority()));
-		IssueResolution issueResolution = dbm.addIssueResolutionIfNotExists(fieldPicker.getResolution(issue.getResolution()));
+		IssueResolution issueResolution = dbm
+				.addIssueResolutionIfNotExists(fieldPicker.getResolution(issue.getResolution()));
 		IssueStatus issueStatus = fieldPicker.getStatus(issue.getStatus().getName());
 		IssueType issueType = dbm.addIssueTypeIfNotExists(fieldPicker.getType(issue.getIssueType()));
 		IssueReporter issueReporter = dbm.addIssueReporterIfNotExists(fieldPicker.getReporter(issue.getReporter()));
