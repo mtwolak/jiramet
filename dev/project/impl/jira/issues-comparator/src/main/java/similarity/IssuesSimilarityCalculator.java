@@ -1,6 +1,5 @@
 package similarity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import org.apache.log4j.Logger;
 
 import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
-import database.entity.JiraProject;
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeIssues;
 import jira.IssuesSimilarity;
@@ -37,34 +35,6 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		this.issuesSimilarityHelper = getIssueSimilarityHelper();
 	}
 
-	@Override
-	public List<AssigneeIssueSimilarity> getAssigneesWithIssueSimilarities(List<AssigneeIssues> assigneeIssues,
-			JiraIssue jiraIssueToCompare)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// @Override
-	// public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue
-	// jiraIssue)
-	// {
-	// List<JiraIssueSimilarity> similarityList = new
-	// ArrayList<JiraIssueSimilarity>();
-	// JiraProject project = jiraIssue.getJiraProject();
-	// @SuppressWarnings("unchecked")
-	// List<JiraIssue> issues = dba.getJiraIssues(project);
-	// for (JiraIssue issue : issues)
-	// {
-	// if (issue.getJiraIssueId() != jiraIssue.getJiraIssueId())
-	// similarityList.add(new JiraIssueSimilarity(issue,
-	// getIssuesSimilarity(jiraIssue, issue)));
-	// }
-	// dba.closeSession();
-	//
-	// return similarityList;
-	// }
-
 	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
 		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) * calculateSimilarity(issue1.getSummary(), issue2.getSummary())
@@ -82,6 +52,28 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	protected IssuesSimilarityHelper getIssueSimilarityHelper()
 	{
 		return new IssuesSimilarityHelper();
+	}
+
+	@Override
+	public List<AssigneeIssueSimilarity> getAssigneesWithIssueSimilarities(List<AssigneeIssues> assigneeIssues,
+			JiraIssue jiraIssueToCompare)
+	{
+		List<AssigneeIssueSimilarity> assigneeSimilarityList = new ArrayList<AssigneeIssueSimilarity>();
+		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>();
+
+		for(AssigneeIssues asi : assigneeIssues)
+		{
+			for(JiraIssue issue : asi.getAssignedJiraIssues())
+			{
+				if (issue.getJiraIssueId() != jiraIssueToCompare.getJiraIssueId())
+					jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(jiraIssueToCompare, issue)));
+			}
+			assigneeSimilarityList.add(new AssigneeIssueSimilarity(asi.getAssignee(), jiraIssueSimilarities));
+			jiraIssueSimilarities = null;
+		}
+		dba.closeSession();
+		
+		return assigneeSimilarityList;
 	}
 	
 

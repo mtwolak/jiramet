@@ -41,6 +41,7 @@ public class IssuesSimilarityCalculatorTest
 		isc.init();
 	}
 
+
 	@Test
 	public void shouldGetAssigneeWithIssueSimilarityForExampleIssueCompare()
 	{
