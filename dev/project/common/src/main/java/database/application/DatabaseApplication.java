@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
+import database.entity.Assignee;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import database.exception.DatabaseAccessException;
@@ -96,6 +97,24 @@ public class DatabaseApplication
 			issues = criteria.list();
 			if (issues.size() >= 1)
 				return issues;
+			else
+				throw new DatabaseAccessException();
+		}catch(DatabaseAccessException ex){
+			logger.error(ex);
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List getJiraAssignees(Assignee assigneeId)
+	{
+		try{
+			logger = Logger.getLogger(DatabaseApplication.class.getName());
+			criteria = session.createCriteria(Assignee.class);
+			criteria.add(Restrictions.eq("assignee", assigneeId));
+			List assignees = criteria.list();
+			if (assignees.size() >= 1)
+				return assignees;
 			else
 				throw new DatabaseAccessException();
 		}catch(DatabaseAccessException ex){
