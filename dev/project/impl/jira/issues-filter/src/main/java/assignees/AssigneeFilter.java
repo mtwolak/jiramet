@@ -8,14 +8,16 @@ import database.entity.Assignee;
 import database.entity.JiraIssue;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
+import utils.properties.Property;
 
 public class AssigneeFilter 
 {
+	private PropertiesReader propertiesReader;
 	private DatabaseApplication dba;
-	public static int MIN_NUMBER_OF_ISSUES_FOR_DEVELOPER = 5;
 	
 	public AssigneeFilter(PropertiesReader propertiesReader)
 	{
+		this.propertiesReader = propertiesReader;
 		this.dba = new DatabaseApplication(propertiesReader);
 	}
 	
@@ -26,9 +28,9 @@ public class AssigneeFilter
 		List<JiraIssue> assignedJiraIssues;
 		for(Assignee assignee : (List<Assignee>) dba.getJiraAssignees())
 		{
-			assignedJiraIssues = assignee.getAssigneedJiraIssues();
-			if(assignedJiraIssues.size() >= MIN_NUMBER_OF_ISSUES_FOR_DEVELOPER)
-				assigneeIssues.add(new AssigneeIssues(assignee, assignee.getAssigneedJiraIssues()));
+			assignedJiraIssues = assignee.getAssignedJiraIssues();
+			if(assignedJiraIssues.size() >= propertiesReader.getAsInt(Property.MIN_NUMBER_OF_ISSUES_FOR_DEVELOPER))
+				assigneeIssues.add(new AssigneeIssues(assignee, assignedJiraIssues));
 		}
 		return assigneeIssues;
 	}

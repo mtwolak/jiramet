@@ -23,10 +23,11 @@ public class IssuesSimilarityCalculatorTest
 		isc = Mockito.mock(IssuesSimilarityCalculator.class);
 	}
 
-//	@Test
-//	public void getSimilarityListTest() {
-//		assertNotNull(isc.getIssuesSimilarityList(Matchers.any(JiraIssue.class)));
-//	}
+	@SuppressWarnings("unchecked")
+	@Test
+	public void getSimilarityListTest() {
+		assertNotNull(isc.getIssuesSimilarityList(Matchers.any(JiraIssue.class), Matchers.anyList()));
+	}
 
 	@Test
 	public void getIssuesSimilarityTest() {

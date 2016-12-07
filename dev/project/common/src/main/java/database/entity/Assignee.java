@@ -39,7 +39,7 @@ public class Assignee {
 		return assigneeId;
 	}
 	
-	public List<JiraIssue> getAssigneedJiraIssues() {
+	public List<JiraIssue> getAssignedJiraIssues() {
 		List<JiraIssue> jiraIssues = new ArrayList<JiraIssue>();
 		for(AssignedIssue assignedIssue : assignedIssue)
 		{

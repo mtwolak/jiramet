@@ -17,5 +17,6 @@ public enum Property
 	COMMENTS_WEIGHT,
 	//model parameters
 	MODEL_MIN_ALPHA, 
-	MODEL_K
+	MODEL_K, 
+	MIN_NUMBER_OF_ISSUES_FOR_DEVELOPER
 }

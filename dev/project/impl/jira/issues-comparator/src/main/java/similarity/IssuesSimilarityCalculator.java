@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 
 import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
-import database.entity.JiraProject;
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeIssues;
 import jira.IssuesSimilarity;
@@ -34,27 +33,25 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity, TextsSimila
 	}
 	
 	@Override
-	public List<AssigneeIssueSimilarity> getIssuesSimilarityList(List<AssigneeIssues> assigneeIssues)
+	public List<AssigneeIssueSimilarity> getIssuesSimilarityList(JiraIssue jiraIssue, List<AssigneeIssues> assigneeIssues)
 	{
-		throw new UnsupportedOperationException();
-	}
+		List<AssigneeIssueSimilarity> assigneeSimilarityList = new ArrayList<AssigneeIssueSimilarity>();
+		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>();
 
-//	@Override
-//	public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue jiraIssue)
-//	{
-//		List<JiraIssueSimilarity> similarityList = new ArrayList<JiraIssueSimilarity>();
-//		JiraProject project = jiraIssue.getJiraProject();
-//		@SuppressWarnings("unchecked")
-//		List<JiraIssue> issues = dba.getJiraIssues(project);
-//		for (JiraIssue issue : issues)
-//		{
-//			if (issue.getJiraIssueId() != jiraIssue.getJiraIssueId())
-//				similarityList.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(jiraIssue, issue)));
-//		}
-//		dba.closeSession();
-//
-//		return similarityList;
-//	}
+		for(AssigneeIssues asi : assigneeIssues)
+		{
+			for(JiraIssue issue : asi.getAssignedJiraIssues())
+			{
+				if (issue.getJiraIssueId() != jiraIssue.getJiraIssueId())
+					jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(jiraIssue, issue)));
+			}
+			assigneeSimilarityList.add(new AssigneeIssueSimilarity(asi.getAssignee(), jiraIssueSimilarities));
+			jiraIssueSimilarities = null;
+		}
+		dba.closeSession();
+		
+		return assigneeSimilarityList;
+	}
 
 	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
