@@ -2,6 +2,7 @@ package prediction.main;
 
 import java.util.List;
 
+import jira.AssigneeIssues;
 import jira.AssigneeTimeResolve;
 import jira.JiraIssueSimilarity;
 import jira.KnnResolvable;
@@ -18,11 +19,17 @@ public class PredictionMain implements KnnResolvable
 		this.propertiesReader = propertiesReader;
 	}
 
+//	@Override
+//	public List<AssigneeTimeResolve> getPrediction(List<JiraIssueSimilarity> jiraIssueSimilarities)
+//	{
+//		IssueResolvingTimes issueResolvingTimes = new IssueResolvingTimes(propertiesReader);
+//		return issueResolvingTimes.getIssueResolvingTimePrediction(jiraIssueSimilarities);
+//	}
+
 	@Override
-	public List<AssigneeTimeResolve> getPrediction(List<JiraIssueSimilarity> jiraIssueSimilarities)
+	public List<AssigneeTimeResolve> getPrediction(List<AssigneeIssues> jiraIssueSimilarities)
 	{
-		IssueResolvingTimes issueResolvingTimes = new IssueResolvingTimes(propertiesReader);
-		return issueResolvingTimes.getIssueResolvingTimePrediction(jiraIssueSimilarities);
+		throw new UnsupportedOperationException();
 	}
 
 }

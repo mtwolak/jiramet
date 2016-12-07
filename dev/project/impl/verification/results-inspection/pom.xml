@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>project</groupId>
-		<artifactId>prediction</artifactId>
+		<artifactId>verification</artifactId>
 		<version>1</version>
 	</parent>
 	<artifactId>results-inspection</artifactId>

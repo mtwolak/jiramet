@@ -28,14 +28,16 @@ public class PredictionModelViewer
 	public void show()
 	{
 //		new IssueDownloaderMain(propertiesReader).retrieveAllIssues();
-		JiraIssue issue = getJiraIssueFromDb();
-		System.out.println(issue.getSummary());
-		IssuesSimilarity issuesSimilarity = getIssuesSimilarity();
-		List<JiraIssueSimilarity> issuesSimilarityList = issuesSimilarity.getIssuesSimilarityList(issue);
-		KnnResolvable knn = getKnn();
-		List<AssigneeTimeResolve> prediction = knn.getPrediction(issuesSimilarityList);
-		PredictionPrintable print = new PredictionTextComposer(propertiesReader);
-		print.printPrediction(issue, prediction);
+		
+//		
+//		JiraIssue issue = getJiraIssueFromDb();
+//		System.out.println(issue.getSummary());
+//		IssuesSimilarity issuesSimilarity = getIssuesSimilarity();
+//		List<JiraIssueSimilarity> issuesSimilarityList = issuesSimilarity.getIssuesSimilarityList(issue);
+//		KnnResolvable knn = getKnn();
+//		List<AssigneeTimeResolve> prediction = knn.getPrediction(issuesSimilarityList);
+//		PredictionPrintable print = new PredictionTextComposer(propertiesReader);
+//		print.printPrediction(issue, prediction);
 
 	}
 
