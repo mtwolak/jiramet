@@ -98,12 +98,7 @@ public class DatabaseApplicationTest
 	@Test
 	public void getAssigneesTest() {
 		changeSetup(Assignee.class);
-		captor = ArgumentCaptor.forClass(Criterion.class);
-		serviceUnderTest.getJiraIssues(jiraProject);
-	    Mockito.verify(criteria).add(captor.capture());
-	    criterion = captor.getValue();
-	    expectation = Restrictions.eq("jiraProject", jiraProject);
-	    assertEquals(expectation.toString(), criterion.toString());
+		assertNull(serviceUnderTest.getJiraAssignees());
 	}
 
 	@Test

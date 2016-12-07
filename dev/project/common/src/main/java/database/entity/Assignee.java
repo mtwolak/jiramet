@@ -1,5 +1,7 @@
 package database.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -35,6 +37,15 @@ public class Assignee {
 
 	public int getAssigneeId() {
 		return assigneeId;
+	}
+	
+	public List<JiraIssue> getAssigneedJiraIssues() {
+		List<JiraIssue> jiraIssues = new ArrayList<JiraIssue>();
+		for(AssignedIssue assignedIssue : assignedIssue)
+		{
+			jiraIssues.add(assignedIssue.getJiraIssue());
+		}
+		return jiraIssues;
 	}
 
 	@Override
