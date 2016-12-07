@@ -10,5 +10,6 @@
   <modules>
   	<module>issues-comparator</module>
   	<module>issues-retriever</module>
+  	<module>issues-filter</module>
   </modules>
 </project>

@@ -11,5 +11,6 @@
   	<module>jira</module>
   	<module>core</module>
   	<module>prediction</module>
+  	<module>verification</module>
   </modules>
 </project>

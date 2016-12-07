@@ -44,5 +44,15 @@
   		<artifactId>common</artifactId>
   		<version>1</version>
   	</dependency>
+  	<dependency>
+  		<groupId>project</groupId>
+  		<artifactId>issues-filter</artifactId>
+  		<version>1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>project</groupId>
+  		<artifactId>results-inspection</artifactId>
+  		<version>1</version>
+  	</dependency>
   </dependencies>
 </project>
