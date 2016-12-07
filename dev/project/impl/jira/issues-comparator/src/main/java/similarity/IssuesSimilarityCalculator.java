@@ -14,77 +14,75 @@ import jira.AssigneeIssues;
 import jira.IssuesSimilarity;
 import jira.JiraIssueSimilarity;
 import lucene.CosineTextsSimilarity;
-import similarity.exceptions.SimilarityRangeException;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
-public class IssuesSimilarityCalculator implements IssuesSimilarity, TextsSimilarity
+public class IssuesSimilarityCalculator implements IssuesSimilarity  
 {
+	private IssuesSimilarityHelper issuesSimilarityHelper;
 	private DatabaseApplication dba;
-	private IssuesSimilarityHelper ish;
 	private CosineTextsSimilarity cts;
+	private TextSimilarity textsSimilarity;
 	private PropertiesReader propertiesReader;
-	private Logger logger;
+	private static final Logger LOGGER = Logger.getLogger(IssuesSimilarityCalculator.class.getName());
 
-	public IssuesSimilarityCalculator(PropertiesReader propertiesReader)
+	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, DatabaseApplication databaseApplication, TextSimilarity textsSimilarityStrategy)
 	{
 		this.propertiesReader = propertiesReader;
-		this.dba = new DatabaseApplication(propertiesReader);
-		this.ish = new IssuesSimilarityHelper();
+		this.dba = databaseApplication;
+		this.textsSimilarity = textsSimilarityStrategy;
 	}
 	
-	@Override
-	public List<AssigneeIssueSimilarity> getIssuesSimilarityList(List<AssigneeIssues> assigneeIssues)
-	{
-		throw new UnsupportedOperationException();
+	public void init() {
+		this.issuesSimilarityHelper = getIssueSimilarityHelper();
 	}
 
-//	@Override
-//	public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue jiraIssue)
-//	{
-//		List<JiraIssueSimilarity> similarityList = new ArrayList<JiraIssueSimilarity>();
-//		JiraProject project = jiraIssue.getJiraProject();
-//		@SuppressWarnings("unchecked")
-//		List<JiraIssue> issues = dba.getJiraIssues(project);
-//		for (JiraIssue issue : issues)
-//		{
-//			if (issue.getJiraIssueId() != jiraIssue.getJiraIssueId())
-//				similarityList.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(jiraIssue, issue)));
-//		}
-//		dba.closeSession();
-//
-//		return similarityList;
-//	}
+	@Override
+	public List<AssigneeIssueSimilarity> getAssigneesWithIssueSimilarities(List<AssigneeIssues> assigneeIssues,
+			JiraIssue jiraIssueToCompare)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// @Override
+	// public List<JiraIssueSimilarity> getIssuesSimilarityList(JiraIssue
+	// jiraIssue)
+	// {
+	// List<JiraIssueSimilarity> similarityList = new
+	// ArrayList<JiraIssueSimilarity>();
+	// JiraProject project = jiraIssue.getJiraProject();
+	// @SuppressWarnings("unchecked")
+	// List<JiraIssue> issues = dba.getJiraIssues(project);
+	// for (JiraIssue issue : issues)
+	// {
+	// if (issue.getJiraIssueId() != jiraIssue.getJiraIssueId())
+	// similarityList.add(new JiraIssueSimilarity(issue,
+	// getIssuesSimilarity(jiraIssue, issue)));
+	// }
+	// dba.closeSession();
+	//
+	// return similarityList;
+	// }
 
 	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) * getSimilarity(issue1.getSummary(), issue2.getSummary())
-				+ propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT) * getSimilarity(issue1.getDescription(), issue2.getDescription())
-				+ propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) * getSimilarity(issue1.getSummary(), ish.collectIssueComments(issue2).toString());
+		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) * calculateSimilarity(issue1.getSummary(), issue2.getSummary())
+				+ propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT)
+						* calculateSimilarity(issue1.getDescription(), issue2.getDescription())
+				+ propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT)
+						* calculateSimilarity(issue1.getSummary(), issuesSimilarityHelper.collectIssueComments(issue2).toString());
 	}
 
-	@Override
-	public double getSimilarity(String text1, String text2) 
+	private double calculateSimilarity(String text1, String text2)
 	{
-		double similarity = 0.0;
-		try
-		{
-			logger = Logger.getLogger(IssuesSimilarityCalculator.class.getName());
-			if(text1 != null && text2 != null)
-			{
-				cts = new CosineTextsSimilarity(text1, text2);
-				similarity = cts.getSimilarity();
-			}
-			if(similarity < 0 || similarity > 1)
-				throw new SimilarityRangeException();
-		} catch(SimilarityRangeException ex)
-		{
-			logger.error(ex);
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return similarity;
+		return textsSimilarity.getSimilarity(text1, text2);
 	}
+
+	protected IssuesSimilarityHelper getIssueSimilarityHelper()
+	{
+		return new IssuesSimilarityHelper();
+	}
+	
 
 }

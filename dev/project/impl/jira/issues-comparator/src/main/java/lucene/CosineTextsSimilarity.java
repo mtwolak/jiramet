@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.math3.linear.*;
-import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.*;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.document.*;
@@ -15,21 +14,17 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.store.*;
 import org.apache.lucene.util.*;
 
-import database.application.DatabaseApplication;
-import similarity.TextsSimilarity;
-import similarity.exceptions.SimilarityRangeException;
+import similarity.TextSimilarity;
 
-public class CosineTextsSimilarity implements TextsSimilarity
+public class CosineTextsSimilarity extends TextSimilarity
 {
 
 	public static final String CONTENT = "Content";
-
 	private final Set<String> terms = new HashSet<>();
-	private final RealVector v1;
-	private final RealVector v2;
-	private Logger logger;
+	private RealVector v1;
+	private RealVector v2;
 
-	public CosineTextsSimilarity(String s1, String s2) throws IOException
+	private void initVectors(String s1, String s2) throws IOException
 	{
 		Directory directory = createIndex(s1, s2);
 		IndexReader reader = DirectoryReader.open(directory);
@@ -40,7 +35,8 @@ public class CosineTextsSimilarity implements TextsSimilarity
 		v2 = toRealVector(f2);
 	}
 
-	public Directory createIndex(String text1, String text2) throws IOException {
+	private Directory createIndex(String text1, String text2) throws IOException
+	{
 		Directory directory = new RAMDirectory();
 		Analyzer analyzer = new SimpleAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
@@ -51,33 +47,27 @@ public class CosineTextsSimilarity implements TextsSimilarity
 		return directory;
 	}
 
-	public void addDocument(IndexWriter writer, String content) throws IOException {
+	private void addDocument(IndexWriter writer, String content) throws IOException
+	{
 		Document doc = new Document();
 		doc.add(new VecTextField(CONTENT, content, Store.YES));
 		writer.addDocument(doc);
 	}
 
-	public double getSimilarity() {
+	private double getSimilarityFromVectors()
+	{
 		return (v1.dotProduct(v2)) / (v1.getNorm() * v2.getNorm());
 	}
-
+	
 	@Override
-	public double getSimilarity(String text1, String text2) {
-		logger = Logger.getLogger(DatabaseApplication.class.getName());
-		double similarity = 0.0;
-		try {
-			similarity = new CosineTextsSimilarity(text1, text2).getSimilarity();
-			if(similarity < 0 || similarity > 1)
-				throw new SimilarityRangeException();
-		} catch (SimilarityRangeException e) {
-			logger.error(e);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return similarity;
+	protected double processSimilarity(String text1, String text2) throws IOException
+	{
+		initVectors(text1, text2);
+		return getSimilarityFromVectors();
 	}
 
-	public Map<String, Integer> getTermFrequencies(IndexReader reader, int docId) throws IOException {
+	private Map<String, Integer> getTermFrequencies(IndexReader reader, int docId) throws IOException
+	{
 		Terms vector = reader.getTermVector(docId, CONTENT);
 		TermsEnum termsEnum = null;
 		termsEnum = vector.iterator();
@@ -93,7 +83,8 @@ public class CosineTextsSimilarity implements TextsSimilarity
 		return frequencies;
 	}
 
-	public RealVector toRealVector(Map<String, Integer> map) {
+	private RealVector toRealVector(Map<String, Integer> map)
+	{
 		RealVector vector = new ArrayRealVector(terms.size());
 		int i = 0;
 		for (String term : terms)
@@ -103,4 +94,5 @@ public class CosineTextsSimilarity implements TextsSimilarity
 		}
 		return (RealVector) vector.mapDivide(vector.getL1Norm());
 	}
+
 }

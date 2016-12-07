@@ -2,8 +2,10 @@ package jira;
 
 import java.util.List;
 
+import database.entity.JiraIssue;
+
 public interface IssuesSimilarity
 {
-	List<AssigneeIssueSimilarity> getIssuesSimilarityList(List<AssigneeIssues> assigneeIssues);
+	List<AssigneeIssueSimilarity> getAssigneesWithIssueSimilarities(List<AssigneeIssues> assigneeIssues, JiraIssue jiraIssueToCompare);
 	
 }

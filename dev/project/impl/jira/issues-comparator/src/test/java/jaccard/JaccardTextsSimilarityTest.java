@@ -19,7 +19,6 @@ public class JaccardTextsSimilarityTest
 	public void setUp(){
 		js = new JaccardTextsSimilarity();
 		similarity = js.getSimilarity(TEXT_1, TEXT_2);
-		distance = js.getDistance(TEXT_1, TEXT_2);
 	}
 	
 	@Test
@@ -30,16 +29,6 @@ public class JaccardTextsSimilarityTest
 	@Test
 	public void testGetDistance() {
 		assertTrue(distance >= 0 && distance <= 1);
-	}
-	
-	@Test
-	public void testGetDistance2() {
-		assertEquals(distance, 1.0 - similarity, 0.01);
-	}
-	
-	@Test
-	public void testGetProfile() {
-		assertNotNull(js.getProfile(TEXT_1));
 	}
 
 }

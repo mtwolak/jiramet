@@ -10,33 +10,42 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
+import utils.properties.PropertiesReader;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IssuesSimilarityCalculatorTest
 {
-	@Mock
 	private IssuesSimilarityCalculator isc;
+	@Mock
+	private PropertiesReader propertiesReaderMock;
+	@Mock
+	private DatabaseApplication databaseApplicationMock;
+	@Mock
+	private IssuesSimilarityHelper issueSimilarityHelperMock;
+	@Mock
+	private TextSimilarity textsSimilarityMock;
 
 	@Before
-	public void setUp() {
-		isc = Mockito.mock(IssuesSimilarityCalculator.class);
+	public void setUp()
+	{
+		isc = new IssuesSimilarityCalculator(propertiesReaderMock, databaseApplicationMock, textsSimilarityMock)
+		{
+			@Override
+			protected IssuesSimilarityHelper getIssueSimilarityHelper()
+			{
+				return issueSimilarityHelperMock;
+			}
+		};
+		isc.init();
 	}
-
-//	@Test
-//	public void getSimilarityListTest() {
-//		assertNotNull(isc.getIssuesSimilarityList(Matchers.any(JiraIssue.class)));
-//	}
 
 	@Test
-	public void getIssuesSimilarityTest() {
-		assertNotNull(isc.getIssuesSimilarity(Matchers.any(JiraIssue.class), Matchers.any(JiraIssue.class)));
+	public void shouldGetAssigneeWithIssueSimilarityForExampleIssueCompare()
+	{
+
 	}
 
-	@Test
-	public void getSimilarityTest2() {
-		Mockito.when(isc.getSimilarity(Matchers.anyString(), Matchers.anyString())).thenReturn(0.5);
-		assertEquals(0.5, isc.getSimilarity("abc", "def"), 0.01);
-	}
 
 }

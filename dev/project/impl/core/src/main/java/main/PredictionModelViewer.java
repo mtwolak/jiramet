@@ -9,6 +9,7 @@ import jira.IssuesSimilarity;
 import jira.JiraIssueSimilarity;
 import jira.KnnResolvable;
 import jira.prediction.PredictionPrintable;
+import lucene.CosineTextsSimilarity;
 import prediction.main.PredictionMain;
 import printer.PredictionTextComposer;
 import retriever.main.IssueDownloaderMain;
@@ -48,7 +49,7 @@ public class PredictionModelViewer
 
 	private IssuesSimilarity getIssuesSimilarity()
 	{
-		return new IssuesSimilarityCalculator(propertiesReader);
+		return new IssuesSimilarityCalculator(propertiesReader, new DatabaseApplication(propertiesReader), new CosineTextsSimilarity());
 	}
 
 	private JiraIssue getJiraIssueFromDb()
