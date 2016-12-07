@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import database.entity.Assignee;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 
@@ -50,9 +51,10 @@ public class DatabaseApplicationTest
 		serviceUnderTest = new DatabaseApplication(sessionFactory);
 	}
 	
-	public void changeSetup() {
+	@SuppressWarnings("rawtypes")
+	public void changeSetup(Class className) {
 		Mockito.reset(criteria);
-		Mockito.when(session.createCriteria(JiraProject.class)).thenReturn(criteria);
+		Mockito.when(session.createCriteria(className)).thenReturn(criteria);
 		Mockito.when(criteria.setFetchMode(Mockito.anyString(), (FetchMode) Mockito.anyObject())).thenReturn(criteria);
 		Mockito.when(criteria.setFirstResult(Mockito.anyInt())).thenReturn(criteria);
 		Mockito.when(criteria.setMaxResults(Mockito.anyInt())).thenReturn(criteria);
@@ -74,7 +76,7 @@ public class DatabaseApplicationTest
 	
 	@Test
 	public void getJiraProjectTest() {
-		changeSetup();
+		changeSetup(JiraProject.class);
 		captor = ArgumentCaptor.forClass(Criterion.class);
 		jiraProject = serviceUnderTest.getJiraProject(1);
 	    Mockito.verify(criteria).add(captor.capture());
@@ -92,10 +94,21 @@ public class DatabaseApplicationTest
 	    expectation = Restrictions.eq("jiraProject", jiraProject);
 	    assertEquals(expectation.toString(), criterion.toString());
 	}
+	
+	@Test
+	public void getAssigneesTest() {
+		changeSetup(Assignee.class);
+		captor = ArgumentCaptor.forClass(Criterion.class);
+		serviceUnderTest.getJiraIssues(jiraProject);
+	    Mockito.verify(criteria).add(captor.capture());
+	    criterion = captor.getValue();
+	    expectation = Restrictions.eq("jiraProject", jiraProject);
+	    assertEquals(expectation.toString(), criterion.toString());
+	}
 
 	@Test
 	public void getJiraProjectsTest() {
-		changeSetup();
+		changeSetup(JiraProject.class);
 	    assertNull(serviceUnderTest.getJiraProjects());
 	}
 	
