@@ -3,15 +3,12 @@ package similarity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeIssues;
 import jira.IssuesSimilarity;
 import jira.JiraIssueSimilarity;
-import lucene.CosineTextsSimilarity;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
@@ -19,10 +16,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 {
 	private IssuesSimilarityHelper issuesSimilarityHelper;
 	private DatabaseApplication dba;
-	private CosineTextsSimilarity cts;
 	private TextSimilarity textsSimilarity;
 	private PropertiesReader propertiesReader;
-	private static final Logger LOGGER = Logger.getLogger(IssuesSimilarityCalculator.class.getName());
 
 	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, DatabaseApplication databaseApplication, TextSimilarity textsSimilarityStrategy)
 	{
@@ -56,7 +51,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 
 	@Override
 	public List<AssigneeIssueSimilarity> getAssigneesWithIssueSimilarities(List<AssigneeIssues> assigneeIssues,
-			JiraIssue jiraIssueToCompare)
+			JiraIssue newJiraIssue)
 	{
 		List<AssigneeIssueSimilarity> assigneeSimilarityList = new ArrayList<AssigneeIssueSimilarity>();
 		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>();
@@ -65,8 +60,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		{
 			for(JiraIssue issue : asi.getAssignedJiraIssues())
 			{
-				if (issue.getJiraIssueId() != jiraIssueToCompare.getJiraIssueId())
-					jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(jiraIssueToCompare, issue)));
+				if (issue.getJiraIssueId() != newJiraIssue.getJiraIssueId())
+					jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(newJiraIssue, issue)));
 			}
 			assigneeSimilarityList.add(new AssigneeIssueSimilarity(asi.getAssignee(), jiraIssueSimilarities));
 			jiraIssueSimilarities = null;
