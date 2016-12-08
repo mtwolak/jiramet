@@ -7,8 +7,8 @@ import database.entity.JiraIssue;
 
 public class AssigneeIssues
 {
-	private Assignee assignee;
-	private List<JiraIssue> assignedJiraIssues;
+	private final Assignee assignee;
+	private final List<JiraIssue> assignedJiraIssues;
 	
 	public AssigneeIssues(Assignee assignee, List<JiraIssue> assignedJiraIssues)
 	{
@@ -20,16 +20,8 @@ public class AssigneeIssues
 		return assignee;
 	}
 
-	public void setAssignee(Assignee assignee) {
-		this.assignee = assignee;
-	}
-	
 	public List<JiraIssue> getAssignedJiraIssues() {
 		return assignedJiraIssues;
 	}
-	
-	public void setAssigneedIssues(List<JiraIssue> assignedJiraIssues) {
-		this.assignedJiraIssues = assignedJiraIssues;
-	}
-	
+
 }
