@@ -5,7 +5,6 @@ import java.util.List;
 
 import database.application.DatabaseApplication;
 import database.entity.Assignee;
-import database.entity.JiraIssue;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 
@@ -41,17 +40,19 @@ public class AssigneeFilter
 	public List<AssigneeIssues> getFilteredAssigneeIssuesList()
 	{
 		List<AssigneeIssues> assigneeIssues = new ArrayList<AssigneeIssues>();
-		List<JiraIssue> assignedJiraIssues = new ArrayList<>();
 		for (Assignee assignee : (List<Assignee>) dba.getJiraAssignees())
 		{
-			assignedJiraIssues = assignee.getAssignedJiraIssues();
-			if (areFiltersOk(assignee))
-			{
-				assigneeIssues.add(new AssigneeIssues(assignee, assignedJiraIssues));
-			}
-			
+			addAssigneeIssueAccordingToFilter(assigneeIssues, assignee);
 		}
 		return assigneeIssues;
+	}
+
+	private void addAssigneeIssueAccordingToFilter(List<AssigneeIssues> assigneeIssues, Assignee assignee)
+	{
+		if (areFiltersOk(assignee))
+		{
+			assigneeIssues.add(new AssigneeIssues(assignee, assignee.getAssignedJiraIssues()));
+		}
 	}
 
 	private boolean areFiltersOk(Assignee assignee)
