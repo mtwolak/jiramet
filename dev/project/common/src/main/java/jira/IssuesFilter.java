@@ -6,6 +6,6 @@ import database.entity.JiraIssue;
 
 public interface IssuesFilter
 {
-	List<AssigneeIssues> getAssignedIssues(JiraIssue jiraIssue);
+	List<AssigneeIssues> getAssignedIssues();
 	
 }

@@ -1,4 +1,4 @@
-package retriever.main;
+package retriever.internet;
 
 import jira.JiraWebLogDownloader;
 import jira.anonymization.NameRandomizer;

@@ -13,7 +13,9 @@ public class Main
 		try
 		{
 			PropertiesReader propertiesReader = new PropertiesReader(application.getArg(1));
-			new PredictionModelViewer(propertiesReader).show();
+			PredictionModelViewer predictionModelViewer = new PredictionModelViewer(propertiesReader);
+			predictionModelViewer.init();
+			predictionModelViewer.showPrediction();
 		} catch (InsufficientArgumentsException e)
 		{
 			application.showUsage();

@@ -45,7 +45,6 @@ public class IssuesSimilarityCalculatorTest
 	@Test
 	public void shouldGetAssigneeWithIssueSimilarityForExampleIssueCompare()
 	{
-
 	}
 
 

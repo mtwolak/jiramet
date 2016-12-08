@@ -45,7 +45,7 @@ public class AssigneeFilterTest
 		assigneeFilter = createTestedObject();
 
 		// then
-		List<AssigneeIssues> filteresAssigneeList = assigneeFilter.getFilteredAssigneeIssuesList();
+		List<AssigneeIssues> filteresAssigneeList = assigneeFilter.getAssignedIssues();
 		assertThat(filteresAssigneeList.size(), is(numberOfAssignessInDatabase));
 	}
 
@@ -58,7 +58,7 @@ public class AssigneeFilterTest
 
 		// when
 		assigneeFilter = createTestedObject();
-		List<AssigneeIssues> filteresAssigneeList = assigneeFilter.getFilteredAssigneeIssuesList();
+		List<AssigneeIssues> filteresAssigneeList = assigneeFilter.getAssignedIssues();
 
 		// then
 		assertTrue(filteresAssigneeList.isEmpty());
