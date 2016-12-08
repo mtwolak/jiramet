@@ -3,7 +3,6 @@ package jira;
 import java.util.List;
 
 import database.entity.Assignee;
-import database.entity.JiraIssue;
 
 public class AssigneeIssueSimilarity
 {

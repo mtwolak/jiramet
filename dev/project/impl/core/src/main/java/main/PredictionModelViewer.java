@@ -5,12 +5,12 @@ import java.util.List;
 import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
 import jira.AssigneeTimeResolve;
+import jira.IssueResolveTimePredictable;
 import jira.IssuesSimilarity;
 import jira.JiraIssueSimilarity;
-import jira.KnnResolvable;
 import jira.prediction.PredictionPrintable;
 import lucene.CosineTextsSimilarity;
-import prediction.main.PredictionMain;
+import prediction.IssueResolveTimePredicter;
 import printer.PredictionTextComposer;
 import retriever.main.IssueDownloaderMain;
 import similarity.IssuesSimilarityCalculator;
@@ -42,9 +42,9 @@ public class PredictionModelViewer
 
 	}
 
-	private KnnResolvable getKnn()
+	private IssueResolveTimePredictable getKnn()
 	{
-		return new PredictionMain(propertiesReader);
+		return new IssueResolveTimePredicter();
 	}
 
 	private IssuesSimilarity getIssuesSimilarity()
