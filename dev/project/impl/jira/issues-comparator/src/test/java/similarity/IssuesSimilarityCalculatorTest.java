@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import database.application.DatabaseApplication;
@@ -17,6 +18,7 @@ import database.entity.JiraIssue;
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
+import utils.properties.Property;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IssuesSimilarityCalculatorTest
@@ -47,6 +49,21 @@ public class IssuesSimilarityCalculatorTest
 			}
 		};
 		isc.init();
+	}
+	
+	@Test
+	public void shouldGetIssuesSimilarity()
+	{
+		// given
+		setWeigths(0.45, 0.45, 0.1);
+		List<JiraIssue> jiraIssues = createFakeJiraIssues(2);
+		
+		// when
+		Mockito.when(textsSimilarityMock.getSimilarity(Mockito.anyString(), Mockito.anyString())).thenReturn(0.5);
+		Mockito.when(issueSimilarityHelperMock.collectIssueComments(Mockito.any(JiraIssue.class))).thenReturn(new StringBuilder());
+		
+		//then
+		assertThat(isc.getIssuesSimilarity(jiraIssues.get(0), jiraIssues.get(1)), is(0.5));
 	}
 
 	@Test
@@ -84,14 +101,16 @@ public class IssuesSimilarityCalculatorTest
 		return assigneeIssues;
 	}
 	
-	private double checkSimilarityCorrectness(double similarity)
+	private void setWeigths(double summWeight, double descWeigtht, double commWeight)
 	{
-		if (similarity < 0 || similarity > 1)
+		if((summWeight + descWeigtht + commWeight) == 1.0)
 		{
-			return -1;
+			Mockito.when(propertiesReaderMock.getAsDouble(Property.SUMMARY_WEIGHT)).thenReturn(summWeight);
+			Mockito.when(propertiesReaderMock.getAsDouble(Property.DESCRIPTION_WEIGHT)).thenReturn(descWeigtht);
+			Mockito.when(propertiesReaderMock.getAsDouble(Property.COMMENTS_WEIGHT)).thenReturn(commWeight);
 		}
-		return similarity;
+		else
+			throw new UnsupportedOperationException("Sum of weights must be 1.0!");
 	}
-
 
 }
