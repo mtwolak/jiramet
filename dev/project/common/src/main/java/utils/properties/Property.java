@@ -15,8 +15,10 @@ public enum Property
 	SUMMARY_WEIGHT,
 	DESCRIPTION_WEIGHT,
 	COMMENTS_WEIGHT,
+	K_SHINGLES,
 	//model parameters
 	MODEL_MIN_ALPHA, 
 	MODEL_K, 
+	//filter parameters
 	MIN_NUMBER_OF_ISSUES_FOR_DEVELOPER
 }

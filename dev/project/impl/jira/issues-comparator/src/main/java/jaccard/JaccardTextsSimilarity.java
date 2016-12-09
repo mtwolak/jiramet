@@ -9,19 +9,27 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import similarity.TextSimilarity;
+import utils.properties.PropertiesReader;
+import utils.properties.Property;
 
 public class JaccardTextsSimilarity extends TextSimilarity
 {
-	private static final int K = 3; //why hardcoded?
+	PropertiesReader propertiesReader;
 
+	public JaccardTextsSimilarity(PropertiesReader propertiesReader)
+	{
+		this.propertiesReader = propertiesReader;
+	}
+	
 	private Map<String, Integer> getProfile(String string)
 	{
 		HashMap<String, Integer> shingles = new HashMap<String, Integer>();
 
 		String string_no_space = Pattern.compile("\\s+").matcher(string).replaceAll(" ");
-		for (int i = 0; i < (string_no_space.length() - K + 1); i++)
+			
+		for (int i = 0; i < (string_no_space.length() - propertiesReader.getAsInt(Property.K_SHINGLES) + 1); i++)
 		{
-			String shingle = string_no_space.substring(i, i + K);
+			String shingle = string_no_space.substring(i, i + propertiesReader.getAsInt(Property.K_SHINGLES));
 			Integer old = shingles.get(shingle);
 			if (old != null)
 			{
