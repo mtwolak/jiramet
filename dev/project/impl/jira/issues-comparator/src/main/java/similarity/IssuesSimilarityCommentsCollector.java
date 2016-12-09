@@ -5,7 +5,7 @@ import java.util.Iterator;
 import database.entity.IssueComment;
 import database.entity.JiraIssue;
 
-public class IssuesSimilarityHelper
+public class IssuesSimilarityCommentsCollector
 {
 	public StringBuilder collectIssueComments(JiraIssue issue) {
 		StringBuilder sb = new StringBuilder();

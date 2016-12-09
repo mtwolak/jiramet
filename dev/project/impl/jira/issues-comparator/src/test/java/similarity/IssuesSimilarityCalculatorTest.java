@@ -29,7 +29,7 @@ public class IssuesSimilarityCalculatorTest
 	@Mock
 	private DatabaseApplication databaseApplicationMock;
 	@Mock
-	private IssuesSimilarityHelper issueSimilarityHelperMock;
+	private IssuesSimilarityCommentsCollector issueSimilarityHelperMock;
 	@Mock
 	private TextSimilarity textsSimilarityMock;
 	@Mock
@@ -43,7 +43,7 @@ public class IssuesSimilarityCalculatorTest
 		isc = new IssuesSimilarityCalculator(propertiesReaderMock, databaseApplicationMock, textsSimilarityMock)
 		{
 			@Override
-			protected IssuesSimilarityHelper getIssueSimilarityHelper()
+			protected IssuesSimilarityCommentsCollector getIssueSimilarityHelper()
 			{
 				return issueSimilarityHelperMock;
 			}

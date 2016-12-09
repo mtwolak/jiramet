@@ -14,7 +14,7 @@ import utils.properties.Property;
 
 public class IssuesSimilarityCalculator implements IssuesSimilarity  
 {
-	private IssuesSimilarityHelper issuesSimilarityHelper;
+	private IssuesSimilarityCommentsCollector issuesSimilarityHelper;
 	private DatabaseApplication dba;
 	private TextSimilarity textsSimilarity;
 	private PropertiesReader propertiesReader;
@@ -44,9 +44,9 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		return textsSimilarity.getSimilarity(text1, text2);
 	}
 
-	protected IssuesSimilarityHelper getIssueSimilarityHelper()
+	protected IssuesSimilarityCommentsCollector getIssueSimilarityHelper()
 	{
-		return new IssuesSimilarityHelper();
+		return new IssuesSimilarityCommentsCollector();
 	}
 
 	@Override

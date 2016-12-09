@@ -13,15 +13,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 import database.entity.JiraIssue;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IssuesSimilarityHelperTest
+public class IssuesSimilarityCommentsCollectorTest
 {
 
 	@Mock
-	private IssuesSimilarityHelper ish;
+	private IssuesSimilarityCommentsCollector ish;
 
 	@Before
 	public void setUp() {
-		ish = Mockito.mock(IssuesSimilarityHelper.class);
+		ish = Mockito.mock(IssuesSimilarityCommentsCollector.class);
 	}
 
 	@Test
