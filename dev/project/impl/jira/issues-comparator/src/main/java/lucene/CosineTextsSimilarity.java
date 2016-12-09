@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.apache.commons.math3.linear.*;
 import org.apache.lucene.analysis.*;
-import org.apache.lucene.analysis.core.SimpleAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.index.*;
@@ -38,7 +38,7 @@ public class CosineTextsSimilarity extends TextSimilarity
 	private Directory createIndex(String text1, String text2) throws IOException
 	{
 		Directory directory = new RAMDirectory();
-		Analyzer analyzer = new SimpleAnalyzer();
+		Analyzer analyzer = new StandardAnalyzer(CharArraySet.EMPTY_SET);
 		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 		IndexWriter writer = new IndexWriter(directory, iwc);
 		addDocument(writer, text1);
