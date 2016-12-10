@@ -43,7 +43,7 @@ public class IssuesSimilarityCalculatorTest
 		isc = new IssuesSimilarityCalculator(propertiesReaderMock, databaseApplicationMock, textsSimilarityMock)
 		{
 			@Override
-			protected IssuesSimilarityCommentsCollector getIssueSimilarityHelper()
+			protected IssuesSimilarityCommentsCollector getIssuesSimilarityCommentsCollector()
 			{
 				return issueSimilarityHelperMock;
 			}

@@ -38,7 +38,7 @@ public class PredictionModelViewer
 
 	public void init()
 	{
-		new IssueDownloaderMain(propertiesReader).retrieveAllIssues();
+		//new IssueDownloaderMain(propertiesReader).retrieveAllIssues();
 		databaseApplication = new DatabaseApplication(propertiesReader);
 		issueFromDb = getJiraIssueFromDb();
 		issuesFilter = getIssuesFilter();
@@ -54,7 +54,9 @@ public class PredictionModelViewer
 
 	private IssuesFilter getIssuesFilter()
 	{
-		return new AssigneeFilter(propertiesReader, databaseApplication).addFilter(new MinimumIssueFilter());
+		AssigneeFilter assigneeFilter = new AssigneeFilter(propertiesReader, databaseApplication);
+		assigneeFilter.init();
+		return assigneeFilter.addFilter(new MinimumIssueFilter());
 	}
 
 	private IssueResolveTimePredictable getIssueResolveTimePredictable()
