@@ -9,12 +9,12 @@ import jira.JiraIssueSimilarity;
 public class IssueResolvingTimeCalculator
 {
 
-	public double getIssuesResolvingTime(List<JiraIssueSimilarity> assigneeTopSimilarities)
+	public double getIssuesResolvingTime(List<JiraIssueSimilarity> issuesWithSimilarity)
 	{
 		double result = 0;
 		double sumAlpha = 0;
 
-		for(JiraIssueSimilarity jis : assigneeTopSimilarities)
+		for(JiraIssueSimilarity jis : issuesWithSimilarity)
 		{
 			AssignedIssue currentAssignedIssue = jis.getJiraIssue().getAssignedIssues().iterator().next();
 			Timestamp start = currentAssignedIssue.getJiraIssue().getCreatedAt();
