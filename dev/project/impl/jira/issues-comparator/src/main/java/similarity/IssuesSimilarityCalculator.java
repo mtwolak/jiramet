@@ -41,10 +41,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	
 	private double calculateCommentsSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		System.out.println(checkForIssueComments(issue2));
 		if(checkForIssueComments(issue2))
 		{
-			System.out.println(issuesSimilarityCommentsCollector.collectIssueComments(issue2).toString());
 			return propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT)
 					* calculateSimilarity(issue1.getSummary(), issuesSimilarityCommentsCollector.collectIssueComments(issue2).toString());
 		}
@@ -86,15 +84,9 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 			{
 				if (issue.getJiraIssueId() != newJiraIssue.getJiraIssueId() && (checkForAllRequiredTexts(newJiraIssue, issue)))
 				{
-					System.out.println("NEXT**********************");
-					System.out.println("asi "+asi.toString());
-				    System.out.println("iss "+issue.getJiraIssueId());
-				    System.out.println("sim "+getIssuesSimilarity(newJiraIssue, issue));
-				    System.out.println(jiraIssueSimilarities == null);
 					jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(newJiraIssue, issue)));
 				}
 			}
-			System.out.println("--------------------------------------------------------------------------");
 			assigneeSimilarityList.add(new AssigneeIssueSimilarity(asi.getAssignee(), jiraIssueSimilarities));
 			jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>();
 		}
