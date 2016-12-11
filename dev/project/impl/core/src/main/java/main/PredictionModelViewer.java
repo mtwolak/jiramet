@@ -5,6 +5,7 @@ import java.util.List;
 import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
 import filter.AssigneeFilter;
+import filter.MinimumIssueDescripionSize;
 import filter.MinimumIssueFilter;
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeIssues;
@@ -56,7 +57,7 @@ public class PredictionModelViewer
 	{
 		AssigneeFilter assigneeFilter = new AssigneeFilter(propertiesReader, databaseApplication);
 		assigneeFilter.init();
-		return assigneeFilter.addFilter(new MinimumIssueFilter());
+		return assigneeFilter.addFilter(new MinimumIssueDescripionSize()).addFilter(new MinimumIssueFilter());
 	}
 
 	private IssueResolveTimePredictable getIssueResolveTimePredictable()

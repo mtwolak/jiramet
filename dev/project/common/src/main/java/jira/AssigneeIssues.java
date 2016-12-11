@@ -9,7 +9,7 @@ import database.entity.converter.AssigneeConverter;
 public class AssigneeIssues
 {
 	private final Assignee assignee;
-	private final List<JiraIssue> assignedJiraIssues;
+	private List<JiraIssue> assignedJiraIssues;
 	
 	public AssigneeIssues(Assignee assignee)
 	{
@@ -23,6 +23,11 @@ public class AssigneeIssues
 
 	public List<JiraIssue> getAssignedJiraIssues() {
 		return assignedJiraIssues;
+	}
+
+	public void setAssignedJiraIssues(List<JiraIssue> assignedJiraIssues)
+	{
+		this.assignedJiraIssues = assignedJiraIssues;
 	}
 
 }
