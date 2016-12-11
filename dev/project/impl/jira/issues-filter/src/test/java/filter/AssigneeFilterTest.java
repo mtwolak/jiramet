@@ -11,6 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import database.application.DatabaseApplication;
 import database.entity.Assignee;
+import database.entity.JiraProject;
 import filter.AssigneeFilter;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
@@ -32,6 +33,8 @@ public class AssigneeFilterTest
 	private JiraFilterChecker JiraFilterCheckerMock;
 	@Mock
 	private Assignee assignee;
+	@Mock
+	private JiraProject jiraProject;
 
 	@Test
 	public void shouldReturnFullListWhenNoFiltersAreOk()
@@ -45,7 +48,7 @@ public class AssigneeFilterTest
 		assigneeFilter = createTestedObject();
 
 		// then
-		List<AssigneeIssues> filteresAssigneeList = assigneeFilter.getAssignedIssues();
+		List<AssigneeIssues> filteresAssigneeList = assigneeFilter.getAssignedIssues(jiraProject);
 		assertThat(filteresAssigneeList.size(), is(numberOfAssignessInDatabase));
 	}
 
@@ -58,7 +61,7 @@ public class AssigneeFilterTest
 
 		// when
 		assigneeFilter = createTestedObject();
-		List<AssigneeIssues> filteresAssigneeList = assigneeFilter.getAssignedIssues();
+		List<AssigneeIssues> filteresAssigneeList = assigneeFilter.getAssignedIssues(jiraProject);
 
 		// then
 		assertTrue(filteresAssigneeList.isEmpty());
@@ -77,7 +80,7 @@ public class AssigneeFilterTest
 
 	private void createAssigneesInDatabase(int numberFakeAssignees)
 	{
-		Mockito.when(databaseMock.getJiraAssignees()).thenReturn(createFakeJiraAssigneess(numberFakeAssignees));
+		Mockito.when(databaseMock.getJiraAssignees(jiraProject)).thenReturn(createFakeJiraAssigneess(numberFakeAssignees));
 	}
 
 	private List<Assignee> createFakeJiraAssigneess(int numberFakeAssignees)

@@ -5,6 +5,7 @@ import java.util.List;
 
 import database.application.DatabaseApplication;
 import database.entity.Assignee;
+import database.entity.JiraProject;
 import jira.AssigneeIssues;
 import jira.IssuesFilter;
 import utils.properties.PropertiesReader;
@@ -38,9 +39,9 @@ public class AssigneeFilter implements IssuesFilter
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<AssigneeIssues> getAssignedIssues()
+	public List<AssigneeIssues> getAssignedIssues(JiraProject jiraProject)
 	{
-		List<Assignee> jiraAssignees = dba.getJiraAssignees();
+		List<Assignee> jiraAssignees = dba.getJiraAssignees(jiraProject);
 		List<AssigneeIssues> assigneeIssues = new ArrayList<AssigneeIssues>(jiraAssignees.size());
 		for (Assignee assignee : jiraAssignees)
 		{

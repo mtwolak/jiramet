@@ -98,7 +98,7 @@ public class DatabaseApplicationTest
 	@Test
 	public void getAssigneesTest() {
 		changeSetup(Assignee.class);
-		assertNull(serviceUnderTest.getJiraAssignees());
+		assertNull(serviceUnderTest.getJiraAssignees(jiraProject));
 	}
 
 	@Test

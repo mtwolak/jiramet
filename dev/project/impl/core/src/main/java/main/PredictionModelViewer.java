@@ -80,7 +80,7 @@ public class PredictionModelViewer
 
 	public void showPrediction()
 	{
-		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues();
+		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
 		List<AssigneeIssueSimilarity> assigneesWithIssueSimilarities = issuesSimilarity
 				.getAssigneesWithIssueSimilarities(assigneesAndTheirIssues, issueFromDb);
 		List<AssigneeTimeResolve> prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);

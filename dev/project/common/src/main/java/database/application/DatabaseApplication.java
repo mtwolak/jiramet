@@ -106,11 +106,12 @@ public class DatabaseApplication
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public List getJiraAssignees()
+	public List getJiraAssignees(JiraProject jiraProject)
 	{
 		try{
 			logger = Logger.getLogger(DatabaseApplication.class.getName());
 			criteria = session.createCriteria(Assignee.class);
+			criteria.add(Restrictions.eq("jiraProject", jiraProject));
 			List assignees = criteria.list();
 			if (assignees.size() >= 1)
 				return assignees;
