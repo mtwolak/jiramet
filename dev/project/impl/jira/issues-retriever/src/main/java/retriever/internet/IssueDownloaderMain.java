@@ -7,29 +7,28 @@ import jira.project.ProjectData;
 import utils.properties.PropertiesReader;
 import utils.properties.hibernate.HibernateProductionConfiguration;
 
-public class IssueDownloaderMain implements JiraWebLogDownloader
+public class IssueDownloaderMain extends JiraWebLogDownloader
 {
 	private IssueDownloader id;	
-	private PropertiesReader propertiesReader;
 
 	public IssueDownloaderMain(PropertiesReader propertiesReader)
 	{
-		this.propertiesReader = propertiesReader;
+		super(propertiesReader);
 		id = new IssueDownloader(new HibernateProductionConfiguration(propertiesReader));
 	}
 
 	@Override
-	public void retrieveAllIssues()
+	protected void retrieveAllIssues()
 	{
 		id.retrieveAllIssues();
-		NameRandomizer.randomizeAllNames(new HibernateProductionConfiguration(propertiesReader));
+		NameRandomizer.randomizeAllNames(new HibernateProductionConfiguration(getPropertiesReader()));
 	}
 
 	@Override
-	public void retrieveIssuesFromProject(ProjectData project)
+	protected void retrieveIssuesFromProject(ProjectData project)
 	{
 		id.downloadAllIssuesFromProject(project);
-		NameRandomizer.randomizeAllNames(new HibernateProductionConfiguration(propertiesReader));
+		NameRandomizer.randomizeAllNames(new HibernateProductionConfiguration(getPropertiesReader()));
 	}
 
 }

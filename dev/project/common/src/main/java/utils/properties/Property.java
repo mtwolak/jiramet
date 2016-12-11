@@ -2,8 +2,10 @@ package utils.properties;
 
 public enum Property
 {
+	//Project properties
 	PREDICTION_PRINTING,
 	PREDICTION_FILE_SAVE_PATH,
+	SHOULD_DOWNLOAD_ALL_ISSUES,
 	//Hibernate properties
 	HIBERNATE_DRIVER_CLASS,
 	HIBERNATE_USER,

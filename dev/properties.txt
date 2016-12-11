@@ -1,6 +1,7 @@
 #Project properties
 PREDICTION_PRINTING=CONSOLE # CONSOLE | FILE
 PREDICTION_FILE_SAVE_PATH= #Only applicable, when PREDICTION_PRINTING is set to FILE
+SHOULD_DOWNLOAD_ALL_ISSUES=FALSE # TRUE | FALSE - download all issues from project into DB
 #Hibernate
 HIBERNATE_DRIVER_CLASS=com.mysql.jdbc.Driver
 HIBERNATE_USER=root

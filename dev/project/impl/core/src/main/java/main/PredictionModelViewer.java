@@ -38,7 +38,7 @@ public class PredictionModelViewer
 
 	public void init()
 	{
-		//new IssueDownloaderMain(propertiesReader).retrieveAllIssues();
+		new IssueDownloaderMain(propertiesReader).retrieveAllIssuesWithRespectToPropertyFlag();
 		databaseApplication = new DatabaseApplication(propertiesReader);
 		issueFromDb = getJiraIssueFromDb();
 		issuesFilter = getIssuesFilter();

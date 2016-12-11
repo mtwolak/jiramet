@@ -8,6 +8,7 @@ import java.util.Properties;
 
 public class PropertiesReader
 {
+	private static final String TRUE = "true";
 	private Properties properties;
 
 	public PropertiesReader(String propertyPath)
@@ -66,9 +67,14 @@ public class PropertiesReader
 		return propertyToRead != null ? this.properties.getProperty(propertyToRead.name()) : null;
 	}
 
-	public int getAsInt(Property property)
+	public int getAsInt(Property propertyToRead)
 	{
-		return Integer.valueOf(getAsString(property));
+		return Integer.valueOf(getAsString(propertyToRead));
+	}
+
+	public boolean getAsBoolean(Property propertyToRead)
+	{
+		return getAsString(propertyToRead).equalsIgnoreCase(TRUE);
 	}
 
 }
