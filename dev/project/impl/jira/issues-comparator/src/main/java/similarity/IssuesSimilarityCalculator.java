@@ -41,9 +41,13 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	
 	private double calculateCommentsSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
+		System.out.println(checkForIssueComments(issue2));
 		if(checkForIssueComments(issue2))
+		{
+			System.out.println(issuesSimilarityCommentsCollector.collectIssueComments(issue2).toString());
 			return propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT)
 					* calculateSimilarity(issue1.getSummary(), issuesSimilarityCommentsCollector.collectIssueComments(issue2).toString());
+		}
 		else 
 			return 0.0;
 	}
@@ -55,7 +59,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	
 	private boolean checkForIssueComments(JiraIssue issue)
 	{
-		return !issuesSimilarityCommentsCollector.collectIssueComments(issue).toString().equals("");
+		StringBuilder sb = issuesSimilarityCommentsCollector.collectIssueComments(issue);
+		return ((sb != null) && (!sb.toString().equals("")) && (!sb.toString().trim().equals("")));
 	}
 
 	private double calculateSimilarity(String text1, String text2)
@@ -91,7 +96,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 			}
 			System.out.println("--------------------------------------------------------------------------");
 			assigneeSimilarityList.add(new AssigneeIssueSimilarity(asi.getAssignee(), jiraIssueSimilarities));
-			jiraIssueSimilarities = null;
+			jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>();
 		}
 		dba.closeSession();
 		
