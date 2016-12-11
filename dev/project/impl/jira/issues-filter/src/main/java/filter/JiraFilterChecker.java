@@ -3,7 +3,7 @@ package filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.entity.Assignee;
+import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 
 public class JiraFilterChecker
@@ -23,11 +23,11 @@ public class JiraFilterChecker
 		this.filters.add(filter);
 	}
 
-	public boolean check(Assignee assignee)
+	public boolean check(AssigneeIssues assigneeWithHisIssues)
 	{
 		for (JiraIssueFilter filter : filters)
 		{
-			if (!filter.filter(assignee, propertiesReader))
+			if (!filter.filter(assigneeWithHisIssues, propertiesReader))
 			{
 				return false;
 			}

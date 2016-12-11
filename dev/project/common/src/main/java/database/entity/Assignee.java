@@ -39,13 +39,9 @@ public class Assignee {
 		return assigneeId;
 	}
 	
-	public List<JiraIssue> getAssignedJiraIssues() {
-		List<JiraIssue> jiraIssues = new ArrayList<JiraIssue>();
-		for(AssignedIssue assignedIssue : assignedIssue)
-		{
-			jiraIssues.add(assignedIssue.getJiraIssue());
-		}
-		return jiraIssues;
+	public Set<AssignedIssue> getAssignedIssue()
+	{
+		return assignedIssue;
 	}
 
 	@Override
@@ -78,4 +74,5 @@ public class Assignee {
 	{
 		return getName();
 	}
+
 }

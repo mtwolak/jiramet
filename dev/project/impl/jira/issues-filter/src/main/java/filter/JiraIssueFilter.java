@@ -1,9 +1,9 @@
 package filter;
 
-import database.entity.Assignee;
+import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 
 public interface JiraIssueFilter
 {
-	boolean filter(Assignee assignee, PropertiesReader propertiesReader);
+	boolean filter(AssigneeIssues assigneeWithHisIssues, PropertiesReader propertiesReader);
 }

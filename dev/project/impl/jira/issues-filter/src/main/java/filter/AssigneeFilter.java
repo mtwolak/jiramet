@@ -43,22 +43,23 @@ public class AssigneeFilter implements IssuesFilter
 		List<AssigneeIssues> assigneeIssues = new ArrayList<AssigneeIssues>();
 		for (Assignee assignee : (List<Assignee>) dba.getJiraAssignees())
 		{
-			addAssigneeIssueAccordingToFilter(assigneeIssues, assignee);
+			addAssigneeIssueAccordingToFilter(assignee, assigneeIssues);
 		}
 		return assigneeIssues;
 	}
 
-	private void addAssigneeIssueAccordingToFilter(List<AssigneeIssues> assigneeIssues, Assignee assignee)
+	private void addAssigneeIssueAccordingToFilter(Assignee assignee, List<AssigneeIssues> assigneeIssues)
 	{
-		if (areFiltersOk(assignee))
+		AssigneeIssues assigneeWithIssues = new AssigneeIssues(assignee);
+		if (areFiltersOk(assigneeWithIssues))
 		{
-			assigneeIssues.add(new AssigneeIssues(assignee, assignee.getAssignedJiraIssues()));
+			assigneeIssues.add(assigneeWithIssues);
 		}
 	}
 
-	private boolean areFiltersOk(Assignee assignee)
+	private boolean areFiltersOk(AssigneeIssues assigneeWithIssues)
 	{
-		return jiraFilterChecker.check(assignee);
+		return jiraFilterChecker.check(assigneeWithIssues);
 	}
 
 }
