@@ -40,8 +40,9 @@ public class AssigneeFilter implements IssuesFilter
 	@SuppressWarnings("unchecked")
 	public List<AssigneeIssues> getAssignedIssues()
 	{
-		List<AssigneeIssues> assigneeIssues = new ArrayList<AssigneeIssues>();
-		for (Assignee assignee : (List<Assignee>) dba.getJiraAssignees())
+		List<Assignee> jiraAssignees = dba.getJiraAssignees();
+		List<AssigneeIssues> assigneeIssues = new ArrayList<AssigneeIssues>(jiraAssignees.size());
+		for (Assignee assignee : jiraAssignees)
 		{
 			addAssigneeIssueAccordingToFilter(assignee, assigneeIssues);
 		}
