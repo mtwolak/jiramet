@@ -16,7 +16,7 @@ import utils.DateConverter;
 
 public class TestDataHolder
 {
-	DateFormat format;
+	private DateFormat format;
 
 	private Assignee developer1;
 	private Assignee developer2;

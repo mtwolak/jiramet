@@ -56,4 +56,8 @@ public class AssignedIssue {
 		this.resolvedAt = resolvedAt;
 	}
 
+	public int getAssignedIssueId()
+	{
+		return assignedIssueId;
+	}
 }
