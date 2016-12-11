@@ -10,6 +10,11 @@ import database.entity.JiraIssue;
 public final class AssigneeConverter
 {
 
+	private AssigneeConverter()
+	{
+
+	}
+
 	public static List<JiraIssue> getAssignedJiraIssues(Assignee assignee)
 	{
 		List<JiraIssue> jiraIssues = new ArrayList<JiraIssue>();
