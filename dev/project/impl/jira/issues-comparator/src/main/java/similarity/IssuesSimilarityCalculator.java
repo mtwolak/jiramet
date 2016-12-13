@@ -72,25 +72,22 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	}
 
 	@Override
-	public List<AssigneeIssueSimilarity> getAssigneesWithIssueSimilarities(List<AssigneeIssues> assigneeIssues,
+	public List<AssigneeIssueSimilarity> getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues,
 			JiraIssue newJiraIssue)
 	{
 		List<AssigneeIssueSimilarity> assigneeSimilarityList = new ArrayList<AssigneeIssueSimilarity>();
 		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>();
 
-		for(AssigneeIssues asi : assigneeIssues)
-		{
-			for(JiraIssue issue : asi.getAssignedJiraIssues())
+			for(JiraIssue issue : assigneeIssues.getAssignedJiraIssues())
 			{
 				if (issue.getJiraIssueId() != newJiraIssue.getJiraIssueId() && (checkForAllRequiredTexts(newJiraIssue, issue)))
 				{
 					jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(newJiraIssue, issue)));
 				}
 			}
-			assigneeSimilarityList.add(new AssigneeIssueSimilarity(asi.getAssignee(), jiraIssueSimilarities));
+			assigneeSimilarityList.add(new AssigneeIssueSimilarity(assigneeIssues.getAssignee(), jiraIssueSimilarities));
 			jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>();
-		}
-		dba.closeSession();
+//		dba.closeSession();
 		
 		return assigneeSimilarityList;
 	}

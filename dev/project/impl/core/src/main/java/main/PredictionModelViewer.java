@@ -20,6 +20,7 @@ import prediction.IssueResolveTimePredicter;
 import printer.PredictionTextComposer;
 import retriever.internet.IssueDownloaderMain;
 import similarity.IssuesSimilarityCalculator;
+import utils.Timer;
 import utils.properties.PropertiesReader;
 
 public class PredictionModelViewer
@@ -81,8 +82,18 @@ public class PredictionModelViewer
 	public void showPrediction()
 	{
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
-		List<AssigneeIssueSimilarity> assigneesWithIssueSimilarities = issuesSimilarity
-				.getAssigneesWithIssueSimilarities(assigneesAndTheirIssues, issueFromDb);
+		Timer t = new Timer();
+		for (AssigneeIssues assigneeIssues : assigneesAndTheirIssues)
+		{
+			showPredictionForAssignee(t, assigneeIssues);
+		}
+	}
+
+	private void showPredictionForAssignee(Timer t, AssigneeIssues assigneeIssues)
+	{
+		t.checkpoint();
+		List<AssigneeIssueSimilarity> assigneesWithIssueSimilarities = issuesSimilarity.getAssigneesWithIssueSimilarities(assigneeIssues,
+				issueFromDb);
 		List<AssigneeTimeResolve> prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);
 		predictionPrintable.getPrediction(issueFromDb, prediction);
 	}

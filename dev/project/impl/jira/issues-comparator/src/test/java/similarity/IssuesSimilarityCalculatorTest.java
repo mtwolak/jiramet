@@ -72,8 +72,8 @@ public class IssuesSimilarityCalculatorTest
 	public void shouldGetAssigneeWithIssueSimilarity()
 	{
 		// given
-		int numberOfAssigneeIssues = 5;
-		List<AssigneeIssues> assigneeIssuesList = createFakeAssigneeIssues(numberOfAssigneeIssues);
+		int numberOfAssigneeIssues = 1;
+		AssigneeIssues assigneeIssuesList = createFakeAssigneeIssues(numberOfAssigneeIssues).get(0);
 		JiraIssue jiraIssue = createFakeJiraIssues(1).get(0);
 
 		// when

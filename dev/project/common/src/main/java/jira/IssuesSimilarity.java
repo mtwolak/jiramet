@@ -6,5 +6,5 @@ import database.entity.JiraIssue;
 
 public interface IssuesSimilarity
 {
-	List<AssigneeIssueSimilarity> getAssigneesWithIssueSimilarities(List<AssigneeIssues> assigneeIssues, JiraIssue jiraIssueToCompare);
+	List<AssigneeIssueSimilarity> getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues, JiraIssue jiraIssueToCompare);
 }
