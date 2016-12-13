@@ -83,6 +83,7 @@ public class PredictionModelViewer
 	{
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
 		Timer t = new Timer();
+		assigneesAndTheirIssues.remove(0);
 		for (AssigneeIssues assigneeIssues : assigneesAndTheirIssues)
 		{
 			showPredictionForAssignee(t, assigneeIssues);
@@ -92,10 +93,10 @@ public class PredictionModelViewer
 	private void showPredictionForAssignee(Timer t, AssigneeIssues assigneeIssues)
 	{
 		t.checkpoint();
-		List<AssigneeIssueSimilarity> assigneesWithIssueSimilarities = issuesSimilarity.getAssigneesWithIssueSimilarities(assigneeIssues,
+		AssigneeIssueSimilarity assigneesWithIssueSimilarities = issuesSimilarity.getAssigneesWithIssueSimilarities(assigneeIssues,
 				issueFromDb);
-		List<AssigneeTimeResolve> prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);
-		predictionPrintable.getPrediction(issueFromDb, prediction);
+		AssigneeTimeResolve prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);
+		predictionPrintable.printPrediction(issueFromDb, prediction);
 	}
 
 }

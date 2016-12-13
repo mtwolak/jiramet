@@ -52,13 +52,9 @@ public class PredictionTextComposerTest
 		return jiraProject;
 	}
 
-	private List<AssigneeTimeResolve> createAssigneeAndTimes()
+	private AssigneeTimeResolve createAssigneeAndTimes()
 	{
-		List<AssigneeTimeResolve> assigneeIssueTimes = new ArrayList<>();
-		assigneeIssueTimes.add(new AssigneeTimeResolve(createAssignee("Marcin"), 12));
-		assigneeIssueTimes.add(new AssigneeTimeResolve(createAssignee("Tomasz"), 2.67));
-		assigneeIssueTimes.add(new AssigneeTimeResolve(createAssignee("Michal"), 3.14));
-		return assigneeIssueTimes;
+		return new AssigneeTimeResolve(createAssignee("Marcin"), 12);
 	}
 
 	private Assignee createAssignee(String assigneeName)

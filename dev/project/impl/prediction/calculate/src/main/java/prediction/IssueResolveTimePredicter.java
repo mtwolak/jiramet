@@ -1,8 +1,5 @@
 package prediction;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeTimeResolve;
 import jira.IssueResolveTimePredictable;
@@ -18,14 +15,9 @@ public class IssueResolveTimePredicter implements IssueResolveTimePredictable
 	}
 
 	@Override
-	public List<AssigneeTimeResolve> getPrediction(List<AssigneeIssueSimilarity> assigneesIssuesSimilarities)
+	public AssigneeTimeResolve getPrediction(AssigneeIssueSimilarity assigneesIssuesSimilarities)
 	{
-		List<AssigneeTimeResolve> list = new ArrayList<>();
-		for (AssigneeIssueSimilarity ais : assigneesIssuesSimilarities)
-		{
-			double predictedIssueResolvedTime = issueResolvingTimeCalculator.getIssuesResolvingTime(ais.getAssignedJiraIssues());
-			list.add(new AssigneeTimeResolve(ais.getAssignee(), predictedIssueResolvedTime));
-		}
-		return list;
+		double predictedIssueResolvedTime = issueResolvingTimeCalculator.getIssuesResolvingTime(assigneesIssuesSimilarities.getAssignedJiraIssues());
+		return new AssigneeTimeResolve(assigneesIssuesSimilarities.getAssignee(), predictedIssueResolvedTime);
 	}
 }

@@ -68,21 +68,6 @@ public class IssuesSimilarityCalculatorTest
 		assertThat(isc.getIssuesSimilarity(jiraIssues.get(0), jiraIssues.get(1)), is(0.5));
 	}
 
-	@Test
-	public void shouldGetAssigneeWithIssueSimilarity()
-	{
-		// given
-		int numberOfAssigneeIssues = 1;
-		AssigneeIssues assigneeIssuesList = createFakeAssigneeIssues(numberOfAssigneeIssues).get(0);
-		JiraIssue jiraIssue = createFakeJiraIssues(1).get(0);
-
-		// when
-		List<AssigneeIssueSimilarity> assigneeIssuesSimilarityList = isc.getAssigneesWithIssueSimilarities(assigneeIssuesList, jiraIssue);
-		
-		// then
-		assertThat(assigneeIssuesSimilarityList.size(), is(numberOfAssigneeIssues));
-	}
-	
 	private List<JiraIssue> createFakeJiraIssues(int numberOfFakeJiraIssues)
 	{
 		List<JiraIssue> jiraIssues = new ArrayList<>();

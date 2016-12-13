@@ -64,7 +64,13 @@ public class PropertiesReader
 
 	private String getProperty(Property propertyToRead)
 	{
-		return propertyToRead != null ? this.properties.getProperty(propertyToRead.name()) : null;
+		return propertyToRead != null ? getPropertyToHash(propertyToRead) : null;
+	}
+
+	private String getPropertyToHash(Property propertyToRead)
+	{
+		String stringToReturn = this.properties.getProperty(propertyToRead.name());
+		return stringToReturn.contains("#") ? stringToReturn.substring(0, stringToReturn.indexOf('#')).trim() : stringToReturn.trim();
 	}
 
 	public int getAsInt(Property propertyToRead)
