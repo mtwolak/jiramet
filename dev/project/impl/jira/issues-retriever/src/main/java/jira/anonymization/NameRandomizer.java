@@ -23,7 +23,10 @@ public class NameRandomizer
 
 		for (Assignee assignee : assignees)
 		{
-			assignee.setName(rnd.next());
+			if(!"Unassinged".equals(assignee.getName()))
+			{
+				assignee.setName(rnd.next());
+			}
 		}
 
 		for (IssueReporter reporter : reporters)
