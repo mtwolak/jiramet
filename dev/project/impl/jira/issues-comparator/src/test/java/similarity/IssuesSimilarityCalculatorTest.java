@@ -41,7 +41,7 @@ public class IssuesSimilarityCalculatorTest
 	@Before
 	public void setUp()
 	{
-		isc = new IssuesSimilarityCalculator(propertiesReaderMock, databaseApplicationMock, textsSimilarityMock)
+		isc = new IssuesSimilarityCalculator(propertiesReaderMock, textsSimilarityMock)
 		{
 			@Override
 			protected IssuesSimilarityCommentsCollector getIssuesSimilarityCommentsCollector()

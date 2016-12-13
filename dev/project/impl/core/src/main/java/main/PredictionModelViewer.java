@@ -45,7 +45,7 @@ public class PredictionModelViewer
 		databaseApplication = new DatabaseApplication(propertiesReader);
 		issueFromDb = getJiraIssueFromDb();
 		issuesFilter = getIssuesFilter();
-		issuesSimilarity = getIssuesSimilarity(databaseApplication);
+		issuesSimilarity = getIssuesSimilarity();
 		predictionPrintable = getPredictionPrinter();
 		issueResolveTimePredictable = getIssueResolveTimePredictable();
 	}
@@ -68,9 +68,9 @@ public class PredictionModelViewer
 		return new IssueResolveTimePredicter();
 	}
 
-	private IssuesSimilarity getIssuesSimilarity(DatabaseApplication da)
+	private IssuesSimilarity getIssuesSimilarity()
 	{
-		return new IssuesSimilarityCalculator(propertiesReader, da, new CosineTextsSimilarity());
+		return new IssuesSimilarityCalculator(propertiesReader, new CosineTextsSimilarity());
 	}
 
 	private JiraIssue getJiraIssueFromDb()

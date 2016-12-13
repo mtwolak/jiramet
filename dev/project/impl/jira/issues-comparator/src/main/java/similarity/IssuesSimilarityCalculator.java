@@ -15,14 +15,12 @@ import utils.properties.Property;
 public class IssuesSimilarityCalculator implements IssuesSimilarity  
 {
 	private IssuesSimilarityCommentsCollector issuesSimilarityCommentsCollector;
-	private DatabaseApplication dba;
 	private TextSimilarity textsSimilarity;
 	private PropertiesReader propertiesReader;
 
-	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, DatabaseApplication databaseApplication, TextSimilarity textsSimilarityStrategy)
+	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, TextSimilarity textsSimilarityStrategy)
 	{
 		this.propertiesReader = propertiesReader;
-		this.dba = databaseApplication;
 		this.textsSimilarity = textsSimilarityStrategy;
 		init();
 	}
@@ -85,7 +83,6 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 				}
 			}
 			return new AssigneeIssueSimilarity(assigneeIssues.getAssignee(), jiraIssueSimilarities);
-//		dba.closeSession();
 		
 	}
 	
