@@ -111,7 +111,7 @@ public class DatabaseApplication
 		try{
 			logger = Logger.getLogger(DatabaseApplication.class.getName());
 			criteria = session.createCriteria(Assignee.class);
-			//criteria.add(Restrictions.eq("jiraProject", jiraProject));
+			criteria.add(Restrictions.ne("name", "Unassigned"));
 			List assignees = criteria.list();
 			if (assignees.size() >= 1)
 				return assignees;
