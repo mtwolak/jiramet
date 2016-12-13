@@ -83,7 +83,6 @@ public class PredictionModelViewer
 	{
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
 		Timer t = new Timer();
-		assigneesAndTheirIssues.remove(0);
 		for (AssigneeIssues assigneeIssues : assigneesAndTheirIssues)
 		{
 			showPredictionForAssignee(t, assigneeIssues);

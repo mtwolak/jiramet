@@ -16,20 +16,25 @@ public enum PredictionPrintMode
 		this.printableMode = printableMode;
 	}
 
-	public static PredictionPrintMode fromString(String preditionMode)
+	public static PredictionPrintMode fromString(String predictionMode)
 	{
 		for (PredictionPrintMode mode : values())
 		{
-			if (mode.toString().equalsIgnoreCase(preditionMode))
+			if (mode.toString().equalsIgnoreCase(predictionMode))
 			{
 				return mode;
 			}
 		}
-		throw new IncorrectPredictionModeException(preditionMode);
+		throw new IncorrectPredictionModeException(predictionMode);
 	}
 
 	public void print(String textToPrint, PropertiesReader propertiesReader)
 	{
 		printableMode.print(textToPrint, propertiesReader);
+	}
+
+	public void init(PropertiesReader propertiesReader)
+	{
+		this.printableMode.init(propertiesReader);
 	}
 }

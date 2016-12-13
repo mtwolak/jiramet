@@ -2,7 +2,13 @@ package jira.prediction.mode;
 
 import utils.properties.PropertiesReader;
 
-public interface PrintableMode
+public abstract class PrintableMode
 {
-	void print(String textToPrint, PropertiesReader propertiesReader);
+
+	public abstract void print(String textToPrint, PropertiesReader propertiesReader);
+
+	public void init(PropertiesReader propertiesReader)
+	{
+	}
+
 }
