@@ -3,7 +3,6 @@ package similarity;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeIssues;
@@ -12,20 +11,23 @@ import jira.JiraIssueSimilarity;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
-public class IssuesSimilarityCalculator implements IssuesSimilarity  
+public class IssuesSimilarityCalculator implements IssuesSimilarity
 {
 	private IssuesSimilarityCommentsCollector issuesSimilarityCommentsCollector;
 	private TextSimilarity textsSimilarity;
 	private PropertiesReader propertiesReader;
+	private double alfa;
 
 	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, TextSimilarity textsSimilarityStrategy)
 	{
 		this.propertiesReader = propertiesReader;
 		this.textsSimilarity = textsSimilarityStrategy;
+		this.alfa = propertiesReader.getAsDouble(Property.MODEL_MIN_ALPHA);
 		init();
 	}
-	
-	public void init() {
+
+	public void init()
+	{
 		this.issuesSimilarityCommentsCollector = getIssuesSimilarityCommentsCollector();
 	}
 
@@ -33,26 +35,26 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	{
 		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) * calculateSimilarity(issue1.getSummary(), issue2.getSummary())
 				+ propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT)
-				* calculateSimilarity(issue1.getDescription(), issue2.getDescription())
+						* calculateSimilarity(issue1.getDescription(), issue2.getDescription())
 				+ calculateCommentsSimilarity(issue1, issue2);
 	}
-	
+
 	private double calculateCommentsSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		if(checkForIssueComments(issue2))
+		if (checkForIssueComments(issue2))
 		{
 			return propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT)
 					* calculateSimilarity(issue1.getSummary(), issuesSimilarityCommentsCollector.collectIssueComments(issue2).toString());
-		}
-		else 
+		} else
 			return 0.0;
 	}
-	
+
 	private boolean checkForAllRequiredTexts(JiraIssue issue1, JiraIssue issue2)
 	{
-		return ((issue1.getSummary() != null) && (issue1.getDescription() != null) && (issue2.getSummary() != null) && (issue2.getDescription() != null));
+		return ((issue1.getSummary() != null) && (issue1.getDescription() != null) && (issue2.getSummary() != null)
+				&& (issue2.getDescription() != null));
 	}
-	
+
 	private boolean checkForIssueComments(JiraIssue issue)
 	{
 		StringBuilder sb = issuesSimilarityCommentsCollector.collectIssueComments(issue);
@@ -70,21 +72,28 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	}
 
 	@Override
-	public AssigneeIssueSimilarity getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues,
-			JiraIssue newJiraIssue)
+	public AssigneeIssueSimilarity getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues, JiraIssue newJiraIssue)
 	{
 		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>();
 
-			for(JiraIssue issue : assigneeIssues.getAssignedJiraIssues())
-			{
-				if (issue.getJiraIssueId() != newJiraIssue.getJiraIssueId() && (checkForAllRequiredTexts(newJiraIssue, issue)))
-				{
-					jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, getIssuesSimilarity(newJiraIssue, issue)));
-				}
-			}
-			return new AssigneeIssueSimilarity(assigneeIssues.getAssignee(), jiraIssueSimilarities);
-		
+		for (JiraIssue issue : assigneeIssues.getAssignedJiraIssues())
+		{
+			addIssueSimilarity(newJiraIssue, jiraIssueSimilarities, issue);
+		}
+		return new AssigneeIssueSimilarity(assigneeIssues.getAssignee(), jiraIssueSimilarities);
+
 	}
-	
+
+	private void addIssueSimilarity(JiraIssue newJiraIssue, List<JiraIssueSimilarity> jiraIssueSimilarities, JiraIssue issue)
+	{
+		if (issue.getJiraIssueId() != newJiraIssue.getJiraIssueId() && (checkForAllRequiredTexts(newJiraIssue, issue)))
+		{
+			double issueSimilarity = getIssuesSimilarity(newJiraIssue, issue);
+			if(issueSimilarity >= alfa)
+			{
+				jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, issueSimilarity));
+			}
+		}
+	}
 
 }
