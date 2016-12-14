@@ -23,6 +23,7 @@ public class CosineTextsSimilarity extends TextSimilarity
 	private final Set<String> terms = new HashSet<>();
 	private RealVector v1;
 	private RealVector v2;
+	private static final Analyzer ANALYZER = new StandardAnalyzer(LuceneStopWords.generate());
 
 	private void initVectors(String s1, String s2) throws IOException
 	{
@@ -38,8 +39,7 @@ public class CosineTextsSimilarity extends TextSimilarity
 	private Directory createIndex(String text1, String text2) throws IOException
 	{
 		Directory directory = new RAMDirectory();
-		Analyzer analyzer = new StandardAnalyzer(CharArraySet.EMPTY_SET);
-		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
+		IndexWriterConfig iwc = new IndexWriterConfig(ANALYZER);
 		IndexWriter writer = new IndexWriter(directory, iwc);
 		addDocument(writer, text1);
 		addDocument(writer, text2);
@@ -58,7 +58,7 @@ public class CosineTextsSimilarity extends TextSimilarity
 	{
 		return (v1.dotProduct(v2)) / (v1.getNorm() * v2.getNorm());
 	}
-	
+
 	@Override
 	protected double processSimilarity(String text1, String text2) throws IOException
 	{
