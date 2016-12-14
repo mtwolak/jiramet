@@ -8,7 +8,7 @@ import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
-public class SelectedIssueTypes implements JiraIssueFilter
+public class SelectedIssueTypesFilter implements JiraIssueFilter
 {
 
 	@Override

@@ -11,7 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import database.entity.AssignedIssue;
 import database.entity.Assignee;
 import database.entity.JiraIssue;
-import filter.custom.MinimumIssueDescripionSize;
+import filter.custom.MinimumIssueDescripionSizeFilter;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MinimumIssueDescripionSizeTest
+public class MinimumIssueDescripionSizeFilterTest
 {
 	@Mock
 	private PropertiesReader propertiesReaderMock;
@@ -37,7 +37,7 @@ public class MinimumIssueDescripionSizeTest
 	{
 		setMocks();
 		AssigneeIssues assigneeWithIssues = createAssigneeWithIssues();
-		JiraIssueFilter filter = new MinimumIssueDescripionSize();
+		JiraIssueFilter filter = new MinimumIssueDescripionSizeFilter();
 
 		filter.filter(assigneeWithIssues, propertiesReaderMock);
 

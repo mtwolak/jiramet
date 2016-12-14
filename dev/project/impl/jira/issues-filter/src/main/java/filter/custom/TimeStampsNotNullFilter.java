@@ -9,7 +9,7 @@ import database.entity.JiraIssue;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 
-public class TimeStampsNotNull implements JiraIssueFilter
+public class TimeStampsNotNullFilter implements JiraIssueFilter
 {
 
 	@Override

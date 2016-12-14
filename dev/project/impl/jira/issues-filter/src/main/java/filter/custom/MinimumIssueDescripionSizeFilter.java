@@ -8,7 +8,7 @@ import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
-public class MinimumIssueDescripionSize implements JiraIssueFilter
+public class MinimumIssueDescripionSizeFilter implements JiraIssueFilter
 {
 
 	@Override
