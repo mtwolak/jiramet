@@ -1,4 +1,4 @@
-package filter;
+package filter.custom;
 
 import java.util.ArrayList;
 import java.util.List;

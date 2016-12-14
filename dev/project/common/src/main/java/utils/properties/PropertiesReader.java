@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public class PropertiesReader
@@ -44,7 +47,7 @@ public class PropertiesReader
 		checkForPropertyCorrection(propertyToRead, property);
 		return property;
 	}
-
+	
 	private void checkForPropertyCorrection(Property propertyToRead, String property)
 	{
 		if (property == null)
@@ -81,6 +84,17 @@ public class PropertiesReader
 	public boolean getAsBoolean(Property propertyToRead)
 	{
 		return getAsString(propertyToRead).equalsIgnoreCase(TRUE);
+	}
+
+	public List<String> getAsStringList(Property propertyToRead)
+	{
+		String loadedString = getProperty(propertyToRead);
+		return isEmptyOrNull(loadedString) ? new ArrayList<>() : Arrays.asList(loadedString.split(","));
+	}
+
+	private boolean isEmptyOrNull(String stringToCheck)
+	{
+		return stringToCheck == null || "".equals(stringToCheck);
 	}
 
 }

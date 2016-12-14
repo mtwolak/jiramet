@@ -3,6 +3,7 @@ package filter;
 import java.util.ArrayList;
 import java.util.List;
 
+import filter.custom.JiraIssueFilter;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 

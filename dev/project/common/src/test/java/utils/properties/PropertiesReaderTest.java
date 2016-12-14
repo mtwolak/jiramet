@@ -2,6 +2,7 @@ package utils.properties;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
 import java.util.Properties;
 
 import org.hamcrest.Matchers;
@@ -48,18 +49,47 @@ public class PropertiesReaderTest
 	public void shouldReturnPropertyBooleanTrueIgnoringCase()
 	{
 		Mockito.when(properties.getProperty(Property.SHOULD_DOWNLOAD_ALL_ISSUES.name())).thenReturn("TRue");
-		
+
 		assertTrue(propertiesReader.getAsBoolean(Property.SHOULD_DOWNLOAD_ALL_ISSUES));
 	}
-	
+
 	@Test
 	public void shouldReturnPropertyBooleanFalseIgnoringCase()
 	{
 		Mockito.when(properties.getProperty(Property.SHOULD_DOWNLOAD_ALL_ISSUES.name())).thenReturn("fALSe");
-		
+
 		assertFalse(propertiesReader.getAsBoolean(Property.SHOULD_DOWNLOAD_ALL_ISSUES));
 	}
+
+	@Test
+	public void shouldReturnListOfString()
+	{
+		Mockito.when(properties.getProperty(Property.FILTER_ISSUE_TYPE_LIST.name())).thenReturn("    first, second,third    ");
+
+		List<String> stringList = propertiesReader.getAsStringList(Property.FILTER_ISSUE_TYPE_LIST);
+		assertThat(stringList.get(0), Matchers.is("first"));
+		assertThat(stringList.get(1), Matchers.is(" second"));
+		assertThat(stringList.get(2), Matchers.is("third"));
+	}
 	
+	@Test
+	public void shouldReturnEmptyListWhenNoPropertySet()
+	{
+		Mockito.when(properties.getProperty(Property.FILTER_ISSUE_TYPE_LIST.name())).thenReturn("");
+
+		List<String> stringList = propertiesReader.getAsStringList(Property.FILTER_ISSUE_TYPE_LIST);
+		assertThat(stringList.size(), Matchers.is(0));
+	}
+	
+	@Test
+	public void shouldReturnOneElementWhenThereIsEntryWithoutComma()
+	{
+		Mockito.when(properties.getProperty(Property.FILTER_ISSUE_TYPE_LIST.name())).thenReturn("first");
+
+		List<String> stringList = propertiesReader.getAsStringList(Property.FILTER_ISSUE_TYPE_LIST);
+		assertThat(stringList.get(0), Matchers.is("first"));
+		assertThat(stringList.size(), Matchers.is(1));
+	}
 
 	private PropertiesReader getPropertyReader()
 	{

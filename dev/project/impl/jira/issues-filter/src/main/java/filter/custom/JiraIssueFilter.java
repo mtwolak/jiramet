@@ -1,4 +1,4 @@
-package filter;
+package filter.custom;
 
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;

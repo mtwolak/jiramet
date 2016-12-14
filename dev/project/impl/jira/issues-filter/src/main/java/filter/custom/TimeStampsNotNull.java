@@ -1,4 +1,4 @@
-package filter;
+package filter.custom;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

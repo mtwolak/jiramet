@@ -2,8 +2,6 @@ package lucene;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.math3.linear.*;
 import org.apache.lucene.analysis.*;
@@ -69,6 +67,9 @@ public class CosineTextsSimilarity extends TextSimilarity
 	private Map<String, Integer> getTermFrequencies(IndexReader reader, int docId) throws IOException
 	{
 		Terms vector = reader.getTermVector(docId, CONTENT);
+		if(vector == null) {
+			return new HashMap<>();
+		}
 		TermsEnum termsEnum = null;
 		termsEnum = vector.iterator();
 		Map<String, Integer> frequencies = new HashMap<>();

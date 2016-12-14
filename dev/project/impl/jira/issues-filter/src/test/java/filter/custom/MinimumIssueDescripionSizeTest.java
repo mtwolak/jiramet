@@ -1,4 +1,4 @@
-package filter;
+package filter.custom;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import database.entity.AssignedIssue;
 import database.entity.Assignee;
 import database.entity.JiraIssue;
+import filter.custom.MinimumIssueDescripionSize;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;

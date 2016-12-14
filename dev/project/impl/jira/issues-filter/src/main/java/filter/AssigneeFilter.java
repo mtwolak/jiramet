@@ -6,6 +6,7 @@ import java.util.List;
 import database.application.DatabaseApplication;
 import database.entity.Assignee;
 import database.entity.JiraProject;
+import filter.custom.JiraIssueFilter;
 import jira.AssigneeIssues;
 import jira.IssuesFilter;
 import utils.properties.PropertiesReader;
