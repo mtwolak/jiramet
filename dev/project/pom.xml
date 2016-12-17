@@ -16,7 +16,9 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.5.201505241946</version>
 				<configuration>
-				<exclude name="**/*Test*.class"/>
+					<excludes>
+						<exclude>**/*Test*.java</exclude>
+					</excludes>
 				</configuration>
 				<executions>
 					<!-- Prepares the property pointing to the JaCoCo runtime agent which 
