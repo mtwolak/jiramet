@@ -14,3 +14,4 @@ script:
   - ~/jpm/bin/jpm install com.codacy:codacy-coverage-reporter:assembly
 after_success:
   - ~/jpm/bin/codacy-coverage-reporter -l Java -r dev/project/common/target/site/jacoco-ut/jacoco.xml
+  - bash <(curl -s https://codecov.io/bash) -t 65a321bf-8e09-4f46-a747-8e0d57259732
