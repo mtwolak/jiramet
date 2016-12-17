@@ -22,7 +22,7 @@ import database.jira.JiraAssigneeLoader;
 import database.jira.JiraIssueLoader;
 import utils.properties.PropertiesReader;
 import utils.properties.hibernate.HibernateTestConfiguration;
-
+@Ignore
 public class DatabaseManagerTest {
 
 	private final static String REPORTER_NAME = "Marcin";
