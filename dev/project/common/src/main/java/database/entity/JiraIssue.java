@@ -184,6 +184,10 @@ public class JiraIssue {
 	public int getJiraIssueId() {
 		return jiraIssueId;
 	}
+	
+	public void setJiraIssueId(int id) {
+		this.jiraIssueId = id;
+	}
 
 	public void setAssignedIssues(Set<AssignedIssue> assignedIssues) {
 		this.assignedIssues = assignedIssues;

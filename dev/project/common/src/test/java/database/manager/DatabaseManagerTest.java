@@ -47,7 +47,6 @@ public class DatabaseManagerTest {
 		DataBaseTestHelper.truncateAllTables(databaseManager);
 	}
 
-	@Ignore
 	@Test
 	public void checkCreatingJiraIssueAndTheirAssignee() {
 		//given
