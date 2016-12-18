@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import database.application.DatabaseApplication;
 import database.entity.Assignee;
 import database.entity.JiraIssue;
 import jira.AssigneeIssueSimilarity;
