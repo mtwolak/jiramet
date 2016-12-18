@@ -27,8 +27,10 @@ public class CosineTextsSimilarity extends TextSimilarity
 	{
 		Directory directory = createIndex(s1, s2);
 		IndexReader reader = DirectoryReader.open(directory);
-		Map<String, Integer> f1 = getTermFrequencies(reader, 0);
-		Map<String, Integer> f2 = getTermFrequencies(reader, 1);
+		int doc1ID = 0;
+		int doc2ID = 1;
+		Map<String, Integer> f1 = getTermFrequencies(reader, doc1ID);
+		Map<String, Integer> f2 = getTermFrequencies(reader, doc2ID);
 		reader.close();
 		v1 = toRealVector(f1);
 		v2 = toRealVector(f2);
@@ -70,8 +72,7 @@ public class CosineTextsSimilarity extends TextSimilarity
 		if(vector == null) {
 			return new HashMap<>();
 		}
-		TermsEnum termsEnum = null;
-		termsEnum = vector.iterator();
+		TermsEnum termsEnum = vector.iterator();
 		Map<String, Integer> frequencies = new HashMap<>();
 		BytesRef text = null;
 		while ((text = termsEnum.next()) != null)
@@ -93,7 +94,7 @@ public class CosineTextsSimilarity extends TextSimilarity
 			int value = map.containsKey(term) ? map.get(term) : 0;
 			vector.setEntry(i++, value);
 		}
-		return (RealVector) vector.mapDivide(vector.getL1Norm());
+		return vector.mapDivide(vector.getL1Norm());
 	}
 
 }
