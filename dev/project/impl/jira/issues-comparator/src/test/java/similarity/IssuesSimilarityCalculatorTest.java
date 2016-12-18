@@ -65,7 +65,7 @@ public class IssuesSimilarityCalculatorTest
 	public void shouldGetIssuesSimilarity()
 	{
 		// given
-		setWeigths(0.45, 0.45, 0.1);
+		setWeights(0.45, 0.45, 0.1);
 		List<JiraIssue> jiraIssues = createFakeJiraIssues(2);
 		
 		// when
@@ -79,7 +79,7 @@ public class IssuesSimilarityCalculatorTest
 	@Test
 	public void shouldCheckSimilarityForIssueWithComment()
 	{
-		setWeigths(0.45, 0.45, 0.1);
+		setWeights(0.45, 0.45, 0.1);
 		List<JiraIssue> jiraIssues = createFakeJiraIssues(2);
 		
 		// when
@@ -95,7 +95,7 @@ public class IssuesSimilarityCalculatorTest
 	{
 		String desc1 = "desc1";
 		String desc2 = "desc2";
-		setWeigths(0.45, 0.45, 0.1);
+		setWeights(0.45, 0.45, 0.1);
 		Mockito.when(propertiesReaderMock.getAsDouble(Property.MODEL_MIN_ALPHA)).thenReturn(0.1);
 		Mockito.when(assigneeIssueMock.getAssignedJiraIssues()).thenReturn(createAssignedJiraIssues(desc1, desc2));
 		Mockito.when(assigneeIssueMock.getAssignee()).thenReturn(assignee);
@@ -146,7 +146,7 @@ public class IssuesSimilarityCalculatorTest
 		return assigneeIssues;
 	}
 	
-	private void setWeigths(double summWeight, double descWeigtht, double commWeight)
+	private void setWeights(double summWeight, double descWeigtht, double commWeight)
 	{
 		if((summWeight + descWeigtht + commWeight) == 1.0)
 		{

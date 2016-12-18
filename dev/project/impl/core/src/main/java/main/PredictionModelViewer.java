@@ -21,7 +21,6 @@ import jira.prediction.PredictionPrintable;
 import lucene.CosineTextsSimilarity;
 import prediction.IssueResolveTimePredicter;
 import printer.PredictionTextComposer;
-import retriever.internet.IssueDownloaderMain;
 import similarity.IssuesSimilarityCalculator;
 import utils.Timer;
 import utils.properties.PropertiesReader;
