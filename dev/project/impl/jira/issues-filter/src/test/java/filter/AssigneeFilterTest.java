@@ -75,12 +75,12 @@ public class AssigneeFilterTest
 
 	private void setFilterFailedForEveryAssignee()
 	{
-		Mockito.when(JiraFilterCheckerMock.check(Mockito.any(AssigneeIssues.class))).thenReturn(false);
+		when(JiraFilterCheckerMock.check(Mockito.any(AssigneeIssues.class))).thenReturn(false);
 	}
 
 	private void createAssigneesInDatabase(int numberFakeAssignees)
 	{
-		Mockito.when(databaseMock.getJiraAssignees(jiraProject)).thenReturn(createFakeJiraAssigneess(numberFakeAssignees));
+		when(databaseMock.getJiraAssignees(jiraProject)).thenReturn(createFakeJiraAssigneess(numberFakeAssignees));
 	}
 
 	private List<Assignee> createFakeJiraAssigneess(int numberFakeAssignees)

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +28,6 @@ public class IssuesSimilarityCalculatorTest
 	private IssuesSimilarityCalculator isc;
 	@Mock
 	private PropertiesReader propertiesReaderMock;
-	@Mock
-	private DatabaseApplication databaseApplicationMock;
 	@Mock
 	private IssuesSimilarityCommentsCollector issuesSimilarityCommentsCollectorMock;
 	@Mock
@@ -108,8 +105,8 @@ public class IssuesSimilarityCalculatorTest
 		Mockito.when(textsSimilarityMock.getSimilarity("desc", desc1)).thenReturn(0.5);
 		AssigneeIssueSimilarity assigneesWithIssueSimilarities = isc.getAssigneesWithIssueSimilarities(assigneeIssueMock, createJiraIssue(3, "Sum", "desc"));
 		
-		Assert.assertThat(assigneesWithIssueSimilarities.getAssignee(), Matchers.is(assignee));
-		Assert.assertThat(assigneesWithIssueSimilarities.getAssignedJiraIssues().size(), Matchers.is(1));
+		assertThat(assigneesWithIssueSimilarities.getAssignee(), Matchers.is(assignee));
+		assertThat(assigneesWithIssueSimilarities.getAssignedJiraIssues().size(), Matchers.is(1));
 		
 	}
 

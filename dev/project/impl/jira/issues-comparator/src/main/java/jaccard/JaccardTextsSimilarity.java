@@ -14,7 +14,7 @@ import utils.properties.Property;
 
 public class JaccardTextsSimilarity extends TextSimilarity
 {
-	PropertiesReader propertiesReader;
+	private PropertiesReader propertiesReader;
 
 	public JaccardTextsSimilarity(PropertiesReader propertiesReader)
 	{

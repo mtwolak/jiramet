@@ -60,7 +60,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	private boolean checkForIssueComments(JiraIssue issue)
 	{
 		StringBuilder sb = issuesSimilarityCommentsCollector.collectIssueComments(issue);
-		return ((sb != null) && (!sb.toString().equals("")) && (!sb.toString().trim().equals("")));
+		return sb.toString().trim().length() > 0;
 	}
 
 	private double calculateSimilarity(String text1, String text2)

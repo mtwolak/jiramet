@@ -22,11 +22,10 @@ public class JaccardTextsSimilarityTest
 	@Mock
 	private PropertiesReader propertiesReaderMock;
 	private double similarity;
-	private JaccardTextsSimilarity js;
 	
 	@Before
 	public void setUp() throws IOException{
-		js = new JaccardTextsSimilarity(propertiesReaderMock);
+		JaccardTextsSimilarity js = new JaccardTextsSimilarity(propertiesReaderMock);
 		similarity = js.getSimilarity(TEXT_1, TEXT_2);
 	}
 	

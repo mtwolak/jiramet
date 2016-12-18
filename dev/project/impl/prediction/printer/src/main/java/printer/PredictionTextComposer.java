@@ -7,14 +7,14 @@ import utils.properties.PropertiesReader;
 
 public class PredictionTextComposer extends PredictionPrintable
 {
+	private static final String NEW_LINE = "\n";
+	private static final int DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE = 200;
+	private static final String NOT_ENOUGH_DATA_TO_SHOW = "not enough data to predict";
+	
 	public PredictionTextComposer(PropertiesReader propertiesReader)
 	{
 		super(propertiesReader);
 	}
-
-	private static final String NEW_LINE = "\n";
-	private static final int DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE = 200;
-	private static final String NOT_ENOUGH_DATA_TO_SHOW = "not enough data to predict";
 
 	@Override
 	protected String getPrediction(JiraIssue newIssue, AssigneeTimeResolve assigneeIssueTimes)
