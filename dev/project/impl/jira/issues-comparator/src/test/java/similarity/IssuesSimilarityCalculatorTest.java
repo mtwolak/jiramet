@@ -136,16 +136,6 @@ public class IssuesSimilarityCalculatorTest
 		return jiraIssues;
 	}
 	
-	private List<AssigneeIssues> createFakeAssigneeIssues(int numberOfFakeAssigneeIssues)
-	{
-		List<AssigneeIssues> assigneeIssues = new ArrayList<>();
-		for (int i = 0; i < numberOfFakeAssigneeIssues; i++)
-		{
-			assigneeIssues.add(assigneeIssueMock);
-		}
-		return assigneeIssues;
-	}
-	
 	private void setWeights(double summWeight, double descWeigtht, double commWeight)
 	{
 		if((summWeight + descWeigtht + commWeight) == 1.0)
