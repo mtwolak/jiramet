@@ -10,6 +10,7 @@ import filter.custom.MinimumIssueFilter;
 import filter.custom.TimeStampsNotNullFilter;
 import filter.custom.lists.SelectedIssuePriorityFilter;
 import filter.custom.lists.SelectedIssueTypesFilter;
+import jaccard.JaccardTextsSimilarity;
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeIssues;
 import jira.AssigneeTimeResolve;
@@ -72,7 +73,7 @@ public class PredictionModelViewer
 
 	private IssuesSimilarity getIssuesSimilarity()
 	{
-		return new IssuesSimilarityCalculator(propertiesReader, new CosineTextsSimilarity());
+		return new IssuesSimilarityCalculator(propertiesReader, new JaccardTextsSimilarity(propertiesReader), new CosineTextsSimilarity());
 	}
 
 	private JiraIssue getJiraIssueFromDb()

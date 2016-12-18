@@ -20,6 +20,7 @@ public enum Property
 	K_SHINGLES,
 	//model parameters
 	MODEL_MIN_ALPHA,
+	MODEL_MIN_SIGMA,
 	//filter parameters
 	FILTER_MIN_NUMBER_OF_ISSUES_FOR_DEVELOPER, 
 	FILTER_MIN_DESCRIPTION_LONG_SIZE,

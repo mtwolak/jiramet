@@ -14,13 +14,15 @@ import utils.properties.Property;
 public class IssuesSimilarityCalculator implements IssuesSimilarity
 {
 	private IssuesSimilarityCommentsCollector issuesSimilarityCommentsCollector;
+	private TextSimilarity weedOutStrategy;
 	private TextSimilarity textsSimilarity;
 	private PropertiesReader propertiesReader;
 	private double alfa;
 
-	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, TextSimilarity textsSimilarityStrategy)
+	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, TextSimilarity weedOutStrategy, TextSimilarity textsSimilarityStrategy)
 	{
 		this.propertiesReader = propertiesReader;
+		this.weedOutStrategy = weedOutStrategy;
 		this.textsSimilarity = textsSimilarityStrategy;
 		this.alfa = propertiesReader.getAsDouble(Property.MODEL_MIN_ALPHA);
 		init();
@@ -63,7 +65,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 
 	private double calculateSimilarity(String text1, String text2)
 	{
-		return textsSimilarity.getSimilarity(text1, text2);
+		double preSimilarity = weedOutStrategy.getSimilarity(text1, text2);
+		return preSimilarity > propertiesReader.getAsDouble(Property.MODEL_MIN_SIGMA) ? textsSimilarity.getSimilarity(text1, text2) : preSimilarity;
 	}
 
 	protected IssuesSimilarityCommentsCollector getIssuesSimilarityCommentsCollector()

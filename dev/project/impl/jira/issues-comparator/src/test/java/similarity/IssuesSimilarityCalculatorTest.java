@@ -9,7 +9,6 @@ import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -53,7 +52,7 @@ public class IssuesSimilarityCalculatorTest
 
 	private void createTestObj()
 	{
-		isc = new IssuesSimilarityCalculator(propertiesReaderMock, textsSimilarityMock)
+		isc = new IssuesSimilarityCalculator(propertiesReaderMock, textsSimilarityMock, textsSimilarityMock)
 		{
 			@Override
 			protected IssuesSimilarityCommentsCollector getIssuesSimilarityCommentsCollector()
