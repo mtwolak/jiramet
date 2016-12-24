@@ -9,6 +9,11 @@ HIBERNATE_PASSWORD=qwerty
 HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5Dialect
 HIBERNATE_SCHEMA_PRODUCTION=jdbc:mysql://localhost:3306/jira
 HIBERNATE_SCHEMA_TEST=jdbc:mysql://localhost:3306/JIRATest
+#PROJECT
+PROJECT_URL=https://jira.spring.io
+PROJECT_KEY=SPR
+PROJECT_NAME=Spring Framework
+PROJECT_ISSUE_LIMIT=1000
 #Issue similarity parameters
 SUMMARY_WEIGHT=0.45
 DESCRIPTION_WEIGHT=0.45

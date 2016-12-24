@@ -1,17 +1,13 @@
 package jira.project;
 
-public enum ProjectData
+public class ProjectData
 {
-	SPRING("https://jira.spring.io", "SPR", "Spring Framework", 1000),
-	MONGODB("https://jira.mongodb.org", "SERVER", "MongoDB Server", 500),
-	CAMUNDA("https://app.camunda.com/jira", "CAM", "Camunda BPM", 800);
+	private final String projectURL;
+	private final String projectKey;
+	private final String projectName;
+	private final int issueLimit;
 
-	private String projectURL;
-	private String projectKey;
-	private String projectName;
-	private int issueLimit;
-
-	private ProjectData(String projectURL, String projectKey, String projectName, int issueLimit)
+	public ProjectData(String projectURL, String projectKey, String projectName, int issueLimit)
 	{
 		this.projectURL = projectURL;
 		this.projectKey = projectKey;

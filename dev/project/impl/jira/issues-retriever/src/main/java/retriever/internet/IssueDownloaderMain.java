@@ -18,13 +18,6 @@ public class IssueDownloaderMain extends JiraWebLogDownloader
 	}
 
 	@Override
-	protected void retrieveAllIssues()
-	{
-		id.retrieveAllIssues();
-		NameRandomizer.randomizeAllNames(new HibernateProductionConfiguration(getPropertiesReader()));
-	}
-
-	@Override
 	protected void retrieveIssuesFromProject(ProjectData project)
 	{
 		id.downloadAllIssuesFromProject(project);

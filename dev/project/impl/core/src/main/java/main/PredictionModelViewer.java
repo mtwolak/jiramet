@@ -18,9 +18,12 @@ import jira.IssueResolveTimePredictable;
 import jira.IssuesFilter;
 import jira.IssuesSimilarity;
 import jira.prediction.PredictionPrintable;
+import jira.project.ProjectData;
 import lucene.CosineTextsSimilarity;
 import prediction.IssueResolveTimePredicter;
 import printer.PredictionTextComposer;
+import retriever.internet.IssueDownloaderMain;
+import retriever.project.ProjectRetriever;
 import similarity.IssuesSimilarityCalculator;
 import utils.Timer;
 import utils.properties.PropertiesReader;
@@ -43,13 +46,18 @@ public class PredictionModelViewer
 
 	public void init()
 	{
-		//new IssueDownloaderMain(propertiesReader).retrieveAllIssuesWithRespectToPropertyFlag();
+		new IssueDownloaderMain(propertiesReader).retrieveIssuesFromProjectWithRespectToPropertyFlag(getProjectData(propertiesReader));
 		databaseApplication = new DatabaseApplication(propertiesReader);
 		issueFromDb = getJiraIssueFromDb();
 		issuesFilter = getIssuesFilter();
 		issuesSimilarity = getIssuesSimilarity();
 		predictionPrintable = getPredictionPrinter();
 		issueResolveTimePredictable = getIssueResolveTimePredictable();
+	}
+
+	private ProjectData getProjectData(PropertiesReader propertiesReader)
+	{
+		return new ProjectRetriever(propertiesReader).getProjectFromProperties();
 	}
 
 	private PredictionPrintable getPredictionPrinter()

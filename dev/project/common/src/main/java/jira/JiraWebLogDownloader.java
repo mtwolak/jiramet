@@ -16,21 +16,11 @@ public abstract class JiraWebLogDownloader
 		this.propertiesReader = propertiesReader;
 	}
 
-	protected abstract void retrieveAllIssues();
-
 	protected abstract void retrieveIssuesFromProject(ProjectData project);
 
 	protected PropertiesReader getPropertiesReader()
 	{
 		return propertiesReader;
-	}
-
-	public void retrieveAllIssuesWithRespectToPropertyFlag()
-	{
-		if (isSetToTrue(Property.SHOULD_DOWNLOAD_ALL_ISSUES))
-		{
-			retrieveAllIssues();
-		}
 	}
 
 	public void retrieveIssuesFromProjectWithRespectToPropertyFlag(ProjectData project)

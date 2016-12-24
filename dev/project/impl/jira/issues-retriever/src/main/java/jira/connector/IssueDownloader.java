@@ -21,14 +21,6 @@ public class IssueDownloader
 		idc = new IssueDbContext(hibernateConfiguration);
 	}
 
-	public void retrieveAllIssues()
-	{
-		for (ProjectData project : ProjectData.values())
-		{
-			downloadAllIssuesFromProject(project);
-		}
-	}
-
 	private void addIssuesToDatabase(Promise<SearchResult> searchRes, ProjectData project)
 	{
 		JiraProject addedJiraProject = IssueDownloaderUtil.addProjectToDatabase(idc, project);
