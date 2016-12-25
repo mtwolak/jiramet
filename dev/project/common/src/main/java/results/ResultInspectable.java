@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ResultInspectable
 {
-	double getMeanSquaredError(JiraIssueWithPredictedTimeToResolve predictedTimeResolveWithJira);
+	double getMeanSquaredError(JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTime);
 
 	double getRootMeanSquaredError(List<JiraIssueWithPredictedTimeToResolve> jiraIssueWithPredictedTimeToResolves);
 

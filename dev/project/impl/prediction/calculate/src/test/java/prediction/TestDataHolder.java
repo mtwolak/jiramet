@@ -12,7 +12,7 @@ import database.entity.AssignedIssue;
 import database.entity.Assignee;
 import database.entity.JiraIssue;
 import jira.JiraIssueSimilarity;
-import utils.DateConverter;
+import utils.converter.DateConverter;
 
 public class TestDataHolder
 {

@@ -11,7 +11,7 @@ import com.atlassian.jira.rest.client.api.domain.Resolution;
 import com.atlassian.jira.rest.client.api.domain.User;
 
 import database.entity.IssueStatus;
-import utils.DateConverter;
+import utils.converter.DateConverter;
 
 public class FieldPicker
 {

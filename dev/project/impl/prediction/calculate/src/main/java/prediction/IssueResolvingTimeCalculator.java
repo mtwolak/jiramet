@@ -5,6 +5,7 @@ import java.util.List;
 
 import database.entity.AssignedIssue;
 import jira.JiraIssueSimilarity;
+import utils.converter.TimestampConverter;
 
 public class IssueResolvingTimeCalculator
 {
@@ -29,7 +30,7 @@ public class IssueResolvingTimeCalculator
 
 	private double getResolveTimeInDays(Timestamp start, Timestamp finish)
 	{
-		return (finish.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+		return TimestampConverter.getDifference(finish, start);
 	}
 
 }

@@ -1,4 +1,4 @@
-package utils;
+package utils.converter;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,9 @@ import java.text.SimpleDateFormat;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import utils.converter.DateConverter;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 public class DateConverterTest

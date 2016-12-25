@@ -21,7 +21,7 @@ import com.google.gson.JsonParser;
 import database.entity.IssueComment;
 import database.entity.JiraIssue;
 import jira.project.ProjectData;
-import utils.DateConverter;
+import utils.converter.DateConverter;
 
 public class CommentDownloader
 {

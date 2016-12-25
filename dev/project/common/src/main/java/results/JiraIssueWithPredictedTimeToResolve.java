@@ -1,15 +1,15 @@
 package results;
 
-import database.entity.JiraIssue;
+import database.entity.AssignedIssue;
 import jira.AssigneeTimeResolve;
 
 public class JiraIssueWithPredictedTimeToResolve
 {
 
 	private final AssigneeTimeResolve assigneeTimeResolve;
-	private final JiraIssue jiraIssue;
+	private final AssignedIssue jiraIssue;
 
-	public JiraIssueWithPredictedTimeToResolve(JiraIssue jiraIssue, AssigneeTimeResolve assigneeTimeResolve)
+	public JiraIssueWithPredictedTimeToResolve(AssignedIssue jiraIssue, AssigneeTimeResolve assigneeTimeResolve)
 	{
 		this.jiraIssue = jiraIssue;
 		this.assigneeTimeResolve = assigneeTimeResolve;
@@ -20,7 +20,7 @@ public class JiraIssueWithPredictedTimeToResolve
 		return assigneeTimeResolve;
 	}
 
-	public JiraIssue getJiraIssue()
+	public AssignedIssue getJiraIssue()
 	{
 		return jiraIssue;
 	}
