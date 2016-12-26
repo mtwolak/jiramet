@@ -43,8 +43,7 @@ public class ResultsInspectionTest
 	@Test
 	public void shouldEvaluateMeanSquaredError()
 	{
-		setRealTimeResolveJiraIssue(8, assignedIssueMock);
-		setPredictedTime(6.25, assigneeTimeResolveMock);
+		new TimeTestJira().setRealTimeResolveJiraIssue(8, assignedIssueMock).setPredictedTime(6.25, assigneeTimeResolveMock);
 		preparePredicterTimeResolveWithJiraIssue();
 
 		double meanSquaredError = resultsInspection.getMeanSquaredError(predictedTimeResolveWithJiraMock);
@@ -56,10 +55,8 @@ public class ResultsInspectionTest
 	@Test
 	public void shouldEvaluateRootMeanSquaredError()
 	{
-		setRealTimeResolveJiraIssue(2.5, assignedIssueMock);
-		setRealTimeResolveJiraIssue(12.5, assignedIssueMock2);
-		setPredictedTime(4, assigneeTimeResolveMock);
-		setPredictedTime(10, assigneeTimeResolveMock2);
+		new TimeTestJira().setRealTimeResolveJiraIssue(2.5, assignedIssueMock).setPredictedTime(4, assigneeTimeResolveMock);
+		new TimeTestJira().setRealTimeResolveJiraIssue(12.5, assignedIssueMock2).setPredictedTime(10, assigneeTimeResolveMock2);
 
 		double rootMeanSquaredError = resultsInspection.getRootMeanSquaredError(createListJiraWithIssuePredictedTimeToResolve());
 
@@ -76,27 +73,6 @@ public class ResultsInspectionTest
 		return list;
 	}
 
-	private void setPredictedTime(double timeResolveInDays, AssigneeTimeResolve assigneeTimeResolveMock)
-	{
-		Mockito.when(assigneeTimeResolveMock.getPredictedTime()).thenReturn(timeResolveInDays);
-	}
-
-	private void setRealTimeResolveJiraIssue(double timeResolveInDays, AssignedIssue assignedIssueMock)
-	{
-		TimeStampConverter converter = createTimeStampConverter();
-		Mockito.when(assignedIssueMock.getJiraIssue().getCreatedAt()).thenReturn(converter.getTimeStamp());
-		converter.addDays(timeResolveInDays);
-		Mockito.when(assignedIssueMock.getResolvedAt()).thenReturn(converter.getTimeStamp());
-		
-	}
-
-	private TimeStampConverter createTimeStampConverter()
-	{
-		TimeStampConverter converter = new TimeStampConverter();
-		converter.setDate(2016, 20, 10, 4, 4);
-		return converter;
-	}
-
 	private void preparePredicterTimeResolveWithJiraIssue()
 	{
 		Mockito.when(predictedTimeResolveWithJiraMock.getJiraIssue()).thenReturn(assignedIssueMock);
@@ -105,3 +81,29 @@ public class ResultsInspectionTest
 
 }
 
+class TimeTestJira
+{
+	
+	private TimeStampConverter createTimeStampConverter()
+	{
+		TimeStampConverter converter = new TimeStampConverter();
+		converter.setDate(2016, 20, 10, 4, 4);
+		return converter;
+	}
+
+	public TimeTestJira setPredictedTime(double timeResolveInDays, AssigneeTimeResolve assigneeTimeResolveMock)
+	{
+		Mockito.when(assigneeTimeResolveMock.getPredictedTime()).thenReturn(timeResolveInDays);
+		return this;
+	}
+
+	public TimeTestJira setRealTimeResolveJiraIssue(double resolveTime, AssignedIssue assignedIssueMock)
+	{
+		TimeStampConverter converter = createTimeStampConverter();
+		Mockito.when(assignedIssueMock.getJiraIssue().getCreatedAt()).thenReturn(converter.getTimeStamp());
+		converter.addDays(resolveTime);
+		Mockito.when(assignedIssueMock.getResolvedAt()).thenReturn(converter.getTimeStamp());
+		return this;
+	}
+	
+}
