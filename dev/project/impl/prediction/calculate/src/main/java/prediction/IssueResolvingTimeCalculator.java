@@ -30,7 +30,7 @@ public class IssueResolvingTimeCalculator
 
 	private double getResolveTimeInDays(Timestamp start, Timestamp finish)
 	{
-		return TimestampConverter.getDifference(finish, start);
+		return TimestampConverter.getDifferenceInDays(finish, start);
 	}
 
 }

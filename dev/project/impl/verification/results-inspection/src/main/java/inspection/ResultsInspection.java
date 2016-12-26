@@ -23,13 +23,20 @@ public class ResultsInspection implements ResultInspectable
 	{
 		Timestamp resolvedAt = assignedIssue.getResolvedAt();
 		Timestamp startAt = assignedIssue.getJiraIssue().getCreatedAt();
-		return TimestampConverter.getDifference(resolvedAt, startAt);
+		return TimestampConverter.getDifferenceInDays(resolvedAt, startAt);
 	}
 
 	@Override
 	public double getRootMeanSquaredError(List<JiraIssueWithPredictedTimeToResolve> jiraIssueWithPredictedTimeToResolves)
 	{
-		throw new UnsupportedOperationException();
+		double meanSquaredErrorResult = 0;
+		for(JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTimeToResolve : jiraIssueWithPredictedTimeToResolves)
+		{
+			double meanSquaredError = getMeanSquaredError(jiraIssueWithPredictedTimeToResolve);
+			meanSquaredErrorResult += Math.pow(meanSquaredError, 2);
+		}
+		meanSquaredErrorResult /= jiraIssueWithPredictedTimeToResolves.size();
+		return Math.sqrt(meanSquaredErrorResult);
 	}
 
 	@Override
