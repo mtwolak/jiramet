@@ -57,9 +57,9 @@ public class ResultsInspection implements ResultInspectable
 	private double getSumOfPoweredDifferences(double[] realTimeResolve, double mean)
 	{
 		double sum = 0;
-		for (int i = 0; i < realTimeResolve.length; i++)
+		for (double value : realTimeResolve)
 		{
-			sum += getPoweredDifference(realTimeResolve[i], mean);
+			sum += getPoweredDifference(value, mean);
 		}
 		return sum / realTimeResolve.length;
 	}
