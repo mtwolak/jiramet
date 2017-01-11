@@ -62,6 +62,21 @@ public class ResultsInspectionTest
 
 		Assert.assertEquals(2.061552, rootMeanSquaredError, 0.000001);
 	}
+	
+	@Test
+	public void shouldEvaluateCoefficientOfDetermination()
+	{
+		new TimeTestJira().setRealTimeResolveJiraIssue(2.5, assignedIssueMock).setPredictedTime(4, assigneeTimeResolveMock);
+		new TimeTestJira().setRealTimeResolveJiraIssue(12.5, assignedIssueMock2).setPredictedTime(10, assigneeTimeResolveMock2);
+		
+		double coefficientOfDetermination = resultsInspection.getCoefficientOfDetermination(createListJiraWithIssuePredictedTimeToResolve());
+		
+		double mean = (2.5 + 12.5) / 2;
+		double up = Math.pow((4 - mean), 2) + Math.pow((10-mean), 2);
+		double down = Math.pow((2.5-mean), 2) + Math.pow((12.5-mean), 2);
+		
+		Assert.assertEquals(up / down, coefficientOfDetermination, 0.0001);
+	}
 
 	private List<JiraIssueWithPredictedTimeToResolve> createListJiraWithIssuePredictedTimeToResolve()
 	{
