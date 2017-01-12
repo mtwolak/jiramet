@@ -8,8 +8,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import database.entity.Assignee;
-import database.entity.JiraIssue;
-import database.entity.JiraProject;
 import jira.AssigneeTimeResolve;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
@@ -31,22 +29,7 @@ public class PredictionTextComposerTest
 	public void shouldPrintPredictionToFile()
 	{
 		PredictionTextComposer predictionTextComposer = new PredictionTextComposer(propertiesReader);
-		predictionTextComposer.printPrediction(createJiraIssue(), createAssigneeAndTimes());
-	}
-
-	private JiraIssue createJiraIssue()
-	{
-		JiraIssue jiraIssue = new JiraIssue();
-		jiraIssue.setJiraProject(getJiraProject());
-		jiraIssue.setDescription("Jira description");
-		return jiraIssue;
-	}
-
-	private JiraProject getJiraProject()
-	{
-		JiraProject jiraProject = new JiraProject();
-		jiraProject.setProjectName("Project name");
-		return jiraProject;
+		predictionTextComposer.printPrediction(createAssigneeAndTimes(), 0);
 	}
 
 	private AssigneeTimeResolve createAssigneeAndTimes()

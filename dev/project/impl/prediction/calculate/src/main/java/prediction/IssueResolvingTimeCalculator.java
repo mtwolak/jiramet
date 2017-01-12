@@ -1,11 +1,10 @@
 package prediction;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import database.entity.AssignedIssue;
 import jira.JiraIssueSimilarity;
-import utils.converter.TimestampConverter;
+import utils.time.ResolveTimeCalculator;
 
 public class IssueResolvingTimeCalculator
 {
@@ -18,19 +17,12 @@ public class IssueResolvingTimeCalculator
 		for(JiraIssueSimilarity jis : issuesWithSimilarity)
 		{
 			AssignedIssue currentAssignedIssue = jis.getJiraIssue().getAssignedIssues().iterator().next();
-			Timestamp start = currentAssignedIssue.getJiraIssue().getCreatedAt();
-			Timestamp finish = currentAssignedIssue.getResolvedAt();
-			double resolveTime = getResolveTimeInDays(start, finish);
+			double resolveTime = ResolveTimeCalculator.getResolveTime(currentAssignedIssue);
 
 			result += resolveTime * jis.getSimilarityLevel();
 			sumAlpha += jis.getSimilarityLevel();
 		}
 		return Math.round((result / sumAlpha)*100.0)/100.0;
-	}
-
-	private double getResolveTimeInDays(Timestamp start, Timestamp finish)
-	{
-		return TimestampConverter.getDifferenceInDays(finish, start);
 	}
 
 }

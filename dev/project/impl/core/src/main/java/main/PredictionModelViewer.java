@@ -3,6 +3,7 @@ package main;
 import java.util.List;
 
 import database.application.DatabaseApplication;
+import database.entity.AssignedIssue;
 import database.entity.JiraIssue;
 import filter.AssigneeFilter;
 import filter.custom.MinimumIssueDescripionSizeFilter;
@@ -10,6 +11,7 @@ import filter.custom.MinimumIssueFilter;
 import filter.custom.TimeStampsNotNullFilter;
 import filter.custom.lists.SelectedIssuePriorityFilter;
 import filter.custom.lists.SelectedIssueTypesFilter;
+import inspection.ResultsInspection;
 import jaccard.JaccardTextsSimilarity;
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeIssues;
@@ -22,11 +24,14 @@ import jira.project.ProjectData;
 import lucene.CosineTextsSimilarity;
 import prediction.IssueResolveTimePredicter;
 import printer.PredictionTextComposer;
+import results.JiraIssueWithPredictedTimeToResolve;
+import results.ResultInspectable;
 import retriever.internet.IssueDownloaderMain;
 import retriever.project.ProjectRetriever;
 import similarity.IssuesSimilarityCalculator;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
+import utils.time.ResolveTimeCalculator;
 
 public class PredictionModelViewer
 {
@@ -38,6 +43,7 @@ public class PredictionModelViewer
 	private DatabaseApplication databaseApplication;
 	private PredictionPrintable predictionPrintable;
 	private IssueResolveTimePredictable issueResolveTimePredictable;
+	private ResultInspectable resultInspectable;
 
 	public PredictionModelViewer(PropertiesReader propertiesReader)
 	{
@@ -53,6 +59,7 @@ public class PredictionModelViewer
 		issuesSimilarity = getIssuesSimilarity();
 		predictionPrintable = getPredictionPrinter();
 		issueResolveTimePredictable = getIssueResolveTimePredictable();
+		resultInspectable = new ResultsInspection();
 	}
 
 	private ProjectData getProjectData(PropertiesReader propertiesReader)
@@ -92,18 +99,27 @@ public class PredictionModelViewer
 	public void showPrediction()
 	{
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
+		AssignedIssue assignedIssue = issueFromDb.getAssignedIssues().iterator().next();
 		for (AssigneeIssues assigneeIssues : assigneesAndTheirIssues)
 		{
-			showPredictionForAssignee(assigneeIssues);
+			showPredictionForAssignee(assigneeIssues, assignedIssue);
 		}
+		printRealData(assignedIssue);
 	}
 
-	private void showPredictionForAssignee(AssigneeIssues assigneeIssues)
+	private void printRealData(AssignedIssue assignedIssue)
+	{
+		predictionPrintable.print("Real time: " + ResolveTimeCalculator.getResolveTime(assignedIssue));
+		predictionPrintable.print("Real assignee: " + assignedIssue.getAssignee().getName());
+	}
+
+	private void showPredictionForAssignee(AssigneeIssues assigneeIssues, AssignedIssue assignedIssue)
 	{
 		AssigneeIssueSimilarity assigneesWithIssueSimilarities = issuesSimilarity.getAssigneesWithIssueSimilarities(assigneeIssues,
 				issueFromDb);
 		AssigneeTimeResolve prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);
-		predictionPrintable.printPrediction(issueFromDb, prediction);
+		double meanSquaredError = resultInspectable.getMeanSquaredError(new JiraIssueWithPredictedTimeToResolve(assignedIssue, prediction));
+		predictionPrintable.printPrediction(prediction, meanSquaredError);
 	}
 
 }

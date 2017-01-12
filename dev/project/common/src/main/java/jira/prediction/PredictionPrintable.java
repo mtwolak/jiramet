@@ -1,6 +1,5 @@
 package jira.prediction;
 
-import database.entity.JiraIssue;
 import jira.AssigneeTimeResolve;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
@@ -17,11 +16,16 @@ public abstract class PredictionPrintable
 		this.predictionPrintMode.init(propertiesReader);
 	}
 
-	protected abstract String getPrediction(JiraIssue newIssue, AssigneeTimeResolve assigneeIssueTimes);
+	protected abstract String getPrediction(AssigneeTimeResolve assigneeIssueTimes, double meanSquaredError);
 
-	public void printPrediction(JiraIssue newIssue, AssigneeTimeResolve assigneeIssueTimes)
+	public void printPrediction(AssigneeTimeResolve assigneeIssueTimes, double meanSquaredError)
 	{
-		predictionPrintMode.print(getPrediction(newIssue, assigneeIssueTimes), propertiesReader);
+		predictionPrintMode.print(getPrediction(assigneeIssueTimes, meanSquaredError), propertiesReader);
+	}
+
+	public void print(String text)
+	{
+		predictionPrintMode.print(text, propertiesReader);
 	}
 
 }

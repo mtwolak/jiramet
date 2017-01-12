@@ -1,6 +1,5 @@
 package printer;
 
-import database.entity.JiraIssue;
 import jira.AssigneeTimeResolve;
 import jira.prediction.PredictionPrintable;
 import utils.properties.PropertiesReader;
@@ -10,23 +9,23 @@ public class PredictionTextComposer extends PredictionPrintable
 	private static final String NEW_LINE = "\n";
 	private static final int DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE = 200;
 	private static final String NOT_ENOUGH_DATA_TO_SHOW = "not enough data to predict";
-	
+
 	public PredictionTextComposer(PropertiesReader propertiesReader)
 	{
 		super(propertiesReader);
 	}
 
 	@Override
-	protected String getPrediction(JiraIssue newIssue, AssigneeTimeResolve assigneeIssueTimes)
+	protected String getPrediction(AssigneeTimeResolve assigneeIssueTimes, double meanSquareError)
 	{
-		return new String(getInformationAboutAssigneeAndTheirTime(assigneeIssueTimes));
+		return new String(getInformationAboutAssigneeAndTheirTime(assigneeIssueTimes, meanSquareError));
 	}
 
-	private String getInformationAboutAssigneeAndTheirTime(AssigneeTimeResolve assigneeIssueTime)
+	private String getInformationAboutAssigneeAndTheirTime(AssigneeTimeResolve assigneeIssueTime, double meanSquareError)
 	{
 		StringBuilder sb = new StringBuilder(DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE);
 		sb.append("Assignee: ").append(assigneeIssueTime.getAssignee()).append(", time: ").append(getTimePrediction(assigneeIssueTime))
-				.append(NEW_LINE);
+				.append(", mean squared error: " + meanSquareError).append(NEW_LINE);
 		return sb.toString();
 	}
 
