@@ -22,6 +22,12 @@ public class UsageApplication
 	{
 		System.out.print("Usage: java -jar package.jar <Path to properties>");
 	}
+
+	public void showIssueNotFoundText(String errorMessage)
+	{
+		System.out.println("Cannot predict, error message: " + errorMessage);
+		
+	}
 	
 
 }

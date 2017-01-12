@@ -63,18 +63,6 @@ public class DatabaseApplicationTest
 	}
 
 	@Test
-	public void getJiraIssueTest() {
-		captor = ArgumentCaptor.forClass(Criterion.class);
-	    serviceUnderTest.getJiraIssue(1);
-	    // ensure a call to criteria.add and record the argument the method call had
-	    Mockito.verify(criteria).add(captor.capture());
-	    criterion = captor.getValue();
-	    expectation = Restrictions.eq("id", 1);
-	    // toString() because two instances seem never two be equal
-	    assertEquals(expectation.toString(), criterion.toString());
-	}
-	
-	@Test
 	public void getJiraProjectTest() {
 		changeSetup(JiraProject.class);
 		captor = ArgumentCaptor.forClass(Criterion.class);

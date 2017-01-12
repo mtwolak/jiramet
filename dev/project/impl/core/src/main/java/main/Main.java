@@ -1,5 +1,6 @@
 package main;
 
+import database.exception.IssueNotFoundException;
 import utils.InsufficientArgumentsException;
 import utils.UsageApplication;
 import utils.properties.PropertiesReader;
@@ -19,6 +20,9 @@ public class Main
 		} catch (InsufficientArgumentsException e)
 		{
 			application.showUsage();
+		} catch (IssueNotFoundException e)
+		{
+			application.showIssueNotFoundText(e.getMessage());
 		}
 
 	}

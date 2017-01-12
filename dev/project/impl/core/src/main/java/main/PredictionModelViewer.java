@@ -25,8 +25,8 @@ import printer.PredictionTextComposer;
 import retriever.internet.IssueDownloaderMain;
 import retriever.project.ProjectRetriever;
 import similarity.IssuesSimilarityCalculator;
-import utils.Timer;
 import utils.properties.PropertiesReader;
+import utils.properties.Property;
 
 public class PredictionModelViewer
 {
@@ -48,7 +48,7 @@ public class PredictionModelViewer
 	{
 		new IssueDownloaderMain(propertiesReader).retrieveIssuesFromProjectWithRespectToPropertyFlag(getProjectData(propertiesReader));
 		databaseApplication = new DatabaseApplication(propertiesReader);
-		issueFromDb = getJiraIssueFromDb();
+		issueFromDb = getJiraIssueFromDb(propertiesReader.getAsInt(Property.PROJECT_ID_JIRA_ISSUE_TO_ANALYZE));
 		issuesFilter = getIssuesFilter();
 		issuesSimilarity = getIssuesSimilarity();
 		predictionPrintable = getPredictionPrinter();
@@ -83,25 +83,23 @@ public class PredictionModelViewer
 		return new IssuesSimilarityCalculator(propertiesReader, new JaccardTextsSimilarity(propertiesReader), new CosineTextsSimilarity());
 	}
 
-	private JiraIssue getJiraIssueFromDb()
+	private JiraIssue getJiraIssueFromDb(int jiraIssueId)
 	{
 		DatabaseApplication dba = new DatabaseApplication(propertiesReader);
-		return dba.getJiraIssue(1);
+		return dba.getJiraIssue(jiraIssueId);
 	}
 
 	public void showPrediction()
 	{
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
-		Timer t = new Timer();
 		for (AssigneeIssues assigneeIssues : assigneesAndTheirIssues)
 		{
-			showPredictionForAssignee(t, assigneeIssues);
+			showPredictionForAssignee(assigneeIssues);
 		}
 	}
 
-	private void showPredictionForAssignee(Timer t, AssigneeIssues assigneeIssues)
+	private void showPredictionForAssignee(AssigneeIssues assigneeIssues)
 	{
-		t.checkpoint();
 		AssigneeIssueSimilarity assigneesWithIssueSimilarities = issuesSimilarity.getAssigneesWithIssueSimilarities(assigneeIssues,
 				issueFromDb);
 		AssigneeTimeResolve prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);
