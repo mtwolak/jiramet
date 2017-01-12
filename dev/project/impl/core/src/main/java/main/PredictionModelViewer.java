@@ -6,6 +6,7 @@ import database.application.DatabaseApplication;
 import database.entity.AssignedIssue;
 import database.entity.JiraIssue;
 import filter.AssigneeFilter;
+import filter.custom.AnalyzedIssueFilter;
 import filter.custom.MinimumIssueDescripionSizeFilter;
 import filter.custom.MinimumIssueFilter;
 import filter.custom.TimeStampsNotNullFilter;
@@ -77,7 +78,8 @@ public class PredictionModelViewer
 		AssigneeFilter assigneeFilter = new AssigneeFilter(propertiesReader, databaseApplication);
 		assigneeFilter.init();
 		return assigneeFilter.addFilter(new TimeStampsNotNullFilter()).addFilter(new MinimumIssueDescripionSizeFilter())
-				.addFilter(new MinimumIssueFilter()).addFilter(new SelectedIssueTypesFilter()).addFilter(new SelectedIssuePriorityFilter());
+				.addFilter(new MinimumIssueFilter()).addFilter(new SelectedIssueTypesFilter())
+				.addFilter(new SelectedIssuePriorityFilter()).addFilter(new AnalyzedIssueFilter());
 	}
 
 	private IssueResolveTimePredictable getIssueResolveTimePredictable()
