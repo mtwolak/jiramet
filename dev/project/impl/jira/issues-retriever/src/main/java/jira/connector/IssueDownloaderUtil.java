@@ -14,6 +14,17 @@ import jira.project.ProjectData;
 public class IssueDownloaderUtil
 {
 
+	/**
+	 * Adds selected issue to the local database. In order to be added to the database the issues 
+	 * needs to fulfill two main conditions: The Description and Summary fields cannot be empty/null
+	 * 
+	 * @param dbm database context variable
+	 * @param project essential data about the JIRA project, from which the issue have been downloaded
+	 * @param issue single JIRA issue that is supposed to be added to the database
+	 * @return true if the issue has been added to the database
+	 * @see IssueDbContext
+	 * @see ProjectData
+	 */
 	public static boolean addSingleIssueToDatabase(IssueDbContext dbm, ProjectData project, Issue issue)
 	{
 
@@ -78,6 +89,15 @@ public class IssueDownloaderUtil
 		return true;
 	}
 
+	/**
+	 * Adds selected JIRA project to the local database (if not exists).
+	 * 
+	 * @param dbm database context variable
+	 * @param project data about the JIRA project that is supposed to be added to the database
+	 * @return ORM object referring to newly added or existing JIRA project
+	 * @see IssueDbContext
+	 * @see ProjectData
+	 */
 	public static JiraProject addProjectToDatabase(IssueDbContext dbm, ProjectData project)
 	{
 		return dbm.addProjectIfNotExists(project.getProjectName());

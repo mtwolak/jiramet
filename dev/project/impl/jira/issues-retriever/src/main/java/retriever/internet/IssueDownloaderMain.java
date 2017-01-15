@@ -11,6 +11,12 @@ public class IssueDownloaderMain extends JiraWebLogDownloader
 {
 	private IssueDownloader id;	
 
+	/**
+	 * Class constructor. Main class responsible for retrieving issues from JIRA project and placing them in the local database
+	 * 
+	 * @param propertiesReader properties reader, grants access to system configuration variables
+	 * @see PropertiesReader
+	 */
 	public IssueDownloaderMain(PropertiesReader propertiesReader)
 	{
 		super(propertiesReader);

@@ -16,6 +16,12 @@ public abstract class JiraWebLogDownloader
 		this.propertiesReader = propertiesReader;
 	}
 
+	/**
+	 * Responsible for retrieving all issues from the selected JIRA project 
+	 * 
+	 * @param project essential data about the JIRA project, from which issues should be downloaded
+	 * @see ProjectData
+	 */
 	protected abstract void retrieveIssuesFromProject(ProjectData project);
 
 	protected PropertiesReader getPropertiesReader()

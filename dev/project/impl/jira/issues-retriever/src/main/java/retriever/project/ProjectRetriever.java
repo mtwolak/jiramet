@@ -9,11 +9,22 @@ public class ProjectRetriever
 
 	private PropertiesReader propertiesReader;
 
+	/**
+	 * Creates a new instance of ProjectRetriever class and initialize all necessary variables
+	 * 
+	 * @param propertiesReader properties reader, grants access to system configuration variables
+	 * @see PropertiesReader
+	 */
 	public ProjectRetriever(PropertiesReader propertiesReader)
 	{
 		this.propertiesReader = propertiesReader;
 	}
-
+	/**
+	 * Returns information about the project defined in the system configuration file 
+	 * 
+	 * @return essential data about the particular JIRA project
+	 * @see ProjectData
+	 */
 	public ProjectData getProjectFromProperties()
 	{
 		String projectUrl = propertiesReader.getAsString(Property.PROJECT_URL);

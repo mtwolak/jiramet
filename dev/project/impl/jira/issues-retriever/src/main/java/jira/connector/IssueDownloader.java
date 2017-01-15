@@ -15,6 +15,12 @@ public class IssueDownloader
 	private JiraUtil jiraUtil;
 	private IssueDbContext idc;
 
+	/**
+	 * Creates a new instance of IssueDownloader class and initialize all necessary variables
+	 * 
+	 * @param hibernateConfiguration database properties
+	 * @see HibernateConfiguration
+	 */
 	public IssueDownloader(HibernateConfiguration hibernateConfiguration)
 	{
 		jiraUtil = new JiraUtil();
@@ -34,6 +40,14 @@ public class IssueDownloader
 		}
 	}
 
+	/**
+	 * Downloads defined number of issues from the selected JIRA project and puts them to the local database
+	 * 
+	 * @param project essential data about the JIRA project, from which issues should be downloaded
+	 * @param startAt id of the first issue, which indicate the download starting point
+	 * @param totalResults total number of issues that should be downloaded
+	 * @see ProjectData
+	 */
 	public void downloadIssuesFromProject(ProjectData project, int startAt, int totalResults)
 	{
 		initIssueDbContext();
@@ -46,13 +60,25 @@ public class IssueDownloader
 			counter += project.getIssueLimitPerCall();
 		}
 	}
-	
+	/**
+	 * Downloads all issues from the selected JIRA project and puts them to the local database
+	 * 
+	 * @param project essential data about the JIRA project, from which issues should be downloaded
+	 * @see ProjectData
+	 */
 	public void downloadAllIssuesFromProject(ProjectData project)
 	{
 		int totalResults = jiraUtil.getTotalIssueCountFromProject(project);
 		downloadIssuesFromProject(project, 0, totalResults);
 	}
 
+	/**
+	 * Adds selected issues from specified JIRA project to the local database
+	 * 
+	 * @param projRes collection of JIRA issues
+	 * @param project essential data about the JIRA project, from which issues have been downloaded
+	 * @see ProjectData
+	 */
 	public void addIssuesFromProject(Promise<SearchResult> projRes, ProjectData project)
 	{
 		if (projRes != null)
@@ -63,7 +89,11 @@ public class IssueDownloader
 		jiraUtil.closeClientConnection();
 	}
 
-	public void  initIssueDbContext()
+	/**
+	 * Initializes the database context
+	 * @see IssueDbContext
+	 */
+	public void initIssueDbContext()
 	{
 		idc.initDbm();
 	}

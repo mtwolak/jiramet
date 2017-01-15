@@ -11,6 +11,13 @@ import utils.properties.hibernate.HibernateConfiguration;
 
 public class NameRandomizer
 {
+	/**
+	 * Changes all original user names downloaded from JIRA project to randomly generated ones, 
+	 * which provides the data anonymization
+	 * 
+	 * @param hibernateConfiguration database properties
+	 * @see HibernateConfiguration
+	 */
 	public static void randomizeAllNames(HibernateConfiguration hibernateConfiguration)
 	{
 		IssueDbContext idc = new IssueDbContext(hibernateConfiguration);

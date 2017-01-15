@@ -26,6 +26,14 @@ import utils.converter.DateConverter;
 public class CommentDownloader
 {
 
+	/**
+	 * Returns all comments extracted from selected JIRA issue. 
+	 * The method uses JIRA REST API, which returns comments in JSON format. 
+	 * 
+	 * @param issue selected issue, from which comments should be extracted
+	 * @param project essential data about the JIRA project, from which the issue have been downloaded
+	 * @return collection of comments attached to selected JIRA issue
+	 */
 	public static Collection<IssueComment> loadCommentsFromIssue(JiraIssue issue, ProjectData project)
 	{
 		StringBuilder url = new StringBuilder();
