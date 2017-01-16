@@ -5,9 +5,18 @@ import utils.InsufficientArgumentsException;
 import utils.UsageApplication;
 import utils.properties.PropertiesReader;
 
+/**
+ * Contains main method that invokes all other methods.
+ *
+ */
 public class Main
 {
 
+	/**
+	 * Invokes all methods needed to determine times needed to resolve new issue by concrete developers.
+	 * 
+	 * @param args - you should pass the path to the file with the properties used in prediction calculations
+	 */
 	public static void main(String args[])
 	{
 		UsageApplication application = new UsageApplication(args);

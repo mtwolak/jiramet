@@ -34,6 +34,11 @@ import utils.properties.PropertiesReader;
 import utils.properties.Property;
 import utils.time.ResolveTimeCalculator;
 
+/**
+ * Contains a set of methods that retrieve issues from Jira (for a given project)
+ * and then calculate and display times needed to resolve new issue by concrete developers.
+ *
+ */
 public class PredictionModelViewer
 {
 
@@ -46,11 +51,29 @@ public class PredictionModelViewer
 	private IssueResolveTimePredictable issueResolveTimePredictable;
 	private ResultInspectable resultInspectable;
 
+	/**
+	 * Creates a new instance of PredictionModelViewer and initializes propertiesReader variable.
+	 * 
+	 * @param propertiesReader - properties reader, grants access to system configuration variables
+	 * @see PropertiesReader
+	 */
 	public PredictionModelViewer(PropertiesReader propertiesReader)
 	{
 		this.propertiesReader = propertiesReader;
 	}
 
+	/**
+	 * Initializes all necessary variables used to retrieve issues and determine times needed to resolve new issue by concrete developers.
+	 * 
+	 * @see PropertiesReader
+	 * @see JiraIssue
+	 * @see IssuesFilter
+	 * @see IssuesSimilarity
+	 * @see DatabaseApplication
+	 * @see PredictionPrintable
+	 * @see IssueResolveTimePredictable
+	 * @see ResultInspectable
+	 */
 	public void init()
 	{
 		new IssueDownloaderMain(propertiesReader).retrieveIssuesFromProjectWithRespectToPropertyFlag(getProjectData(propertiesReader));
@@ -98,6 +121,12 @@ public class PredictionModelViewer
 		return dba.getJiraIssue(jiraIssueId);
 	}
 
+	/**
+	 * Calls methods that display prediction on the console.
+	 * The output includes assignee, time needed to resolve an issue, mean squared error and real time, and assignee that resolved an issue.
+	 * 
+	 * @see PredictionPrintable
+	 */
 	public void showPrediction()
 	{
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
