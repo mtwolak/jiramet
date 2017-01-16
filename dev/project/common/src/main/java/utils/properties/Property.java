@@ -22,6 +22,7 @@ public enum Property
 	//Issue similarity parameters
 	SUMMARY_WEIGHT,
 	DESCRIPTION_WEIGHT,
+	INCLUDE_COMMENTS_SIMILARITY,
 	COMMENTS_WEIGHT,
 	K_SHINGLES,
 	//model parameters

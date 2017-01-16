@@ -35,10 +35,21 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 
 	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) * calculateSimilarity(issue1.getSummary(), issue2.getSummary())
+		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) 
+				        * calculateSimilarity(issue1.getSummary(), issue2.getSummary())
 				+ propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT)
 						* calculateSimilarity(issue1.getDescription(), issue2.getDescription())
 				+ calculateCommentsSimilarity(issue1, issue2);
+	}
+	
+	public double getIssuesSimilarityWithoutComments(JiraIssue issue1, JiraIssue issue2)
+	{
+		return (propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) 
+				+ (double) (propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) / 2))
+				        * calculateSimilarity(issue1.getSummary(), issue2.getSummary())
+				+ (propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT) 
+				+ (double) (propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) / 2))
+						* calculateSimilarity(issue1.getDescription(), issue2.getDescription());
 	}
 
 	private double calculateCommentsSimilarity(JiraIssue issue1, JiraIssue issue2)
@@ -89,13 +100,15 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 
 	private void addIssueSimilarity(JiraIssue newJiraIssue, List<JiraIssueSimilarity> jiraIssueSimilarities, JiraIssue issue)
 	{
+		double issueSimilarity = 0.0;
 		if (issue.getJiraIssueId() != newJiraIssue.getJiraIssueId() && (checkForAllRequiredTexts(newJiraIssue, issue)))
 		{
-			double issueSimilarity = getIssuesSimilarity(newJiraIssue, issue);
+			if(propertiesReader.getAsBoolean(Property.INCLUDE_COMMENTS_SIMILARITY))
+				issueSimilarity = getIssuesSimilarity(newJiraIssue, issue);
+			else
+				issueSimilarity = getIssuesSimilarityWithoutComments(newJiraIssue, issue);
 			if(issueSimilarity >= alfa)
-			{
 				jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, issueSimilarity));
-			}
 		}
 	}
 
