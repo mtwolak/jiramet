@@ -14,6 +14,10 @@ import org.apache.lucene.util.*;
 
 import similarity.TextSimilarity;
 
+/**
+ * Contains a set of methods responsible for calculating cosine similarity.
+ *
+ */
 public class CosineTextsSimilarity extends TextSimilarity
 {
 

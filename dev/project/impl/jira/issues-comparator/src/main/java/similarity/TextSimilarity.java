@@ -4,12 +4,23 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Defines methods for similarity calculations with taking into account the correctness.
+ *
+ */
 public abstract class TextSimilarity
 {
 	protected static final Logger LOGGER = Logger.getLogger(TextSimilarity.class.getName());
 
 	protected abstract double processSimilarity(String text1, String text2) throws IOException;
 
+	/**
+	 * Contains the method call that calculates texts similarity.
+	 * 
+	 * @param text1 - text for which we are looking for similarity
+	 * @param text2 - text with which we compare
+	 * @return similarity between two given texts
+	 */
 	public double getSimilarity(String text1, String text2)
 	{
 		checkTextsForNull(text1, text2);

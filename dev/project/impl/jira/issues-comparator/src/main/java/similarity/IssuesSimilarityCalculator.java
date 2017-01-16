@@ -11,6 +11,10 @@ import jira.JiraIssueSimilarity;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
+/**
+ * Contains methods responsible for calculating issues similarity used in prediction.
+ *
+ */
 public class IssuesSimilarityCalculator implements IssuesSimilarity
 {
 	private IssuesSimilarityCommentsCollector issuesSimilarityCommentsCollector;
@@ -19,6 +23,15 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	private PropertiesReader propertiesReader;
 	private double alfa;
 
+	/**
+	 * Creates a new instance of IssuesSimilarityCalculator class and initializes all necessary variables.
+	 * 
+	 * @param propertiesReader - properties reader, grants access to system configuration variables
+	 * @param weedOutStrategy - method used to weed out issues with small similarity
+	 * @param textsSimilarityStrategy - method used for issues similarity calculations
+	 * @see PropertiesReader
+	 * @see TextSimilarity
+	 */
 	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, TextSimilarity weedOutStrategy, TextSimilarity textsSimilarityStrategy)
 	{
 		this.propertiesReader = propertiesReader;
@@ -28,11 +41,25 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		init();
 	}
 
+	/**
+	 * Initializes object used for collecting issue comments.
+	 * 
+	 * @see IssuesSimilarityCommentsCollector
+	 */
 	public void init()
 	{
 		this.issuesSimilarityCommentsCollector = getIssuesSimilarityCommentsCollector();
 	}
 
+	/**
+	 * First variant of similarity calculations.
+	 * Similarity depends on summary, description and comments assigned to issue in Jira.
+	 * 
+	 * @param issue1 - issue for which we are looking for similarity
+	 * @param issue2 - issue with which we compare
+	 * @return similarity between two given issues
+	 * @see JiraIssue
+	 */
 	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
 		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) 
@@ -42,6 +69,15 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 				+ calculateCommentsSimilarity(issue1, issue2);
 	}
 	
+	/**
+	 * Second variant of similarity calculations.
+	 * Similarity depends on summary and description assigned to issue in Jira.
+	 * 
+	 * @param issue1 - issue for which we are looking for similarity
+	 * @param issue2 - issue with which we compare
+	 * @return similarity between two given issues
+	 * @see JiraIssue
+	 */
 	public double getIssuesSimilarityWithoutComments(JiraIssue issue1, JiraIssue issue2)
 	{
 		return (propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) 

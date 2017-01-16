@@ -12,10 +12,20 @@ import similarity.TextSimilarity;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
+/**
+ * Contains a set of methods responsible for calculating jaccard similarity.
+ *
+ */
 public class JaccardTextsSimilarity extends TextSimilarity
 {
 	private PropertiesReader propertiesReader;
 
+	/**
+	 * Creates a new instance of JaccardTextsSimilarity class and initializes propertiesReader variable.
+	 * 
+	 * @param propertiesReader - properties reader, grants access to system configuration variables
+	 * @see PropertiesReader
+	 */
 	public JaccardTextsSimilarity(PropertiesReader propertiesReader)
 	{
 		this.propertiesReader = propertiesReader;

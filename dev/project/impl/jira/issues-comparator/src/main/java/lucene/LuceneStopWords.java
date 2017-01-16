@@ -5,6 +5,10 @@ import java.util.Collection;
 
 import org.apache.lucene.analysis.CharArraySet;
 
+/**
+ * Contains collections of words that should be excluded during similarity calculations.
+ *
+ */
 public abstract class LuceneStopWords
 {
 
@@ -59,6 +63,12 @@ public abstract class LuceneStopWords
 
 	}
 
+	/**
+	 * Generates a set of words that will not be taken into consideration during similarity calculations.
+	 * Set includes both default English words and MySql stop words.
+	 * 
+	 * @return - set of stop words
+	 */
 	public static CharArraySet generate()
 	{
 		CharArraySet set = new CharArraySet(DEFAULT_ENGLISH_WORDS.size() + MYSQL_STOPWORDS.size(), true);
