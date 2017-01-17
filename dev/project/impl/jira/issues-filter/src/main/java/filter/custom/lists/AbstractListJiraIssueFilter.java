@@ -8,9 +8,16 @@ import filter.custom.JiraIssueFilter;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
-
+/**
+ * 
+ * Class used for creating filters which need list as a filter
+ *
+ */
 public abstract class AbstractListJiraIssueFilter implements JiraIssueFilter
 {
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean filter(AssigneeIssues assigneeWithHisIssues, PropertiesReader propertiesReader)
 	{

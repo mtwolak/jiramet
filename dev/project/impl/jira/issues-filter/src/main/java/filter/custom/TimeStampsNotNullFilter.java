@@ -9,9 +9,15 @@ import database.entity.JiraIssue;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 
+/**
+ * Class for filtering issues with non null created at and finish times
+ */
 public class TimeStampsNotNullFilter implements JiraIssueFilter
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean filter(AssigneeIssues assigneeWithHisIssues, PropertiesReader propertiesReader)
 	{

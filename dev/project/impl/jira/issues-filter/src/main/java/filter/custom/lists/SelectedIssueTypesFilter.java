@@ -3,7 +3,9 @@ package filter.custom.lists;
 import database.entity.JiraIssue;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
-
+/**
+ * Class for retrieving issues with specified type
+ */
 public class SelectedIssueTypesFilter extends AbstractListJiraIssueFilter
 {
 

@@ -11,18 +11,31 @@ import jira.AssigneeIssues;
 import jira.IssuesFilter;
 import utils.properties.PropertiesReader;
 
+/**
+ * 
+ * Class for retrieving assignee according to added filters
+ */
 public class AssigneeFilter implements IssuesFilter
 {
 	private PropertiesReader propertiesReader;
 	private DatabaseApplication dba;
 	private JiraFilterChecker jiraFilterChecker;
 
+	/**
+	 * @param propertiesReader
+	 *            property reader
+	 * @param databaseApplication
+	 *            database configuration
+	 */
 	public AssigneeFilter(PropertiesReader propertiesReader, DatabaseApplication databaseApplication)
 	{
 		this.propertiesReader = propertiesReader;
 		this.dba = databaseApplication;
 	}
 
+	/**
+	 * Initialization of class
+	 */
 	public void init()
 	{
 		jiraFilterChecker = createJiraIssueChecker();
@@ -33,12 +46,23 @@ public class AssigneeFilter implements IssuesFilter
 		return new JiraFilterChecker(propertiesReader);
 	}
 
+	/**
+	 * 
+	 * @param filter
+	 *            jiraFilter to be added
+	 * @return AssigneeFilter class with added filter
+	 */
 	public AssigneeFilter addFilter(JiraIssueFilter filter)
 	{
 		this.jiraFilterChecker.add(filter);
 		return this;
 	}
 
+	/**
+	 * Gets jira assignees from jira project according to added jira filters
+	 * @param jiraProject jira project from which assigneeIssues will be retrieved
+	 * @return list of all assignees from project with theirs assigned jira issues
+	 */
 	@SuppressWarnings("unchecked")
 	public List<AssigneeIssues> getAssignedIssues(JiraProject jiraProject)
 	{

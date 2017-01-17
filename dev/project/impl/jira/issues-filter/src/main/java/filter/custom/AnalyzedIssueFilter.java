@@ -8,10 +8,15 @@ import database.entity.JiraIssue;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
-
+/**
+ * Class for discarding issue which is being analyzed
+ */
 public class AnalyzedIssueFilter implements JiraIssueFilter
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean filter(AssigneeIssues assigneeWithHisIssues, PropertiesReader propertiesReader) {
 		JiraIssue analyzedIssue = getAnalyzedIssueFromDb(propertiesReader);

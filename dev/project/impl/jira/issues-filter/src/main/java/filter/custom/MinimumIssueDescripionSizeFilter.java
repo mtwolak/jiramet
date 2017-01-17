@@ -8,9 +8,15 @@ import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
+/**
+ * Class for filtering issues with minimum size description
+ */
 public class MinimumIssueDescripionSizeFilter implements JiraIssueFilter
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean filter(AssigneeIssues assigneeWithHisIssues, PropertiesReader propertiesReader)
 	{
