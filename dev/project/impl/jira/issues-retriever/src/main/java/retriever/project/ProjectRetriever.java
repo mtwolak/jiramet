@@ -4,6 +4,10 @@ import jira.project.ProjectData;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
+/**
+ * Provides access to system configuration variables
+ *
+ */
 public class ProjectRetriever
 {
 

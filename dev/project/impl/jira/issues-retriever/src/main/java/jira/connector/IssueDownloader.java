@@ -9,6 +9,10 @@ import jira.data.IssueDbContext;
 import jira.project.ProjectData;
 import utils.properties.hibernate.HibernateConfiguration;
 
+/**
+ * Class contains a set of methods, which main goal is to extract data about issues stored in JIRA projects
+ *
+ */
 public class IssueDownloader
 {
 

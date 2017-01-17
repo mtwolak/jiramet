@@ -11,6 +11,10 @@ import jira.project.ProjectData;
 
 import java.net.URI;
 
+/**
+ * Provides connection with JIRA, by using JIRA REST API client.  
+ *
+ */
 public class JiraUtil
 {
 	

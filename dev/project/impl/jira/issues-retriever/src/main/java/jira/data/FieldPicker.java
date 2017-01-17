@@ -13,6 +13,10 @@ import com.atlassian.jira.rest.client.api.domain.User;
 import database.entity.IssueStatus;
 import utils.converter.DateConverter;
 
+/**
+ * Contains a set of methods that retrieve basic data from objects returned by JIRA REST API
+ *
+ */
 public class FieldPicker
 {
 	private DateFormat defaultFormat;

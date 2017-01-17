@@ -13,6 +13,10 @@ import database.entity.*;
 import database.manager.DatabaseManager;
 import utils.properties.hibernate.HibernateConfiguration;
 
+/**
+ * Database context. Contains all essential methods, mainly responsible for inserting new data to the local database.
+ *
+ */
 public class IssueDbContext
 {
 

@@ -7,15 +7,20 @@ import jira.project.ProjectData;
 import utils.properties.PropertiesReader;
 import utils.properties.hibernate.HibernateProductionConfiguration;
 
+/**
+ *  Main class responsible for retrieving issues from JIRA project and placing them in the local database
+ *
+ */
 public class IssueDownloaderMain extends JiraWebLogDownloader
 {
 	private IssueDownloader id;	
 
 	/**
-	 * Class constructor. Main class responsible for retrieving issues from JIRA project and placing them in the local database
+	 * Class constructor. Initialize IssueDownloader object, which is responsible for retrieving JIRA issues
 	 * 
 	 * @param propertiesReader properties reader, grants access to system configuration variables
 	 * @see PropertiesReader
+	 * @see IssueDownloader
 	 */
 	public IssueDownloaderMain(PropertiesReader propertiesReader)
 	{

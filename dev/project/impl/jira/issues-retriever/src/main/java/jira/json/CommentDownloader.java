@@ -23,6 +23,10 @@ import database.entity.JiraIssue;
 import jira.project.ProjectData;
 import utils.converter.DateConverter;
 
+/**
+ * Contains a set of methods allowing to fetch comments connected with particular JIRA issue. Uses JIRA REST API
+ *
+ */
 public class CommentDownloader
 {
 

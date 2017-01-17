@@ -11,6 +11,10 @@ import jira.data.IssueDbContext;
 import jira.json.CommentDownloader;
 import jira.project.ProjectData;
 
+/**
+ * Contains methods responsible for putting issues, extracted from JIRA projects, to the local database
+ *
+ */
 public class IssueDownloaderUtil
 {
 

@@ -9,6 +9,11 @@ import database.entity.IssueReporter;
 import jira.data.IssueDbContext;
 import utils.properties.hibernate.HibernateConfiguration;
 
+/**
+ * Contains method responsible for data anonymization. The method works directly on the database,
+ * changing all assignee's and issue reporter's names
+ *
+ */
 public class NameRandomizer
 {
 	/**
