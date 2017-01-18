@@ -10,6 +10,7 @@ import org.hibernate.TransientObjectException;
 import org.hibernate.criterion.Restrictions;
 
 import database.entity.*;
+import database.exception.DatabaseAccessException;
 import database.manager.DatabaseManager;
 import utils.properties.hibernate.HibernateConfiguration;
 
@@ -488,6 +489,31 @@ public class IssueDbContext
 		{
 			LOGGER.error("Cannot update JiraIssue object", e);
 		}
+	}
+	/**
+	 * 
+	 * @param assignee selected assignee whose comments are supposed to be searched for
+	 * @return all comments posted by particular assignee
+	 */
+	@SuppressWarnings("rawtypes")
+	public List getAssigneesComments(Assignee assignee)
+	{
+		try
+		{
+			Session session = dbm.getSession();
+			Criteria criteria = session.createCriteria(IssueComment.class);
+			criteria.add(Restrictions.eq("addedBy", assignee.getName()));
+			List comments = criteria.list();
+			session.close();
+			if (!comments.isEmpty())
+				return comments;
+			else
+				throw new DatabaseAccessException();
+		} catch (DatabaseAccessException ex)
+		{
+			LOGGER.error(ex);
+		}
+		return null;
 	}
 
 	/**

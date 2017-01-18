@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import database.entity.Assignee;
-import database.entity.IssueComment;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import database.exception.IssueNotFoundException;
@@ -47,7 +46,6 @@ public class DatabaseApplicationTest
 	@Before
 	public void setUp() {
 		Mockito.reset(sessionFactory, session, criteria);
-		Mockito.when(assignee.getName()).thenReturn("Unassigned");
 		Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
 		Mockito.when(session.createCriteria(JiraIssue.class)).thenReturn(criteria);
 		Mockito.when(criteria.setFetchMode(Mockito.anyString(), (FetchMode) Mockito.anyObject())).thenReturn(criteria);
@@ -111,12 +109,6 @@ public class DatabaseApplicationTest
 	public void getJiraProjectsTest() {
 		changeSetup(JiraProject.class);
 	    assertNull(serviceUnderTest.getJiraProjects());
-	}
-	
-	@Test
-	public void getAssigneesCommentsTest() {
-		changeSetup(IssueComment.class);
-	    assertNull(serviceUnderTest.getAssigneesComments(assignee));
 	}
 	
 	@Test
