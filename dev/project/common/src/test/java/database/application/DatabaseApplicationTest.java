@@ -17,8 +17,10 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import database.entity.Assignee;
+import database.entity.IssueComment;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
+import database.exception.IssueNotFoundException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DatabaseApplicationTest
@@ -31,6 +33,10 @@ public class DatabaseApplicationTest
 	private Criteria criteria;
 	@Mock
 	private JiraProject jiraProject;
+	@Mock
+	private Assignee assignee;
+	@Mock
+	private JiraIssue jiraIssue;
 	
 	private Criterion criterion;
 	private Criterion expectation;
@@ -41,6 +47,7 @@ public class DatabaseApplicationTest
 	@Before
 	public void setUp() {
 		Mockito.reset(sessionFactory, session, criteria);
+		Mockito.when(assignee.getName()).thenReturn("Unassigned");
 		Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
 		Mockito.when(session.createCriteria(JiraIssue.class)).thenReturn(criteria);
 		Mockito.when(criteria.setFetchMode(Mockito.anyString(), (FetchMode) Mockito.anyObject())).thenReturn(criteria);
@@ -48,6 +55,7 @@ public class DatabaseApplicationTest
 		Mockito.when(criteria.setMaxResults(Mockito.anyInt())).thenReturn(criteria);
 		Mockito.when(criteria.createAlias(Mockito.anyString(), Mockito.anyString())).thenReturn(criteria);
 		Mockito.when(criteria.add((Criterion) Mockito.anyObject())).thenReturn(criteria);
+
 		serviceUnderTest = new DatabaseApplication(sessionFactory);
 	}
 	
@@ -73,6 +81,16 @@ public class DatabaseApplicationTest
 	    assertEquals(expectation.toString(), criterion.toString());
 	}
 	
+	@Test(expected=IssueNotFoundException.class)
+	public void getJiraIssueTest() {
+		changeSetup(JiraIssue.class);
+		captor = ArgumentCaptor.forClass(Criterion.class);
+		jiraIssue = serviceUnderTest.getJiraIssue(1);
+	    Mockito.verify(criteria).add(captor.capture());
+	    criterion = captor.getValue();
+	    expectation = Restrictions.eq("id", 1);
+	}
+	
 	@Test
 	public void getJiraIssuesTest() {
 		captor = ArgumentCaptor.forClass(Criterion.class);
@@ -93,6 +111,12 @@ public class DatabaseApplicationTest
 	public void getJiraProjectsTest() {
 		changeSetup(JiraProject.class);
 	    assertNull(serviceUnderTest.getJiraProjects());
+	}
+	
+	@Test
+	public void getAssigneesCommentsTest() {
+		changeSetup(IssueComment.class);
+	    assertNull(serviceUnderTest.getAssigneesComments(assignee));
 	}
 	
 	@Test

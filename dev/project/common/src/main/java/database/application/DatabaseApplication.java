@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
 import database.entity.Assignee;
+import database.entity.IssueComment;
 import database.entity.JiraIssue;
 import database.entity.JiraProject;
 import database.exception.DatabaseAccessException;
@@ -116,6 +117,25 @@ public class DatabaseApplication
 			List assignees = criteria.list();
 			if (assignees.size() >= 1)
 				return assignees;
+			else
+				throw new DatabaseAccessException();
+		} catch (DatabaseAccessException ex)
+		{
+			logger.error(ex);
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List getAssigneesComments(Assignee assignee)
+	{
+		try
+		{
+			criteria = session.createCriteria(IssueComment.class);
+			criteria.add(Restrictions.eq("addedBy", assignee.getName()));
+			List comments = criteria.list();
+			if (comments.size() >= 1)
+				return comments;
 			else
 				throw new DatabaseAccessException();
 		} catch (DatabaseAccessException ex)
