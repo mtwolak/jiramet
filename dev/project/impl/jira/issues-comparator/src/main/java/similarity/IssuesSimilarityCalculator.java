@@ -12,7 +12,8 @@ import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
 /**
- * Contains methods responsible for calculating issues similarity used in prediction.
+ * Contains methods responsible for calculating issues similarity used in
+ * prediction.
  *
  */
 public class IssuesSimilarityCalculator implements IssuesSimilarity
@@ -21,18 +22,25 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	private TextSimilarity weedOutStrategy;
 	private TextSimilarity textsSimilarity;
 	private PropertiesReader propertiesReader;
+	private ListPartitioner listPartitioner;
 	private double alfa;
 
 	/**
-	 * Creates a new instance of IssuesSimilarityCalculator class and initializes all necessary variables.
+	 * Creates a new instance of IssuesSimilarityCalculator class and
+	 * initializes all necessary variables.
 	 * 
-	 * @param propertiesReader - properties reader, grants access to system configuration variables
-	 * @param weedOutStrategy - method used to weed out issues with small similarity
-	 * @param textsSimilarityStrategy - method used for issues similarity calculations
+	 * @param propertiesReader
+	 *            - properties reader, grants access to system configuration
+	 *            variables
+	 * @param weedOutStrategy
+	 *            - method used to weed out issues with small similarity
+	 * @param textsSimilarityStrategy
+	 *            - method used for issues similarity calculations
 	 * @see PropertiesReader
 	 * @see TextSimilarity
 	 */
-	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, TextSimilarity weedOutStrategy, TextSimilarity textsSimilarityStrategy)
+	public IssuesSimilarityCalculator(PropertiesReader propertiesReader, TextSimilarity weedOutStrategy,
+			TextSimilarity textsSimilarityStrategy)
 	{
 		this.propertiesReader = propertiesReader;
 		this.weedOutStrategy = weedOutStrategy;
@@ -49,42 +57,51 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	public void init()
 	{
 		this.issuesSimilarityCommentsCollector = getIssuesSimilarityCommentsCollector();
+		this.listPartitioner = new ListPartitioner(propertiesReader.getAsInt(Property.K_RESULTS));
+	}
+	
+	protected void setListPartitioner(ListPartitioner listPartitioner)
+	{
+		this.listPartitioner = listPartitioner;
 	}
 
 	/**
-	 * First variant of similarity calculations.
-	 * Similarity depends on summary, description and comments assigned to issue in Jira.
+	 * First variant of similarity calculations. Similarity depends on summary,
+	 * description and comments assigned to issue in Jira.
 	 * 
-	 * @param issue1 - issue for which we are looking for similarity
-	 * @param issue2 - issue with which we compare
+	 * @param issue1
+	 *            - issue for which we are looking for similarity
+	 * @param issue2
+	 *            - issue with which we compare
 	 * @return similarity between two given issues
 	 * @see JiraIssue
 	 */
 	public double getIssuesSimilarity(JiraIssue issue1, JiraIssue issue2)
 	{
-		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) 
-				        * calculateSimilarity(issue1.getSummary(), issue2.getSummary())
+		return propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) * calculateSimilarity(issue1.getSummary(), issue2.getSummary())
 				+ propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT)
 						* calculateSimilarity(issue1.getDescription(), issue2.getDescription())
 				+ calculateCommentsSimilarity(issue1, issue2);
 	}
-	
+
 	/**
-	 * Second variant of similarity calculations.
-	 * Similarity depends on summary and description assigned to issue in Jira.
+	 * Second variant of similarity calculations. Similarity depends on summary
+	 * and description assigned to issue in Jira.
 	 * 
-	 * @param issue1 - issue for which we are looking for similarity
-	 * @param issue2 - issue with which we compare
+	 * @param issue1
+	 *            - issue for which we are looking for similarity
+	 * @param issue2
+	 *            - issue with which we compare
 	 * @return similarity between two given issues
 	 * @see JiraIssue
 	 */
 	public double getIssuesSimilarityWithoutComments(JiraIssue issue1, JiraIssue issue2)
 	{
-		return (propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT) 
+		return (propertiesReader.getAsDouble(Property.SUMMARY_WEIGHT)
 				+ (double) (propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) / 2))
-				        * calculateSimilarity(issue1.getSummary(), issue2.getSummary())
-				+ (propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT) 
-				+ (double) (propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) / 2))
+				* calculateSimilarity(issue1.getSummary(), issue2.getSummary())
+				+ (propertiesReader.getAsDouble(Property.DESCRIPTION_WEIGHT)
+						+ (double) (propertiesReader.getAsDouble(Property.COMMENTS_WEIGHT) / 2))
 						* calculateSimilarity(issue1.getDescription(), issue2.getDescription());
 	}
 
@@ -113,7 +130,8 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	private double calculateSimilarity(String text1, String text2)
 	{
 		double preSimilarity = weedOutStrategy.getSimilarity(text1, text2);
-		return preSimilarity > propertiesReader.getAsDouble(Property.MODEL_MIN_SIGMA) ? textsSimilarity.getSimilarity(text1, text2) : preSimilarity;
+		return preSimilarity > propertiesReader.getAsDouble(Property.MODEL_MIN_SIGMA) ? textsSimilarity.getSimilarity(text1, text2)
+				: preSimilarity;
 	}
 
 	protected IssuesSimilarityCommentsCollector getIssuesSimilarityCommentsCollector()
@@ -130,7 +148,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		{
 			addIssueSimilarity(newJiraIssue, jiraIssueSimilarities, issue);
 		}
-		return new AssigneeIssueSimilarity(assigneeIssues.getAssignee(), jiraIssueSimilarities);
+		return new AssigneeIssueSimilarity(assigneeIssues.getAssignee(), listPartitioner.getList(jiraIssueSimilarities));
 
 	}
 
@@ -139,11 +157,11 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		double issueSimilarity = 0.0;
 		if (issue.getJiraIssueId() != newJiraIssue.getJiraIssueId() && (checkForAllRequiredTexts(newJiraIssue, issue)))
 		{
-			if(propertiesReader.getAsBoolean(Property.INCLUDE_COMMENTS_SIMILARITY))
+			if (propertiesReader.getAsBoolean(Property.INCLUDE_COMMENTS_SIMILARITY))
 				issueSimilarity = getIssuesSimilarity(newJiraIssue, issue);
 			else
 				issueSimilarity = getIssuesSimilarityWithoutComments(newJiraIssue, issue);
-			if(issueSimilarity >= alfa)
+			if (issueSimilarity >= alfa)
 				jiraIssueSimilarities.add(new JiraIssueSimilarity(issue, issueSimilarity));
 		}
 	}

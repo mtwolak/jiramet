@@ -18,6 +18,7 @@ import database.entity.Assignee;
 import database.entity.JiraIssue;
 import jira.AssigneeIssueSimilarity;
 import jira.AssigneeIssues;
+import jira.JiraIssueSimilarity;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
@@ -37,14 +38,28 @@ public class IssuesSimilarityCalculatorTest
 	private AssigneeIssues assigneeIssueMock;
 	@Mock
 	private Assignee assignee;
+	
+	private ListPartitioner listPartitioner;
 
 	@Before
 	public void setUp()
 	{
 		createTestObj();
+		createListPartitioner();
 	}
 
 
+
+	private void createListPartitioner()
+	{
+		listPartitioner = new ListPartitioner(0) {
+			@Override
+			public List<JiraIssueSimilarity> getList(List<JiraIssueSimilarity> jiraIssueSimilarities)
+			{
+				return jiraIssueSimilarities;
+			}
+		};
+	}
 
 	private void createTestObj()
 	{
@@ -57,6 +72,7 @@ public class IssuesSimilarityCalculatorTest
 			}
 		};
 		isc.init();
+		isc.setListPartitioner(listPartitioner);
 	}
 	
 	

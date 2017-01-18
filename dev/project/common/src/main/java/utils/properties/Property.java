@@ -28,6 +28,7 @@ public enum Property
 	//model parameters
 	MODEL_MIN_ALPHA,
 	MODEL_MIN_SIGMA,
+	K_RESULTS,
 	//filter parameters
 	FILTER_MIN_NUMBER_OF_ISSUES_FOR_DEVELOPER, 
 	FILTER_MIN_DESCRIPTION_LONG_SIZE,
