@@ -15,37 +15,38 @@ import database.manager.DatabaseManager;
 import utils.properties.hibernate.HibernateConfiguration;
 
 /**
- * Database context. Contains all essential methods, mainly responsible for inserting new data to the local database.
+ * Database context. Contains all essential methods, mainly responsible for
+ * inserting new data to the local database.
  *
  */
-public class IssueDbContext
-{
+public class IssueDbContext {
 
 	private DatabaseManager dbm;
 	private static final Logger LOGGER = Logger.getLogger(IssueDbContext.class);
 
 	/**
-	 * Database context initialization. Establishes connection to the local database.
+	 * Database context initialization. Establishes connection to the local
+	 * database.
 	 * 
-	 * @param hibernateConfiguration database properties
+	 * @param hibernateConfiguration
+	 *            database properties
 	 * @see HibernateConfiguration
 	 */
-	public IssueDbContext(HibernateConfiguration hibernateConfiguration)
-	{
+	public IssueDbContext(HibernateConfiguration hibernateConfiguration) {
 		dbm = new DatabaseManager(hibernateConfiguration);
 	}
 
 	/**
 	 * Adds the selected JIRA issue to the database (if not exists)
 	 * 
-	 * @param jiraIssue JIRA issue that is supposed to be added to the database
-	 * @return ORM object referring to newly added JIRA issue or null if the issue already exists in database
+	 * @param jiraIssue
+	 *            JIRA issue that is supposed to be added to the database
+	 * @return ORM object referring to newly added JIRA issue or null if the
+	 *         issue already exists in database
 	 * @see JiraIssue
 	 */
-	public JiraIssue addNewJiraIssue(JiraIssue jiraIssue)
-	{
-		if (this.getJiraIssue(jiraIssue) == null)
-		{
+	public JiraIssue addNewJiraIssue(JiraIssue jiraIssue) {
+		if (this.getJiraIssue(jiraIssue) == null) {
 			dbm.persist(jiraIssue);
 			return jiraIssue;
 		}
@@ -54,37 +55,39 @@ public class IssueDbContext
 
 	/**
 	 * 
-	 * @param assignedIssue connection between issue and assignee that is supposed to be added to the database
-	 * @return true if the data has been added to database or false if it already existed
+	 * @param assignedIssue
+	 *            connection between issue and assignee that is supposed to be
+	 *            added to the database
+	 * @return true if the data has been added to database or false if it
+	 *         already existed
 	 * @see AssignedIssue
 	 */
-	public boolean addNewAssignedIssue(AssignedIssue assignedIssue)
-	{
-		if (this.getAssignedIssue(assignedIssue) == null)
-		{
+	public boolean addNewAssignedIssue(AssignedIssue assignedIssue) {
+		if (this.getAssignedIssue(assignedIssue) == null) {
 			dbm.persist(assignedIssue);
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Adds the selected JIRA project to the database (if not exists)
 	 * 
-	 * @param projectName name of the JIRA project that is supposed to be added to the database
-	 * @return ORM object referring to newly added JIRA project or the one that already exists in database
+	 * @param projectName
+	 *            name of the JIRA project that is supposed to be added to the
+	 *            database
+	 * @return ORM object referring to newly added JIRA project or the one that
+	 *         already exists in database
 	 * @see JiraProject
 	 */
-	public JiraProject addProjectIfNotExists(String projectName)
-	{
+	public JiraProject addProjectIfNotExists(String projectName) {
 
 		JiraProject jiraProject = new JiraProject();
 		jiraProject.setProjectName(projectName);
 
 		JiraProject res = this.getJiraProject(projectName);
 
-		if (res == null)
-		{
+		if (res == null) {
 			dbm.persist(jiraProject);
 			return jiraProject;
 		}
@@ -94,20 +97,21 @@ public class IssueDbContext
 	/**
 	 * Adds the selected issue priority to the database (if not exists)
 	 * 
-	 * @param priorityName name of the issue priority that is supposed to be added to the database
-	 * @return ORM object referring to newly added issue priority or the one that already exists in database
+	 * @param priorityName
+	 *            name of the issue priority that is supposed to be added to the
+	 *            database
+	 * @return ORM object referring to newly added issue priority or the one
+	 *         that already exists in database
 	 * @see IssuePriority
 	 */
-	public IssuePriority addIssuePriorityIfNotExists(String priorityName)
-	{
+	public IssuePriority addIssuePriorityIfNotExists(String priorityName) {
 
 		IssuePriority issuePriority = new IssuePriority();
 		issuePriority.setPriorityName(priorityName);
 
 		IssuePriority res = this.getIssuePriority(priorityName);
 
-		if (res == null)
-		{
+		if (res == null) {
 			dbm.persist(issuePriority);
 			return issuePriority;
 		}
@@ -117,20 +121,21 @@ public class IssueDbContext
 	/**
 	 * Adds the selected issue resolution to the database (if not exists)
 	 * 
-	 * @param resolutionName name of the issue resolution that is supposed to be added to the database
-	 * @return ORM object referring to newly added issue resolution or the one that already exists in database
+	 * @param resolutionName
+	 *            name of the issue resolution that is supposed to be added to
+	 *            the database
+	 * @return ORM object referring to newly added issue resolution or the one
+	 *         that already exists in database
 	 * @see IssueResolution
 	 */
-	public IssueResolution addIssueResolutionIfNotExists(String resolutionName)
-	{
+	public IssueResolution addIssueResolutionIfNotExists(String resolutionName) {
 
 		IssueResolution issueResulution = new IssueResolution();
 		issueResulution.setResolutionName(resolutionName);
 
 		IssueResolution res = this.getIssueResolution(resolutionName);
 
-		if (res == null)
-		{
+		if (res == null) {
 			dbm.persist(issueResulution);
 			return issueResulution;
 		}
@@ -140,20 +145,21 @@ public class IssueDbContext
 	/**
 	 * Adds the selected issue type to the database (if not exists)
 	 * 
-	 * @param typeName name of the issue type that is supposed to be added to the database
-	 * @return ORM object referring to newly added issue type or the one that already exists in database
+	 * @param typeName
+	 *            name of the issue type that is supposed to be added to the
+	 *            database
+	 * @return ORM object referring to newly added issue type or the one that
+	 *         already exists in database
 	 * @see IssueType
 	 */
-	public IssueType addIssueTypeIfNotExists(String typeName)
-	{
+	public IssueType addIssueTypeIfNotExists(String typeName) {
 
 		IssueType issueType = new IssueType();
 		issueType.setTypeName(typeName);
 
 		IssueType res = this.getIssueType(typeName);
 
-		if (res == null)
-		{
+		if (res == null) {
 			dbm.persist(issueType);
 			return issueType;
 		}
@@ -163,20 +169,21 @@ public class IssueDbContext
 	/**
 	 * Adds the selected issue assignee to the database (if not exists)
 	 * 
-	 * @param assigneeName name of the issue assignee that is supposed to be added to the database
-	 * @return ORM object referring to newly added issue assignee or the one that already exists in database
+	 * @param assigneeName
+	 *            name of the issue assignee that is supposed to be added to the
+	 *            database
+	 * @return ORM object referring to newly added issue assignee or the one
+	 *         that already exists in database
 	 * @see Assignee
 	 */
-	public Assignee addAssigneeIfNotExists(String assigneeName)
-	{
+	public Assignee addAssigneeIfNotExists(String assigneeName) {
 
 		Assignee assignee = new Assignee();
 		assignee.setName(assigneeName);
 
 		Assignee res = this.getAssignee(assigneeName);
 
-		if (res == null)
-		{
+		if (res == null) {
 			dbm.persist(assignee);
 			return assignee;
 		}
@@ -186,20 +193,21 @@ public class IssueDbContext
 	/**
 	 * Adds the selected issue reporter to the database (if not exists)
 	 * 
-	 * @param reporterName name of the issue reporter that is supposed to be added to the database
-	 * @return ORM object referring to newly added issue reporter or the one that already exists in database
+	 * @param reporterName
+	 *            name of the issue reporter that is supposed to be added to the
+	 *            database
+	 * @return ORM object referring to newly added issue reporter or the one
+	 *         that already exists in database
 	 * @see IssueReporter
 	 */
-	public IssueReporter addIssueReporterIfNotExists(String reporterName)
-	{
+	public IssueReporter addIssueReporterIfNotExists(String reporterName) {
 
 		IssueReporter issueReporter = new IssueReporter();
 		issueReporter.setFullName(reporterName);
 
 		IssueReporter res = this.getIssueReporter(reporterName);
 
-		if (res == null)
-		{
+		if (res == null) {
 			dbm.persist(issueReporter);
 			return issueReporter;
 		}
@@ -209,14 +217,15 @@ public class IssueDbContext
 	/**
 	 * Adds the selected issue comment to the database (if not exists)
 	 * 
-	 * @param issueComment content of the comment that is supposed to be added to the database
-	 * @return true if the comment has been added to database or false if it already existed
+	 * @param issueComment
+	 *            content of the comment that is supposed to be added to the
+	 *            database
+	 * @return true if the comment has been added to database or false if it
+	 *         already existed
 	 * @see IssueComment
 	 */
-	public boolean addIssueCommentIfNotExists(IssueComment issueComment)
-	{
-		if (this.getCommentIssue(issueComment.getContent(), issueComment.getJiraIssueNew()) == null)
-		{
+	public boolean addIssueCommentIfNotExists(IssueComment issueComment) {
+		if (this.getCommentIssue(issueComment.getContent(), issueComment.getJiraIssueNew()) == null) {
 			dbm.persist(issueComment);
 			return true;
 		}
@@ -224,14 +233,12 @@ public class IssueDbContext
 	}
 
 	@SuppressWarnings("rawtypes")
-	private Assignee getAssignee(String assigneeName)
-	{
+	private Assignee getAssignee(String assigneeName) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(Assignee.class);
 		List assignees = criteria.add(Restrictions.eq("name", assigneeName)).list();
 		session.close();
-		if (!assignees.isEmpty())
-		{
+		if (!assignees.isEmpty()) {
 			return (Assignee) assignees.get(0);
 		}
 
@@ -244,8 +251,7 @@ public class IssueDbContext
 	 * @see Assignee
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Assignee> getAllAssignees()
-	{
+	public List<Assignee> getAllAssignees() {
 		Session session = dbm.getSession();
 		List<Assignee> assignees = session.createCriteria(Assignee.class).list();
 		session.close();
@@ -255,13 +261,12 @@ public class IssueDbContext
 	/**
 	 * Perform the UPDATE operation on all selected issue assignees
 	 * 
-	 * @param assignees collection of issue assignees that are supposed to be updated
+	 * @param assignees
+	 *            collection of issue assignees that are supposed to be updated
 	 */
-	public void updateAssignees(List<Assignee> assignees)
-	{
+	public void updateAssignees(List<Assignee> assignees) {
 		Session session = dbm.getSession();
-		for (Assignee assignee : assignees)
-		{
+		for (Assignee assignee : assignees) {
 			dbm.persist(assignee);
 		}
 		session.close();
@@ -273,8 +278,7 @@ public class IssueDbContext
 	 * @see IssueReporter
 	 */
 	@SuppressWarnings("unchecked")
-	public List<IssueReporter> getAllReporters()
-	{
+	public List<IssueReporter> getAllReporters() {
 		Session session = dbm.getSession();
 		List<IssueReporter> reporters = session.createCriteria(IssueReporter.class).list();
 		session.close();
@@ -284,48 +288,41 @@ public class IssueDbContext
 	/**
 	 * Perform the UPDATE operation on all selected issue reporters
 	 * 
-	 * @param reporters collection of issue reporters that are supposed to be updated
+	 * @param reporters
+	 *            collection of issue reporters that are supposed to be updated
 	 */
-	public void updateReporters(List<IssueReporter> reporters)
-	{
+	public void updateReporters(List<IssueReporter> reporters) {
 		Session session = dbm.getSession();
-		for (IssueReporter reporter : reporters)
-		{
+		for (IssueReporter reporter : reporters) {
 			dbm.persist(reporter);
 		}
 		session.close();
 	}
 
 	@SuppressWarnings("rawtypes")
-	private IssueComment getCommentIssue(String content, JiraIssue jiraIssue)
-	{
+	private IssueComment getCommentIssue(String content, JiraIssue jiraIssue) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(IssueComment.class);
 		criteria.add(Restrictions.eq("content", content));
 		criteria.add(Restrictions.eq("jiraIssueNew", jiraIssue));
-		try
-		{
+		try {
 			List comments = criteria.list();
 			session.close();
-			if (!comments.isEmpty())
-			{
+			if (!comments.isEmpty()) {
 				return (IssueComment) comments.get(0);
 			}
-		} catch (TransientObjectException e)
-		{
+		} catch (TransientObjectException e) {
 		}
 		return null;
 	}
 
 	@SuppressWarnings("rawtypes")
-	private IssuePriority getIssuePriority(String priorityName)
-	{
+	private IssuePriority getIssuePriority(String priorityName) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(IssuePriority.class);
 		List priorities = criteria.add(Restrictions.eq("priorityName", priorityName)).list();
 		session.close();
-		if (!priorities.isEmpty())
-		{
+		if (!priorities.isEmpty()) {
 			return (IssuePriority) priorities.get(0);
 		}
 
@@ -333,14 +330,12 @@ public class IssueDbContext
 	}
 
 	@SuppressWarnings("rawtypes")
-	private IssueReporter getIssueReporter(String reporterName)
-	{
+	private IssueReporter getIssueReporter(String reporterName) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(IssueReporter.class);
 		List reporters = criteria.add(Restrictions.eq("fullName", reporterName)).list();
 		session.close();
-		if (!reporters.isEmpty())
-		{
+		if (!reporters.isEmpty()) {
 			return (IssueReporter) reporters.get(0);
 		}
 
@@ -348,14 +343,12 @@ public class IssueDbContext
 	}
 
 	@SuppressWarnings("rawtypes")
-	private IssueResolution getIssueResolution(String resolutionName)
-	{
+	private IssueResolution getIssueResolution(String resolutionName) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(IssueResolution.class);
 		List resolutions = criteria.add(Restrictions.eq("resolutionName", resolutionName)).list();
 		session.close();
-		if (!resolutions.isEmpty())
-		{
+		if (!resolutions.isEmpty()) {
 			return (IssueResolution) resolutions.get(0);
 		}
 
@@ -363,35 +356,33 @@ public class IssueDbContext
 	}
 
 	@SuppressWarnings("rawtypes")
-	private IssueType getIssueType(String typeName)
-	{
+	private IssueType getIssueType(String typeName) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(IssueType.class);
 		List types = criteria.add(Restrictions.eq("typeName", typeName)).list();
 		session.close();
-		if (!types.isEmpty())
-		{
+		if (!types.isEmpty()) {
 			return (IssueType) types.get(0);
 		}
 
 		return null;
 	}
-	
+
 	/**
 	 * 
-	 * @param projectName selected JIRA project name
-	 * @return ORM object referring to requested JIRA project or null if the database does not contain requested project
+	 * @param projectName
+	 *            selected JIRA project name
+	 * @return ORM object referring to requested JIRA project or null if the
+	 *         database does not contain requested project
 	 * @see JiraProject
 	 */
 	@SuppressWarnings("rawtypes")
-	public JiraProject getJiraProject(String projectName)
-	{
+	public JiraProject getJiraProject(String projectName) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(JiraProject.class);
 		List projects = criteria.add(Restrictions.eq("projectName", projectName)).list();
 		session.close();
-		if (!projects.isEmpty())
-		{
+		if (!projects.isEmpty()) {
 			return (JiraProject) projects.get(0);
 		}
 
@@ -399,14 +390,12 @@ public class IssueDbContext
 	}
 
 	@SuppressWarnings("rawtypes")
-	private JiraIssue getJiraIssue(JiraIssue jiraIssue)
-	{
+	private JiraIssue getJiraIssue(JiraIssue jiraIssue) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(JiraIssue.class);
 		List issues = criteria.add(Restrictions.eq("code", jiraIssue.getCode())).list();
 		session.close();
-		if (!issues.isEmpty())
-		{
+		if (!issues.isEmpty()) {
 			return (JiraIssue) issues.get(0);
 		}
 
@@ -414,92 +403,85 @@ public class IssueDbContext
 	}
 
 	@SuppressWarnings("rawtypes")
-	private AssignedIssue getAssignedIssue(AssignedIssue assignedIssue)
-	{
+	private AssignedIssue getAssignedIssue(AssignedIssue assignedIssue) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(AssignedIssue.class);
 		criteria.add(Restrictions.eq("assignee", assignedIssue.getAssignee()));
 		criteria.add(Restrictions.eq("jiraIssue", assignedIssue.getJiraIssue()));
-		try
-		{
+		try {
 			List assignedIssues = criteria.list();
 			session.close();
-			if (!assignedIssues.isEmpty())
-			{
+			if (!assignedIssues.isEmpty()) {
 				return (AssignedIssue) assignedIssues.get(0);
 			}
-		} catch (TransientObjectException e)
-		{
+		} catch (TransientObjectException e) {
 			LOGGER.error("Cannot save AssignedIssue object", e);
 		}
 		return null;
 	}
 
 	/**
-	 * Sets the first response date of an issue, which is equivalent to the date of the first posted comment
+	 * Sets the first response date of an issue, which is equivalent to the date
+	 * of the first posted comment
 	 * 
-	 * @param issue issue that is supposed to be updated
+	 * @param issue
+	 *            issue that is supposed to be updated
 	 * @return issue with updated first response date
 	 */
 	@SuppressWarnings("unchecked")
-	public JiraIssue setFirstResponseDateByComment(JiraIssue issue)
-	{
+	public JiraIssue setFirstResponseDateByComment(JiraIssue issue) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(IssueComment.class);
 		criteria.add(Restrictions.eq("jiraIssueNew", issue));
-		try
-		{
+		try {
 			List<IssueComment> result = criteria.list();
 			session.close();
-			if (!result.isEmpty())
-			{
+			if (!result.isEmpty()) {
 				Timestamp minDate = result.stream().map(u -> u.getAddedAt()).min(Timestamp::compareTo).get();
 				issue.setFirstResponseDate(minDate);
 				dbm.persist(issue);
 			}
-		} catch (TransientObjectException e)
-		{
+		} catch (TransientObjectException e) {
 			LOGGER.error("Cannot update JiraIssue object", e);
 		}
 		return issue;
 	}
 
 	/**
-	 * Sets the first response date of an issue, which is equivalent to its resolve date
+	 * Sets the first response date of an issue, which is equivalent to its
+	 * resolve date
 	 * 
-	 * @param issue issue that is supposed to be updated
+	 * @param issue
+	 *            issue that is supposed to be updated
 	 */
 	@SuppressWarnings("unchecked")
-	public void setFirstResponseDateAsResolved(JiraIssue issue)
-	{
+	public void setFirstResponseDateAsResolved(JiraIssue issue) {
 		Session session = dbm.getSession();
 		Criteria criteria = session.createCriteria(AssignedIssue.class);
 		criteria.add(Restrictions.eq("jiraIssue", issue));
-		try
-		{
+		try {
 			List<AssignedIssue> result = criteria.list();
 			session.close();
-			if (!result.isEmpty())
-			{
+			if (!result.isEmpty()) {
 				Timestamp minDate = result.get(0).getResolvedAt();
 				issue.setFirstResponseDate(minDate);
 				dbm.persist(issue);
 			}
-		} catch (TransientObjectException e)
-		{
+		} catch (TransientObjectException e) {
 			LOGGER.error("Cannot update JiraIssue object", e);
 		}
 	}
+
 	/**
 	 * 
-	 * @param assignee selected assignee whose comments are supposed to be searched for
+	 * @param assignee
+	 *            selected assignee whose comments are supposed to be searched
+	 *            for
 	 * @return all comments posted by particular assignee
 	 */
 	@SuppressWarnings("rawtypes")
-	public List getAssigneesComments(Assignee assignee)
-	{
-		try
-		{
+	public List getAssigneesComments(Assignee assignee) {
+		try {
 			Session session = dbm.getSession();
 			Criteria criteria = session.createCriteria(IssueComment.class);
 			criteria.add(Restrictions.eq("addedBy", assignee.getName()));
@@ -509,18 +491,30 @@ public class IssueDbContext
 				return comments;
 			else
 				throw new DatabaseAccessException();
-		} catch (DatabaseAccessException ex)
-		{
+		} catch (DatabaseAccessException ex) {
 			LOGGER.error(ex);
 		}
 		return null;
 	}
 
 	/**
+	 * Perform the UPDATE operation on all selected issue comments
+	 * 
+	 * @param comments
+	 *            collection of issue comments that are supposed to be updated
+	 */
+	public void updateComments(List<IssueComment> comments) {
+		Session session = dbm.getSession();
+		for (IssueComment comment : comments) {
+			dbm.persist(comment);
+		}
+		session.close();
+	}
+
+	/**
 	 * Initializes the database connection
 	 */
-	public void initDbm()
-	{
+	public void initDbm() {
 		dbm.init();
 	}
 
