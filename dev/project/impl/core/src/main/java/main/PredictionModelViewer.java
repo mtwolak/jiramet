@@ -5,6 +5,7 @@ import java.util.List;
 import database.application.DatabaseApplication;
 import database.entity.AssignedIssue;
 import database.entity.JiraIssue;
+import database.entity.JiraProject;
 import filter.AssigneeFilter;
 import filter.custom.AnalyzedIssueFilter;
 import filter.custom.MinimumIssueDescripionSizeFilter;
@@ -44,6 +45,7 @@ public class PredictionModelViewer
 
 	private PropertiesReader propertiesReader;
 	private JiraIssue issueFromDb;
+	private List<JiraIssue> issuesToVerify;
 	private IssuesFilter issuesFilter;
 	private IssuesSimilarity issuesSimilarity;
 	private DatabaseApplication databaseApplication;
@@ -66,24 +68,59 @@ public class PredictionModelViewer
 	 * Initializes all necessary variables used to retrieve issues and determine times needed to resolve new issue by concrete developers.
 	 * 
 	 * @see PropertiesReader
-	 * @see JiraIssue
-	 * @see IssuesFilter
-	 * @see IssuesSimilarity
 	 * @see DatabaseApplication
-	 * @see PredictionPrintable
-	 * @see IssueResolveTimePredictable
-	 * @see ResultInspectable
+	 * @see JiraIssue
 	 */
 	public void init()
 	{
 		new IssueDownloaderMain(propertiesReader).retrieveIssuesFromProjectWithRespectToPropertyFlag(getProjectData(propertiesReader));
 		databaseApplication = new DatabaseApplication(propertiesReader);
+		issuesToVerify = getPercentageScopeOfJiraIssues();
+	}
+	
+	/**
+	 * Invokes all methods responsible for calculating and printing single issue prediction.
+	 * 
+	 * @see JiraIssue
+	 * @see IssuesFilter
+	 * @see IssuesSimilarity
+	 * @see PredictionPrintable
+	 * @see IssueResolveTimePredictable
+	 * @see ResultInspectable
+	 */
+	public void calculateSinglePrediction()
+	{
 		issueFromDb = getJiraIssueFromDb(propertiesReader.getAsInt(Property.PROJECT_ID_JIRA_ISSUE_TO_ANALYZE));
 		issuesFilter = getIssuesFilter();
 		issuesSimilarity = getIssuesSimilarity();
 		predictionPrintable = getPredictionPrinter();
 		issueResolveTimePredictable = getIssueResolveTimePredictable();
 		resultInspectable = new ResultsInspection();
+		showPrediction();
+	}
+	
+	/**
+	 * Invokes all methods responsible for calculating ad printing prediction for a percentage scope of issues.
+	 * 
+	 * @see JiraIssue
+	 * @see IssuesFilter
+	 * @see IssuesSimilarity
+	 * @see PredictionPrintable
+	 * @see IssueResolveTimePredictable
+	 * @see ResultInspectable
+	 */
+	public void calculateScopeOfPredictions()
+	{
+		for(JiraIssue issue : issuesToVerify)
+		{
+			issueFromDb = issue;
+			issuesFilter = getIssuesFilter();
+			issuesSimilarity = getIssuesSimilarity();
+			predictionPrintable = getPredictionPrinter();
+			issueResolveTimePredictable = getIssueResolveTimePredictable();
+			resultInspectable = new ResultsInspection();
+			showPrediction();
+		}
 	}
 
 	private ProjectData getProjectData(PropertiesReader propertiesReader)
@@ -119,6 +156,13 @@ public class PredictionModelViewer
 	{
 		DatabaseApplication dba = new DatabaseApplication(propertiesReader);
 		return dba.getJiraIssue(jiraIssueId);
+	}
+	
+	private List<JiraIssue> getPercentageScopeOfJiraIssues()
+	{
+		JiraProject jiraProject = databaseApplication.getJiraProject(propertiesReader.getAsString(Property.PROJECT_NAME));
+		int percentageScope = propertiesReader.getAsInt(Property.PERCENTAGE_SCOPE_OF_ISSUES);
+		return databaseApplication.getPercentageScopeOfJiraIssues(jiraProject, percentageScope);
 	}
 
 	/**

@@ -1,11 +1,13 @@
 package database.application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import database.entity.Assignee;
@@ -68,6 +70,23 @@ public class DatabaseApplication
 		}
 		return null;
 	}
+	
+	public JiraProject getJiraProject(String projectName)
+	{
+		try
+		{
+			criteria = session.createCriteria(JiraProject.class);
+			projects = criteria.add(Restrictions.eq("projectName", projectName)).list();
+			if (projects.size() >= 1)
+				return (JiraProject) projects.get(0);
+			else
+				throw new DatabaseAccessException();
+		} catch (DatabaseAccessException ex)
+		{
+			logger.error(ex);
+		}
+		return null;
+	}
 
 	@SuppressWarnings("rawtypes")
 	public List getJiraProjects()
@@ -104,6 +123,38 @@ public class DatabaseApplication
 			logger.error(ex);
 		}
 		return null;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public List getJiraIssuesOrderedByCreationDate(JiraProject projectID)
+	{
+		try
+		{
+			criteria = session.createCriteria(JiraIssue.class);
+			criteria.add(Restrictions.eq("jiraProject", projectID));
+			criteria.addOrder(Order.asc("createdAt"));
+			issues = criteria.list();
+			if (issues.size() >= 1)
+				return issues;
+			else
+				throw new DatabaseAccessException();
+		} catch (DatabaseAccessException ex)
+		{
+			logger.error(ex);
+		}
+		return null;
+	}
+	
+	public List<JiraIssue> getPercentageScopeOfJiraIssues(JiraProject projectID, int percentageScope)
+	{
+		issues = getJiraIssuesOrderedByCreationDate(projectID);
+		List<JiraIssue> percentageOfIssues = new ArrayList<JiraIssue>();
+		int numberOfIssuesInScope = (int) (issues.size() * ((double) percentageScope / 100));
+		for(int i=0; i<numberOfIssuesInScope; i++)
+		{
+			percentageOfIssues.add((JiraIssue) issues.get(i));
+		}
+		return percentageOfIssues;
 	}
 
 	@SuppressWarnings("rawtypes")

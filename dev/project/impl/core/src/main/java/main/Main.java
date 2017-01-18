@@ -4,6 +4,7 @@ import database.exception.IssueNotFoundException;
 import utils.InsufficientArgumentsException;
 import utils.UsageApplication;
 import utils.properties.PropertiesReader;
+import utils.properties.Property;
 
 /**
  * Contains main method that invokes all other methods.
@@ -25,7 +26,10 @@ public class Main
 			PropertiesReader propertiesReader = new PropertiesReader(application.getArg(1));
 			PredictionModelViewer predictionModelViewer = new PredictionModelViewer(propertiesReader);
 			predictionModelViewer.init();
-			predictionModelViewer.showPrediction();
+			if(propertiesReader.getAsBoolean(Property.CALCULATE_SCOPE_OF_ISSUES))
+				predictionModelViewer.calculateScopeOfPredictions();
+			else
+				predictionModelViewer.calculateSinglePrediction();
 		} catch (InsufficientArgumentsException e)
 		{
 			application.showUsage();
