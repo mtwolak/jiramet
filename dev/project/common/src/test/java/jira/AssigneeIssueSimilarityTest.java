@@ -1,24 +1,28 @@
-package prediction;
+package jira;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import database.entity.Assignee;
 import database.entity.JiraIssue;
-import jira.JiraIssueSimilarity;
 
-public class AssigneeTopSimilaritiesTest
-{
-	private AssigneeTopSimilarities testObject;
+public class AssigneeIssueSimilarityTest {
+
+	private AssigneeIssueSimilarity testObject;
 	private Assignee assignee;
 	private JiraIssueSimilarity jiraIssueSimilarity;
 	
 	@Before
 	public void setUp()
 	{
-		testObject = new AssigneeTopSimilarities(5);
+		testObject = new AssigneeIssueSimilarity(assignee, new ArrayList<JiraIssueSimilarity>());
 		assignee = new Assignee();
 		prepareTestObjects();
 	}
@@ -40,7 +44,7 @@ public class AssigneeTopSimilaritiesTest
 	@Test
 	public void testGetJiraIssueSimilarityEmpty()
 	{
-		assertTrue(testObject.getJiraIssueSimilarities().isEmpty());
+		assertTrue(testObject.getAssignedJiraIssues().isEmpty());
 	}
 
 	@Test
@@ -53,8 +57,11 @@ public class AssigneeTopSimilaritiesTest
 	@Test
 	public void testAddJiraIssueSimilarity()
 	{
-		testObject.addJiraIssueSimilarity(jiraIssueSimilarity);
-		assertEquals(testObject.getJiraIssueSimilarities().size(), 1);
+		ArrayList<JiraIssueSimilarity> testList = new ArrayList<>();
+		testList.add(jiraIssueSimilarity);
+		testObject.setAssigneedIssues(testList);
+		assertEquals(testObject.getAssignedJiraIssues().size(), 1);
 	}
 	
 }
+

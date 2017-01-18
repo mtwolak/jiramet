@@ -11,6 +11,7 @@ import java.util.Set;
 import database.entity.AssignedIssue;
 import database.entity.Assignee;
 import database.entity.JiraIssue;
+import jira.AssigneeIssueSimilarity;
 import jira.JiraIssueSimilarity;
 import utils.converter.DateConverter;
 
@@ -51,10 +52,10 @@ public class TestDataHolder
 	private JiraIssueSimilarity similarity7;
 	private JiraIssueSimilarity similarity8;
 	
-	private AssigneeTopSimilarities developer1TopSimilarities;
-	private AssigneeTopSimilarities developer2TopSimilarities;
-	private AssigneeTopSimilarities developer3TopSimilarities;
-	private AssigneeTopSimilarities developer5TopSimilarities;
+	private AssigneeIssueSimilarity developer1TopSimilarities;
+	private AssigneeIssueSimilarity developer2TopSimilarities;
+	private AssigneeIssueSimilarity developer3TopSimilarities;
+	private AssigneeIssueSimilarity developer5TopSimilarities;
 	
 	private List<JiraIssueSimilarity> issueSimilarities;
 
@@ -71,26 +72,24 @@ public class TestDataHolder
 
 	private void initTopSimilarities()
 	{
-		developer1TopSimilarities = new AssigneeTopSimilarities(5);
-		developer2TopSimilarities = new AssigneeTopSimilarities(5);
-		developer3TopSimilarities = new AssigneeTopSimilarities(5);
-		developer5TopSimilarities = new AssigneeTopSimilarities(5);
-		
 		developer1TopSimilarities.setAssignee(developer1);
-		developer1TopSimilarities.addJiraIssueSimilarity(similarity1);
-		developer1TopSimilarities.addJiraIssueSimilarity(similarity2);
+		ArrayList<JiraIssueSimilarity> dev1IssuesSimilarity = new ArrayList<>();
+		ArrayList<JiraIssueSimilarity> dev2IssuesSimilarity = new ArrayList<>();
+		ArrayList<JiraIssueSimilarity> dev3IssuesSimilarity = new ArrayList<>();
+		ArrayList<JiraIssueSimilarity> dev5IssuesSimilarity = new ArrayList<>();
+		dev1IssuesSimilarity.add(similarity1);
+		dev1IssuesSimilarity.add(similarity2);
+		dev2IssuesSimilarity.add(similarity3);
+		dev2IssuesSimilarity.add(similarity4);
+		dev2IssuesSimilarity.add(similarity5);
+		dev3IssuesSimilarity.add(similarity6);
+		dev5IssuesSimilarity.add(similarity7);
+		dev5IssuesSimilarity.add(similarity8);
 		
-		developer2TopSimilarities.setAssignee(developer2);
-		developer2TopSimilarities.addJiraIssueSimilarity(similarity3);
-		developer2TopSimilarities.addJiraIssueSimilarity(similarity4);
-		developer2TopSimilarities.addJiraIssueSimilarity(similarity5);
-		
-		developer3TopSimilarities.setAssignee(developer3);
-		developer3TopSimilarities.addJiraIssueSimilarity(similarity6);
-		
-		developer5TopSimilarities.setAssignee(developer5);
-		developer5TopSimilarities.addJiraIssueSimilarity(similarity7);
-		developer5TopSimilarities.addJiraIssueSimilarity(similarity8);
+		developer1TopSimilarities = new AssigneeIssueSimilarity(developer1, dev1IssuesSimilarity);
+		developer2TopSimilarities = new AssigneeIssueSimilarity(developer2, dev2IssuesSimilarity);
+		developer3TopSimilarities = new AssigneeIssueSimilarity(developer3, dev3IssuesSimilarity);
+		developer5TopSimilarities = new AssigneeIssueSimilarity(developer5, dev5IssuesSimilarity);
 		
 	}
 
@@ -237,22 +236,22 @@ public class TestDataHolder
 		return developer4;
 	}
 	
-	public AssigneeTopSimilarities getDeveloper1TopSimilarities()
+	public AssigneeIssueSimilarity getDeveloper1TopSimilarities()
 	{
 		return developer1TopSimilarities;
 	}
 	
-	public AssigneeTopSimilarities getDeveloper2TopSimilarities()
+	public AssigneeIssueSimilarity getDeveloper2TopSimilarities()
 	{
 		return developer2TopSimilarities;
 	}
 	
-	public AssigneeTopSimilarities getDeveloper3TopSimilarities()
+	public AssigneeIssueSimilarity getDeveloper3TopSimilarities()
 	{
 		return developer3TopSimilarities;
 	}
 	
-	public AssigneeTopSimilarities getDeveloper5TopSimilarities()
+	public AssigneeIssueSimilarity getDeveloper5TopSimilarities()
 	{
 		return developer5TopSimilarities;
 	}
