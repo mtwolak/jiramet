@@ -15,7 +15,8 @@ import utils.properties.hibernate.HibernateConfiguration;
  * on the database, changing all assignee's and issue reporter's names
  *
  */
-public class NameRandomizer {
+public class NameRandomizer
+{
 
 	/**
 	 * Changes all original user names downloaded from JIRA project to randomly
@@ -25,7 +26,8 @@ public class NameRandomizer {
 	 *            database properties
 	 * @see HibernateConfiguration
 	 */
-	public static void randomizeAllNames(HibernateConfiguration hibernateConfiguration) {
+	public static void randomizeAllNames(HibernateConfiguration hibernateConfiguration)
+	{
 		IssueDbContext idc = new IssueDbContext(hibernateConfiguration);
 		idc.initDbm();
 
@@ -34,15 +36,18 @@ public class NameRandomizer {
 
 		RandomNameGenerator rnd = new RandomNameGenerator(0);
 
-		for (Assignee assignee : assignees) {
-			if (!"Unassinged".equals(assignee.getName())) {
+		for (Assignee assignee : assignees)
+		{
+			if (!"Unassinged".equals(assignee.getName()))
+			{
 				String randomName = rnd.next();
 				updateComments(idc, assignee, randomName);
 				assignee.setName(randomName);
 			}
 		}
 
-		for (IssueReporter reporter : reporters) {
+		for (IssueReporter reporter : reporters)
+		{
 			reporter.setFullName(rnd.next());
 		}
 
@@ -52,15 +57,18 @@ public class NameRandomizer {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void updateComments(IssueDbContext idc, Assignee assignee, String generatedName) {
-
+	private static void updateComments(IssueDbContext idc, Assignee assignee, String generatedName)
+	{
 		List<IssueComment> assigneesComments = idc.getAssigneesComments(assignee);
 
-		for (IssueComment comment : assigneesComments) {
-			comment.setAddedBy(generatedName);
+		if (assigneesComments != null)
+		{
+			for (IssueComment comment : assigneesComments)
+			{
+				comment.setAddedBy(generatedName);
+			}
+			idc.updateComments(assigneesComments);
 		}
-		
-		idc.updateComments(assigneesComments);
 	}
 
 }
