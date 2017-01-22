@@ -6,9 +6,20 @@ import database.entity.AssignedIssue;
 import jira.JiraIssueSimilarity;
 import utils.time.ResolveTimeCalculator;
 
+/**
+ * Contains methods responsible for calculating the time needed to resolve the selected issue
+ *
+ */
 public class IssueResolvingTimeCalculator
 {
 
+	/**
+	 * Returns the time needed to resolve the selected issue, calculated as described in our model
+	 * 
+	 * @param issuesWithSimilarity collection of JIRA issues with its similarity level comparing to the main issue
+	 * @return estimated time needed to resolve the selected issue
+	 * @see JiraIssueSimilarity
+	 */
 	public double getIssuesResolvingTime(List<JiraIssueSimilarity> issuesWithSimilarity)
 	{
 		if (issuesWithSimilarity == null || issuesWithSimilarity.isEmpty())
