@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import database.application.DatabaseApplication;
@@ -36,8 +37,9 @@ import utils.properties.Property;
 import utils.time.ResolveTimeCalculator;
 
 /**
- * Contains a set of methods that retrieve issues from Jira (for a given project)
- * and then calculate and display times needed to resolve new issue by concrete developers.
+ * Contains a set of methods that retrieve issues from Jira (for a given
+ * project) and then calculate and display times needed to resolve new issue by
+ * concrete developers.
  *
  */
 public class PredictionModelViewer
@@ -54,9 +56,12 @@ public class PredictionModelViewer
 	private ResultInspectable resultInspectable;
 
 	/**
-	 * Creates a new instance of PredictionModelViewer and initializes propertiesReader variable.
+	 * Creates a new instance of PredictionModelViewer and initializes
+	 * propertiesReader variable.
 	 * 
-	 * @param propertiesReader - properties reader, grants access to system configuration variables
+	 * @param propertiesReader
+	 *            - properties reader, grants access to system configuration
+	 *            variables
 	 * @see PropertiesReader
 	 */
 	public PredictionModelViewer(PropertiesReader propertiesReader)
@@ -65,7 +70,8 @@ public class PredictionModelViewer
 	}
 
 	/**
-	 * Initializes all necessary variables used to retrieve issues and determine times needed to resolve new issue by concrete developers.
+	 * Initializes all necessary variables used to retrieve issues and determine
+	 * times needed to resolve new issue by concrete developers.
 	 * 
 	 * @see PropertiesReader
 	 * @see DatabaseApplication
@@ -77,9 +83,10 @@ public class PredictionModelViewer
 		databaseApplication = new DatabaseApplication(propertiesReader);
 		issuesToVerify = getPercentageScopeOfJiraIssues();
 	}
-	
+
 	/**
-	 * Invokes all methods responsible for calculating and printing single issue prediction.
+	 * Invokes all methods responsible for calculating and printing single issue
+	 * prediction.
 	 * 
 	 * @see JiraIssue
 	 * @see IssuesFilter
@@ -98,9 +105,10 @@ public class PredictionModelViewer
 		resultInspectable = new ResultsInspection();
 		showPrediction();
 	}
-	
+
 	/**
-	 * Invokes all methods responsible for calculating ad printing prediction for a percentage scope of issues.
+	 * Invokes all methods responsible for calculating ad printing prediction
+	 * for a percentage scope of issues.
 	 * 
 	 * @see JiraIssue
 	 * @see IssuesFilter
@@ -111,7 +119,7 @@ public class PredictionModelViewer
 	 */
 	public void calculateScopeOfPredictions()
 	{
-		for(JiraIssue issue : issuesToVerify)
+		for (JiraIssue issue : issuesToVerify)
 		{
 			issueFromDb = issue;
 			issuesFilter = getIssuesFilter();
@@ -138,8 +146,8 @@ public class PredictionModelViewer
 		AssigneeFilter assigneeFilter = new AssigneeFilter(propertiesReader, databaseApplication);
 		assigneeFilter.init();
 		return assigneeFilter.addFilter(new TimeStampsNotNullFilter()).addFilter(new MinimumIssueDescripionSizeFilter())
-				.addFilter(new MinimumIssueFilter()).addFilter(new SelectedIssueTypesFilter())
-				.addFilter(new SelectedIssuePriorityFilter()).addFilter(new AnalyzedIssueFilter());
+				.addFilter(new MinimumIssueFilter()).addFilter(new SelectedIssueTypesFilter()).addFilter(new SelectedIssuePriorityFilter())
+				.addFilter(new AnalyzedIssueFilter());
 	}
 
 	private IssueResolveTimePredictable getIssueResolveTimePredictable()
@@ -157,7 +165,7 @@ public class PredictionModelViewer
 		DatabaseApplication dba = new DatabaseApplication(propertiesReader);
 		return dba.getJiraIssue(jiraIssueId);
 	}
-	
+
 	private List<JiraIssue> getPercentageScopeOfJiraIssues()
 	{
 		JiraProject jiraProject = databaseApplication.getJiraProject(propertiesReader.getAsString(Property.PROJECT_NAME));
@@ -166,8 +174,9 @@ public class PredictionModelViewer
 	}
 
 	/**
-	 * Calls methods that display prediction on the console.
-	 * The output includes assignee, time needed to resolve an issue, mean squared error and real time, and assignee that resolved an issue.
+	 * Calls methods that display prediction on the console. The output includes
+	 * assignee, time needed to resolve an issue, mean squared error and real
+	 * time, and assignee that resolved an issue.
 	 * 
 	 * @see PredictionPrintable
 	 */
@@ -175,11 +184,43 @@ public class PredictionModelViewer
 	{
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
 		AssignedIssue assignedIssue = issueFromDb.getAssignedIssues().iterator().next();
+		List<JiraIssueWithPredictedTimeToResolve> issues = new ArrayList<>();
+		printNewPrediction();
 		for (AssigneeIssues assigneeIssues : assigneesAndTheirIssues)
 		{
-			showPredictionForAssignee(assigneeIssues, assignedIssue);
+			showPredictionForAssignee(assigneeIssues, assignedIssue, issues);
 		}
+		printStatistics(assignedIssue, issues);
+	}
+
+	private void printStatistics(AssignedIssue assignedIssue, List<JiraIssueWithPredictedTimeToResolve> issues)
+	{
 		printRealData(assignedIssue);
+		printRootMeanSquaredError(issues);
+		printCoefficientOfDetermination(issues);
+		printEndPrediction();
+	}
+
+	private void printEndPrediction()
+	{
+		predictionPrintable.print("######## End prediction ########");
+	}
+
+	private void printNewPrediction()
+	{
+		predictionPrintable.print("######## New prediction ########");
+	}
+
+	private void printCoefficientOfDetermination(List<JiraIssueWithPredictedTimeToResolve> issues)
+	{
+		double coefficientOfDetermination = resultInspectable.getCoefficientOfDetermination(issues);
+		predictionPrintable.print("Coefficient of determination: " + coefficientOfDetermination);
+	}
+
+	private void printRootMeanSquaredError(List<JiraIssueWithPredictedTimeToResolve> issues)
+	{
+		double rootMeanSquaredError = resultInspectable.getRootMeanSquaredError(issues);
+		predictionPrintable.print("Root mean squared error: " + rootMeanSquaredError);
 	}
 
 	private void printRealData(AssignedIssue assignedIssue)
@@ -188,12 +229,15 @@ public class PredictionModelViewer
 		predictionPrintable.print("Real assignee: " + assignedIssue.getAssignee().getName());
 	}
 
-	private void showPredictionForAssignee(AssigneeIssues assigneeIssues, AssignedIssue assignedIssue)
+	private void showPredictionForAssignee(AssigneeIssues assigneeIssues, AssignedIssue assignedIssue,
+			List<JiraIssueWithPredictedTimeToResolve> issues)
 	{
 		AssigneeIssueSimilarity assigneesWithIssueSimilarities = issuesSimilarity.getAssigneesWithIssueSimilarities(assigneeIssues,
 				issueFromDb);
 		AssigneeTimeResolve prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);
-		double meanSquaredError = resultInspectable.getMeanSquaredError(new JiraIssueWithPredictedTimeToResolve(assignedIssue, prediction));
+		JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTime = new JiraIssueWithPredictedTimeToResolve(assignedIssue, prediction);
+		issues.add(jiraIssueWithPredictedTime);
+		double meanSquaredError = resultInspectable.getMeanSquaredError(jiraIssueWithPredictedTime);
 		predictionPrintable.printPrediction(prediction, meanSquaredError);
 	}
 
