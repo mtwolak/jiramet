@@ -29,21 +29,33 @@ public class ResultsInspection implements ResultInspectable
 	@Override
 	public double getRootMeanSquaredError(List<JiraIssueWithPredictedTimeToResolve> jiraIssueWithPredictedTimeToResolves)
 	{
+		List<JiraIssueWithPredictedTimeToResolve> jiraIssuesWithPositivePrediction = PredictionTimeChecker
+				.getList(jiraIssueWithPredictedTimeToResolves);
+		if (jiraIssuesWithPositivePrediction.isEmpty())
+		{
+			return -1;
+		}
 		double meanSquaredErrorResult = 0;
-		for (JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTimeToResolve : jiraIssueWithPredictedTimeToResolves)
+		for (JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTimeToResolve : jiraIssuesWithPositivePrediction)
 		{
 			double meanSquaredError = getMeanSquaredError(jiraIssueWithPredictedTimeToResolve);
 			meanSquaredErrorResult += Math.pow(meanSquaredError, 2);
 		}
-		meanSquaredErrorResult /= jiraIssueWithPredictedTimeToResolves.size();
+		meanSquaredErrorResult /= jiraIssuesWithPositivePrediction.size();
 		return Math.sqrt(meanSquaredErrorResult);
 	}
 
 	@Override
 	public double getCoefficientOfDetermination(List<JiraIssueWithPredictedTimeToResolve> jiraIssueWithPredictedTimeToResolves)
 	{
-		double predictedValues[] = getPredictedValues(jiraIssueWithPredictedTimeToResolves);
-		double realTimeResolve[] = getRealTimeResolve(jiraIssueWithPredictedTimeToResolves);
+		List<JiraIssueWithPredictedTimeToResolve> jiraIssuesWithPositivePrediction = PredictionTimeChecker
+				.getList(jiraIssueWithPredictedTimeToResolves);
+		if (jiraIssuesWithPositivePrediction.isEmpty())
+		{
+			return -1;
+		}
+		double predictedValues[] = getPredictedValues(jiraIssuesWithPositivePrediction);
+		double realTimeResolve[] = getRealTimeResolve(jiraIssuesWithPositivePrediction);
 		double mean = getMean(realTimeResolve);
 		return getSumOfDifferencesBetweenPredictedAndMean(predictedValues, mean)
 				/ getSumOfDifferencesBetweenRealTimeAndMean(realTimeResolve, mean);
