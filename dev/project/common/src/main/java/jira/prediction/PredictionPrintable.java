@@ -27,5 +27,16 @@ public abstract class PredictionPrintable
 	{
 		predictionPrintMode.print(text, propertiesReader);
 	}
-
+	
+	public void println(String text)
+	{
+		predictionPrintMode.print(text, propertiesReader);
+		printNewLine();
+	}
+	
+	public void printNewLine()
+	{
+		predictionPrintMode.printNewLine(propertiesReader);
+	}
+	
 }

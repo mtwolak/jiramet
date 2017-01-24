@@ -67,6 +67,7 @@ public class PredictionModelViewer
 	public PredictionModelViewer(PropertiesReader propertiesReader)
 	{
 		this.propertiesReader = propertiesReader;
+		predictionPrintable = getPredictionPrinter();
 	}
 
 	/**
@@ -100,7 +101,6 @@ public class PredictionModelViewer
 		issueFromDb = getJiraIssueFromDb(propertiesReader.getAsInt(Property.PROJECT_ID_JIRA_ISSUE_TO_ANALYZE));
 		issuesFilter = getIssuesFilter();
 		issuesSimilarity = getIssuesSimilarity();
-		predictionPrintable = getPredictionPrinter();
 		issueResolveTimePredictable = getIssueResolveTimePredictable();
 		resultInspectable = new ResultsInspection();
 		showPrediction();
@@ -124,7 +124,6 @@ public class PredictionModelViewer
 			issueFromDb = issue;
 			issuesFilter = getIssuesFilter();
 			issuesSimilarity = getIssuesSimilarity();
-			predictionPrintable = getPredictionPrinter();
 			issueResolveTimePredictable = getIssueResolveTimePredictable();
 			resultInspectable = new ResultsInspection();
 			showPrediction();
@@ -203,30 +202,30 @@ public class PredictionModelViewer
 
 	private void printEndPrediction()
 	{
-		predictionPrintable.print("######## End prediction ########");
+		predictionPrintable.println("######## End prediction ########");
 	}
 
 	private void printNewPrediction()
 	{
-		predictionPrintable.print("######## New prediction ########");
+		predictionPrintable.println("######## New prediction ########");
 	}
 
 	private void printCoefficientOfDetermination(List<JiraIssueWithPredictedTimeToResolve> issues)
 	{
 		double coefficientOfDetermination = resultInspectable.getCoefficientOfDetermination(issues);
-		predictionPrintable.print("Coefficient of determination: " + coefficientOfDetermination);
+		predictionPrintable.println("Coefficient of determination: " + coefficientOfDetermination);
 	}
 
 	private void printRootMeanSquaredError(List<JiraIssueWithPredictedTimeToResolve> issues)
 	{
 		double rootMeanSquaredError = resultInspectable.getRootMeanSquaredError(issues);
-		predictionPrintable.print("Root mean squared error: " + rootMeanSquaredError);
+		predictionPrintable.println("Root mean squared error: " + rootMeanSquaredError);
 	}
 
 	private void printRealData(AssignedIssue assignedIssue)
 	{
-		predictionPrintable.print("Real time: " + ResolveTimeCalculator.getResolveTime(assignedIssue));
-		predictionPrintable.print("Real assignee: " + assignedIssue.getAssignee().getName());
+		predictionPrintable.println("Real time: " + ResolveTimeCalculator.getResolveTime(assignedIssue));
+		predictionPrintable.println("Real assignee: " + assignedIssue.getAssignee().getName());
 	}
 
 	private void showPredictionForAssignee(AssigneeIssues assigneeIssues, AssignedIssue assignedIssue,

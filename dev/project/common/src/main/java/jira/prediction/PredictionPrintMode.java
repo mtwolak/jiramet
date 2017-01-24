@@ -8,6 +8,7 @@ import utils.properties.PropertiesReader;
 public enum PredictionPrintMode
 {
 	CONSOLE(new ConsolePrintableMode()), FILE(new FilePrintableMode());
+	private static final String NEW_LINE = System.getProperty("line.separator");
 
 	private PrintableMode printableMode;
 
@@ -36,5 +37,10 @@ public enum PredictionPrintMode
 	public void init(PropertiesReader propertiesReader)
 	{
 		this.printableMode.init(propertiesReader);
+	}
+
+	public void printNewLine(PropertiesReader propertiesReader)
+	{
+		printableMode.print(NEW_LINE, propertiesReader);
 	}
 }
