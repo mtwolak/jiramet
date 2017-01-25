@@ -56,7 +56,7 @@ public class ResultsInspection implements ResultInspectable
 		}
 		double predictedValues[] = getPredictedValues(jiraIssuesWithPositivePrediction);
 		double realTimeResolve[] = getRealTimeResolve(jiraIssuesWithPositivePrediction);
-		double mean = getMean(realTimeResolve);
+		double mean = getMean(predictedValues);
 		return getSumOfDifferencesBetweenPredictedAndMean(predictedValues, mean)
 				/ getSumOfDifferencesBetweenRealTimeAndMean(realTimeResolve, mean);
 	}

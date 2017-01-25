@@ -71,7 +71,7 @@ public class ResultsInspectionTest
 		
 		double coefficientOfDetermination = resultsInspection.getCoefficientOfDetermination(createListJiraWithIssuePredictedTimeToResolve());
 		
-		double mean = (2.5 + 12.5) / 2;
+		double mean = (4 + 10) / 2;
 		double up = Math.pow((4 - mean), 2) + Math.pow((10-mean), 2);
 		double down = Math.pow((2.5-mean), 2) + Math.pow((12.5-mean), 2);
 		

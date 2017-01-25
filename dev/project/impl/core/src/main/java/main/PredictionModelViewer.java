@@ -69,6 +69,7 @@ public class PredictionModelViewer
 	public PredictionModelViewer(PropertiesReader propertiesReader)
 	{
 		this.propertiesReader = propertiesReader;
+		jiraRealIssueWithPrediction = new ArrayList<>();
 		predictionPrintable = getPredictionPrinter();
 	}
 
@@ -187,12 +188,10 @@ public class PredictionModelViewer
 	 */
 	public void showPrediction()
 	{
-		jiraRealIssueWithPrediction = new ArrayList<>();
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
 		AssignedIssue assignedIssue = issueFromDb.getAssignedIssues().iterator().next();
 		List<JiraIssueWithPredictedTimeToResolve> issues = new ArrayList<>();
 		printPrediction(assigneesAndTheirIssues, assignedIssue, issues);
-		jiraRealIssueWithPrediction.add(getRealIssue(issues, assignedIssue));
 	}
 
 	private void printPrediction(List<AssigneeIssues> assigneesAndTheirIssues, AssignedIssue assignedIssue,
@@ -211,6 +210,7 @@ public class PredictionModelViewer
 		{
 			showPredictionForAssignee(assigneeIssues, assignedIssue, issues);
 		}
+		jiraRealIssueWithPrediction.add(getRealIssue(issues, assignedIssue));
 	}
 
 	private JiraIssueWithPredictedTimeToResolve getRealIssue(List<JiraIssueWithPredictedTimeToResolve> issues, AssignedIssue assignedIssue)
