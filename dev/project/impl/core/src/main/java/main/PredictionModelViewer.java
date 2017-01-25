@@ -55,6 +55,7 @@ public class PredictionModelViewer
 	private PredictionPrintable predictionPrintable;
 	private IssueResolveTimePredictable issueResolveTimePredictable;
 	private ResultInspectable resultInspectable;
+	private List<JiraIssueWithPredictedTimeToResolve> jiraRealIssueWithPrediction;
 
 	/**
 	 * Creates a new instance of PredictionModelViewer and initializes
@@ -120,7 +121,6 @@ public class PredictionModelViewer
 	 */
 	public void calculateScopeOfPredictions()
 	{
-		List<JiraIssueWithPredictedTimeToResolve> realIssues = new ArrayList<>();
 		for (JiraIssue issue : issuesToVerify)
 		{
 			issueFromDb = issue;
@@ -128,11 +128,10 @@ public class PredictionModelViewer
 			issuesSimilarity = getIssuesSimilarity();
 			issueResolveTimePredictable = getIssueResolveTimePredictable();
 			resultInspectable = new ResultsInspection();
-			JiraIssueWithPredictedTimeToResolve realJiraIssue = showPrediction();
-			realIssues.add(realJiraIssue);
+			showPrediction();
 		}
-		printCoefficientOfDetermination(realIssues);
-		printRootMeanSquaredError(realIssues);
+		printCoefficientOfDetermination(jiraRealIssueWithPrediction);
+		printRootMeanSquaredError(jiraRealIssueWithPrediction);
 		
 	}
 
@@ -186,8 +185,9 @@ public class PredictionModelViewer
 	 * @see PredictionPrintable
 	 * @return Real issue with prediction
 	 */
-	public JiraIssueWithPredictedTimeToResolve showPrediction()
+	public void showPrediction()
 	{
+		jiraRealIssueWithPrediction = new ArrayList<>();
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
 		AssignedIssue assignedIssue = issueFromDb.getAssignedIssues().iterator().next();
 		List<JiraIssueWithPredictedTimeToResolve> issues = new ArrayList<>();
@@ -197,7 +197,7 @@ public class PredictionModelViewer
 			showPredictionForAssignee(assigneeIssues, assignedIssue, issues);
 		}
 		printStatistics(assignedIssue, issues);
-		return getRealIssue(issues, assignedIssue);
+		jiraRealIssueWithPrediction.add(getRealIssue(issues, assignedIssue));
 	}
 
 	private JiraIssueWithPredictedTimeToResolve getRealIssue(List<JiraIssueWithPredictedTimeToResolve> issues, AssignedIssue assignedIssue)
