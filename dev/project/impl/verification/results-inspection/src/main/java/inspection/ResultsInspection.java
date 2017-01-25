@@ -73,7 +73,7 @@ public class ResultsInspection implements ResultInspectable
 		{
 			sum += getPoweredDifference(value, mean);
 		}
-		return sum / realTimeResolve.length;
+		return sum;
 	}
 
 	private double getSumOfDifferencesBetweenPredictedAndMean(double[] predictedValues, double mean)

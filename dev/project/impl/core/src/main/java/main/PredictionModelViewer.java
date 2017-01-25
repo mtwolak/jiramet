@@ -120,6 +120,7 @@ public class PredictionModelViewer
 	 */
 	public void calculateScopeOfPredictions()
 	{
+		List<JiraIssueWithPredictedTimeToResolve> realIssues = new ArrayList<>();
 		for (JiraIssue issue : issuesToVerify)
 		{
 			issueFromDb = issue;
@@ -127,8 +128,12 @@ public class PredictionModelViewer
 			issuesSimilarity = getIssuesSimilarity();
 			issueResolveTimePredictable = getIssueResolveTimePredictable();
 			resultInspectable = new ResultsInspection();
-			showPrediction();
+			JiraIssueWithPredictedTimeToResolve realJiraIssue = showPrediction();
+			realIssues.add(realJiraIssue);
 		}
+		printCoefficientOfDetermination(realIssues);
+		printRootMeanSquaredError(realIssues);
+		
 	}
 
 	private ProjectData getProjectData(PropertiesReader propertiesReader)
@@ -179,8 +184,9 @@ public class PredictionModelViewer
 	 * time, and assignee that resolved an issue.
 	 * 
 	 * @see PredictionPrintable
+	 * @return Real issue with prediction
 	 */
-	public void showPrediction()
+	public JiraIssueWithPredictedTimeToResolve showPrediction()
 	{
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
 		AssignedIssue assignedIssue = issueFromDb.getAssignedIssues().iterator().next();
@@ -191,13 +197,24 @@ public class PredictionModelViewer
 			showPredictionForAssignee(assigneeIssues, assignedIssue, issues);
 		}
 		printStatistics(assignedIssue, issues);
+		return getRealIssue(issues, assignedIssue);
+	}
+
+	private JiraIssueWithPredictedTimeToResolve getRealIssue(List<JiraIssueWithPredictedTimeToResolve> issues, AssignedIssue assignedIssue)
+	{
+		for(JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTimeToResolve : issues)
+		{
+			if(jiraIssueWithPredictedTimeToResolve.getAssigneeTimeResolve().getAssignee().equals(assignedIssue.getAssignee()))
+			{
+				return jiraIssueWithPredictedTimeToResolve;
+			}
+		}
+		throw new RealIssueNotFoundException();
 	}
 
 	private void printStatistics(AssignedIssue assignedIssue, List<JiraIssueWithPredictedTimeToResolve> issues)
 	{
 		printRealData(assignedIssue);
-		printRootMeanSquaredError(issues);
-		printCoefficientOfDetermination(issues);
 		printEndPrediction();
 	}
 

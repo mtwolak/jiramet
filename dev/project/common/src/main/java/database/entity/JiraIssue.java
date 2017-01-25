@@ -193,5 +193,29 @@ public class JiraIssue {
 		this.assignedIssues = assignedIssues;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + jiraIssueId;
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JiraIssue other = (JiraIssue) obj;
+		if (jiraIssueId != other.jiraIssueId)
+			return false;
+		return true;
+	}
+
+	
 }

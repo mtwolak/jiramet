@@ -23,6 +23,6 @@ public class JiraIssueWithPredictedTimeToResolve
 	public AssignedIssue getJiraIssue()
 	{
 		return jiraIssue;
-	}
+	}	
 
 }
