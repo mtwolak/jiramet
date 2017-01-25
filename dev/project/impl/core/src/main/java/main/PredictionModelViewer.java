@@ -32,6 +32,7 @@ import results.ResultInspectable;
 import retriever.internet.IssueDownloaderMain;
 import retriever.project.ProjectRetriever;
 import similarity.IssuesSimilarityCalculator;
+import utils.converter.NumberConverter;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 import utils.time.ResolveTimeCalculator;
@@ -219,12 +220,13 @@ public class PredictionModelViewer
 	private void printRootMeanSquaredError(List<JiraIssueWithPredictedTimeToResolve> issues)
 	{
 		double rootMeanSquaredError = resultInspectable.getRootMeanSquaredError(issues);
-		predictionPrintable.println("Root mean squared error: " + rootMeanSquaredError);
+		predictionPrintable.println("Root mean squared error: " + NumberConverter.format(rootMeanSquaredError));
 	}
 
 	private void printRealData(AssignedIssue assignedIssue)
 	{
-		predictionPrintable.println("Real time: " + ResolveTimeCalculator.getResolveTime(assignedIssue));
+		double resolveTime = ResolveTimeCalculator.getResolveTime(assignedIssue);
+		predictionPrintable.println("Real time: " + NumberConverter.format(resolveTime));
 		predictionPrintable.println("Real assignee: " + assignedIssue.getAssignee().getName());
 	}
 
