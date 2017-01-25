@@ -132,7 +132,7 @@ public class PredictionModelViewer
 		}
 		printCoefficientOfDetermination(jiraRealIssueWithPrediction);
 		printRootMeanSquaredError(jiraRealIssueWithPrediction);
-		
+
 	}
 
 	private ProjectData getProjectData(PropertiesReader propertiesReader)
@@ -191,31 +191,38 @@ public class PredictionModelViewer
 		List<AssigneeIssues> assigneesAndTheirIssues = issuesFilter.getAssignedIssues(issueFromDb.getJiraProject());
 		AssignedIssue assignedIssue = issueFromDb.getAssignedIssues().iterator().next();
 		List<JiraIssueWithPredictedTimeToResolve> issues = new ArrayList<>();
+		printPrediction(assigneesAndTheirIssues, assignedIssue, issues);
+		jiraRealIssueWithPrediction.add(getRealIssue(issues, assignedIssue));
+	}
+
+	private void printPrediction(List<AssigneeIssues> assigneesAndTheirIssues, AssignedIssue assignedIssue,
+			List<JiraIssueWithPredictedTimeToResolve> issues)
+	{
 		printNewPrediction();
+		printPredictionForAssignees(assigneesAndTheirIssues, assignedIssue, issues);
+		printRealData(assignedIssue);
+		printEndPrediction();
+	}
+
+	private void printPredictionForAssignees(List<AssigneeIssues> assigneesAndTheirIssues, AssignedIssue assignedIssue,
+			List<JiraIssueWithPredictedTimeToResolve> issues)
+	{
 		for (AssigneeIssues assigneeIssues : assigneesAndTheirIssues)
 		{
 			showPredictionForAssignee(assigneeIssues, assignedIssue, issues);
 		}
-		printStatistics(assignedIssue, issues);
-		jiraRealIssueWithPrediction.add(getRealIssue(issues, assignedIssue));
 	}
 
 	private JiraIssueWithPredictedTimeToResolve getRealIssue(List<JiraIssueWithPredictedTimeToResolve> issues, AssignedIssue assignedIssue)
 	{
-		for(JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTimeToResolve : issues)
+		for (JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTimeToResolve : issues)
 		{
-			if(jiraIssueWithPredictedTimeToResolve.getAssigneeTimeResolve().getAssignee().equals(assignedIssue.getAssignee()))
+			if (jiraIssueWithPredictedTimeToResolve.getAssigneeTimeResolve().getAssignee().equals(assignedIssue.getAssignee()))
 			{
 				return jiraIssueWithPredictedTimeToResolve;
 			}
 		}
 		throw new RealIssueNotFoundException();
-	}
-
-	private void printStatistics(AssignedIssue assignedIssue, List<JiraIssueWithPredictedTimeToResolve> issues)
-	{
-		printRealData(assignedIssue);
-		printEndPrediction();
 	}
 
 	private void printEndPrediction()
