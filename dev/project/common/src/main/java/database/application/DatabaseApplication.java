@@ -132,7 +132,7 @@ public class DatabaseApplication
 		{
 			criteria = session.createCriteria(JiraIssue.class);
 			criteria.add(Restrictions.eq("jiraProject", projectID));
-			criteria.addOrder(Order.asc("createdAt"));
+			criteria.addOrder(Order.desc("createdAt"));
 			issues = criteria.list();
 			if (issues.size() >= 1)
 				return issues;
