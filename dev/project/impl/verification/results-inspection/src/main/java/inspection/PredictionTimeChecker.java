@@ -5,15 +5,21 @@ import java.util.List;
 
 import results.JiraIssueWithPredictedTimeToResolve;
 
+/**
+ * 
+ * Class for retrieving issues with correct prediction time. Incorrect
+ * prediction time means those with values less than 0;
+ *
+ */
 public class PredictionTimeChecker
 {
 
 	/**
-	 * Method which gives issues with prediction which is greater
-	 * than zero. Prediction is less than 0, when there was no data to predict
-	 * from
+	 * Method which gives issues with prediction which is greater than zero.
+	 * Prediction is less than 0, when there was no data to predict from
 	 * 
-	 * @param jiraIssueWithPredictedTimeToResolves Jira issues and their prediction time to resolve
+	 * @param jiraIssueWithPredictedTimeToResolves
+	 *            Jira issues and their prediction time to resolve
 	 * @return List of jira issues with correct prediction time
 	 */
 	public static List<JiraIssueWithPredictedTimeToResolve> getAssigneesWithCorrectPredictedTime(

@@ -8,6 +8,10 @@ import results.JiraIssueWithPredictedTimeToResolve;
 import results.ResultInspectable;
 import utils.converter.TimestampConverter;
 
+/**
+ * 
+ * Class for calculating errors
+ */
 public class ResultsInspection implements ResultInspectable
 {
 
