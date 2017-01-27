@@ -11,6 +11,9 @@ import utils.converter.TimestampConverter;
 public class ResultsInspection implements ResultInspectable
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double getMeanSquaredError(JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTime)
 	{
@@ -26,11 +29,14 @@ public class ResultsInspection implements ResultInspectable
 		return TimestampConverter.getDifferenceInDays(resolvedAt, startAt);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double getRootMeanSquaredError(List<JiraIssueWithPredictedTimeToResolve> jiraIssueWithPredictedTimeToResolves)
 	{
 		List<JiraIssueWithPredictedTimeToResolve> jiraIssuesWithPositivePrediction = PredictionTimeChecker
-				.getList(jiraIssueWithPredictedTimeToResolves);
+				.getAssigneesWithCorrectPredictedTime(jiraIssueWithPredictedTimeToResolves);
 		if (jiraIssuesWithPositivePrediction.isEmpty())
 		{
 			return -1;
@@ -45,11 +51,14 @@ public class ResultsInspection implements ResultInspectable
 		return Math.sqrt(meanSquaredErrorResult);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double getCoefficientOfDetermination(List<JiraIssueWithPredictedTimeToResolve> jiraIssueWithPredictedTimeToResolves)
 	{
 		List<JiraIssueWithPredictedTimeToResolve> jiraIssuesWithPositivePrediction = PredictionTimeChecker
-				.getList(jiraIssueWithPredictedTimeToResolves);
+				.getAssigneesWithCorrectPredictedTime(jiraIssueWithPredictedTimeToResolves);
 		if (jiraIssuesWithPositivePrediction.isEmpty())
 		{
 			return -1;
