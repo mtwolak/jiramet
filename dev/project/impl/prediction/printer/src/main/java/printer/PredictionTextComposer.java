@@ -7,7 +7,7 @@ import utils.properties.PropertiesReader;
 
 public class PredictionTextComposer extends PredictionPrintable
 {
-	private static final String NEW_LINE = "\n";
+	private static final String PREDICTED_TIME = ", predicted time: ";
 	private static final int DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE = 200;
 	private static final String NOT_ENOUGH_DATA_TO_SHOW = "not enough data to predict";
 
@@ -19,14 +19,27 @@ public class PredictionTextComposer extends PredictionPrintable
 	@Override
 	protected String getPrediction(AssigneeTimeResolve assigneeIssueTimes, double meanSquareError)
 	{
-		return new String(getInformationAboutAssigneeAndTheirTime(assigneeIssueTimes, meanSquareError));
+		return new String(getInformationAboutRealAssigneeAndHisTime(assigneeIssueTimes, meanSquareError));
 	}
 
-	private String getInformationAboutAssigneeAndTheirTime(AssigneeTimeResolve assigneeIssueTime, double meanSquareError)
+	@Override
+	protected String getPrediction(AssigneeTimeResolve assigneeIssueTimes)
+	{
+		return new String(getInformationAboutAssigneeAndHisPredictedTime(assigneeIssueTimes));
+	}
+
+	private String getInformationAboutAssigneeAndHisPredictedTime(AssigneeTimeResolve assigneeIssueTime)
 	{
 		StringBuilder sb = new StringBuilder(DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE);
-		sb.append("Assignee: ").append(assigneeIssueTime.getAssignee()).append(", time: ").append(getTimePrediction(assigneeIssueTime))
-				.append(", mean squared error: " + NumberConverter.format(meanSquareError)).append(NEW_LINE);
+		sb.append("Assignee: ").append(assigneeIssueTime.getAssignee()).append(PREDICTED_TIME).append(getTimePrediction(assigneeIssueTime));
+		return sb.toString();
+	}
+
+	private String getInformationAboutRealAssigneeAndHisTime(AssigneeTimeResolve assigneeIssueTime, double meanSquareError)
+	{
+		StringBuilder sb = new StringBuilder(DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE);
+		sb.append("Real assignee: ").append(assigneeIssueTime.getAssignee()).append(PREDICTED_TIME)
+				.append(getTimePrediction(assigneeIssueTime)).append(", mean squared error: " + NumberConverter.format(meanSquareError));
 		return sb.toString();
 	}
 

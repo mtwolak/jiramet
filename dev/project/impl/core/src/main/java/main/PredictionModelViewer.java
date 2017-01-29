@@ -107,6 +107,8 @@ public class PredictionModelViewer
 		issueResolveTimePredictable = getIssueResolveTimePredictable();
 		resultInspectable = new ResultsInspection();
 		showPrediction();
+		printCoefficientOfDetermination(jiraRealIssueWithPrediction);
+		printRootMeanSquaredError(jiraRealIssueWithPrediction);
 	}
 
 	/**
@@ -232,7 +234,7 @@ public class PredictionModelViewer
 
 	private void printNewPrediction()
 	{
-		predictionPrintable.println("######## New prediction ########");
+		predictionPrintable.print("######## New prediction ########");
 	}
 
 	private void printCoefficientOfDetermination(List<JiraIssueWithPredictedTimeToResolve> issues)
@@ -250,8 +252,21 @@ public class PredictionModelViewer
 	private void printRealData(AssignedIssue assignedIssue)
 	{
 		double resolveTime = ResolveTimeCalculator.getResolveTime(assignedIssue);
-		predictionPrintable.println("Real time: " + NumberConverter.format(resolveTime));
-		predictionPrintable.println("Real assignee: " + assignedIssue.getAssignee().getName());
+		predictionPrintable.printNewLine();
+		printMeanSquaredError(resolveTime);
+		printRealTime(resolveTime);
+	}
+
+	private void printRealTime(double resolveTime)
+	{
+		predictionPrintable.print("Real time: " + NumberConverter.format(resolveTime));
+	}
+
+	private void printMeanSquaredError(double resolveTime)
+	{
+		JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTimeToResolve = jiraRealIssueWithPrediction.get(jiraRealIssueWithPrediction.size()-1);
+		double meanSquaredError = resultInspectable.getMeanSquaredError(jiraIssueWithPredictedTimeToResolve);
+		predictionPrintable.printPrediction(jiraIssueWithPredictedTimeToResolve.getAssigneeTimeResolve(), meanSquaredError);
 	}
 
 	private void showPredictionForAssignee(AssigneeIssues assigneeIssues, AssignedIssue assignedIssue,
@@ -262,8 +277,7 @@ public class PredictionModelViewer
 		AssigneeTimeResolve prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);
 		JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTime = new JiraIssueWithPredictedTimeToResolve(assignedIssue, prediction);
 		issues.add(jiraIssueWithPredictedTime);
-		double meanSquaredError = resultInspectable.getMeanSquaredError(jiraIssueWithPredictedTime);
-		predictionPrintable.printPrediction(prediction, meanSquaredError);
+		predictionPrintable.printPrediction(prediction);
 	}
 
 }
