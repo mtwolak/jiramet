@@ -264,7 +264,8 @@ public class PredictionModelViewer
 
 	private void printMeanSquaredError(double resolveTime)
 	{
-		JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTimeToResolve = jiraRealIssueWithPrediction.get(jiraRealIssueWithPrediction.size()-1);
+		JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTimeToResolve = jiraRealIssueWithPrediction
+				.get(jiraRealIssueWithPrediction.size() - 1);
 		double meanSquaredError = resultInspectable.getMeanSquaredError(jiraIssueWithPredictedTimeToResolve);
 		predictionPrintable.printPrediction(jiraIssueWithPredictedTimeToResolve.getAssigneeTimeResolve(), meanSquaredError);
 	}
@@ -277,7 +278,10 @@ public class PredictionModelViewer
 		AssigneeTimeResolve prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);
 		JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTime = new JiraIssueWithPredictedTimeToResolve(assignedIssue, prediction);
 		issues.add(jiraIssueWithPredictedTime);
-		predictionPrintable.printPrediction(prediction);
+		if (prediction.getPredictedTime() != -1)
+		{
+			predictionPrintable.printPrediction(prediction);
+		}
 	}
 
 }
