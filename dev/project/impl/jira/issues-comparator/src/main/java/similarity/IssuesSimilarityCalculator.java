@@ -145,9 +145,10 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	@Override
 	public AssigneeIssueSimilarity getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues, JiraIssue newJiraIssue)
 	{
-		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>();
+		List<JiraIssue> assignedJiraIssues = assigneeIssues.getAssignedJiraIssues();
+		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>(assignedJiraIssues.size());
 
-		for (JiraIssue issue : assigneeIssues.getAssignedJiraIssues())
+		for (JiraIssue issue : assignedJiraIssues)
 		{
 			addIssueSimilarity(newJiraIssue, jiraIssueSimilarities, issue);
 		}

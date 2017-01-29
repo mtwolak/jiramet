@@ -69,7 +69,6 @@ public class PredictionModelViewer
 	public PredictionModelViewer(PropertiesReader propertiesReader)
 	{
 		this.propertiesReader = propertiesReader;
-		jiraRealIssueWithPrediction = new ArrayList<>();
 		predictionPrintable = getPredictionPrinter();
 	}
 
@@ -86,6 +85,7 @@ public class PredictionModelViewer
 		new IssueDownloaderMain(propertiesReader).retrieveIssuesFromProjectWithRespectToPropertyFlag(getProjectData(propertiesReader));
 		databaseApplication = new DatabaseApplication(propertiesReader);
 		issuesToVerify = getPercentageScopeOfJiraIssues();
+		jiraRealIssueWithPrediction = new ArrayList<>(issuesToVerify.size());
 	}
 
 	/**
