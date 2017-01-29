@@ -14,17 +14,35 @@ import database.entity.JiraProject;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
+/**
+ * Holds configuration about database
+ *
+ */
 public abstract class HibernateConfiguration
 {
 	private PropertiesReader propertiesReader;
 
+	/**
+	 * Constructs database properties according to delivered properties reader
+	 * 
+	 * @param propertiesReader
+	 *            property reader which holds information about database
+	 */
 	public HibernateConfiguration(PropertiesReader propertiesReader)
 	{
 		this.propertiesReader = propertiesReader;
 	}
-	
+
+	/**
+	 * Gets connection url needed for communication with database
+	 * @return connection url
+	 */
 	public abstract Property getConnectionUrl();
-	
+
+	/**
+	 * Gets current database configuration
+	 * @return current database configuration
+	 */
 	public Configuration getConfiguration()
 	{
 		Configuration configuration = new Configuration();
@@ -45,7 +63,8 @@ public abstract class HibernateConfiguration
 	private void setConnectionProperties(Configuration configuration)
 	{
 		configuration.setProperty("hibernate.connection.url", propertiesReader.getAsString(getConnectionUrl()))
-				.setProperty("hibernate.connection.driver_class", propertiesReader.getAsString(Property.HIBERNATE_DRIVER_CLASS))
+				.setProperty("hibernate.connection.driver_class",
+						propertiesReader.getAsString(Property.HIBERNATE_DRIVER_CLASS))
 				.setProperty("hibernate.connection.username", propertiesReader.getAsString(Property.HIBERNATE_USER))
 				.setProperty("hibernate.connection.password", propertiesReader.getAsString(Property.HIBERNATE_PASSWORD))
 				.setProperty("hibernate.dialect", propertiesReader.getAsString(Property.HIBERNATE_DIALECT));

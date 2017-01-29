@@ -1,7 +1,9 @@
 package utils.converter;
 
 import java.sql.Timestamp;
-
+/**
+ * Class for evaluating difference between two timestamps
+ */
 public final class TimestampConverter
 {
 
@@ -12,6 +14,12 @@ public final class TimestampConverter
 
 	}
 
+	/**
+	 * Calculating difference between two timestamps
+	 * @param finish timestamp which indicates some event has ended its activity
+	 * @param start timestamp which indicates some event has started its activity
+	 * @return difference as number of days between two timestamps
+	 */
 	public static double getDifferenceInDays(Timestamp finish, Timestamp start)
 	{
 		return (finish.getTime() - start.getTime()) / MILIS_IN_DAY_AND_NIGHT;

@@ -7,9 +7,15 @@ import utils.FileRemover;
 import utils.properties.PropertiesReader;
 import utils.properties.Property;
 
+/**
+ * Implementation of printing date to output file
+ *
+ */
 public class FilePrintableMode extends PrintableMode
 {
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void init(PropertiesReader propertiesReader)
 	{
@@ -21,6 +27,9 @@ public class FilePrintableMode extends PrintableMode
 		FileRemover.removeIfExists(predictionFilePath);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void print(String textToPrint, PropertiesReader propertiesReader)
 	{

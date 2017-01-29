@@ -1,5 +1,9 @@
 package utils;
 
+/**
+ * Exception when no settings path was given during program execution
+ *
+ */
 public class InsufficientArgumentsException extends RuntimeException
 {
 

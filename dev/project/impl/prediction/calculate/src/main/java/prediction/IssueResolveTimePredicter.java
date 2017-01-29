@@ -21,6 +21,9 @@ public class IssueResolveTimePredicter implements IssueResolveTimePredictable
 		this.issueResolvingTimeCalculator = new IssueResolvingTimeCalculator();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public AssigneeTimeResolve getPrediction(AssigneeIssueSimilarity assigneesIssuesSimilarities)
 	{

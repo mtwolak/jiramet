@@ -139,6 +139,9 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		return new IssuesSimilarityCommentsCollector();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public AssigneeIssueSimilarity getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues, JiraIssue newJiraIssue)
 	{

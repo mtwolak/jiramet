@@ -1,5 +1,8 @@
 package jira;
 
+/**
+ * Interface for retrieving prediction for assignee with his issues with similarity level
+ */
 public interface IssueResolveTimePredictable {
 	
 	/**

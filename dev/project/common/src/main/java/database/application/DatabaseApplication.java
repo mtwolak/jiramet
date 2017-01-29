@@ -18,7 +18,10 @@ import database.exception.IssueNotFoundException;
 import database.manager.DatabaseManager;
 import utils.properties.PropertiesReader;
 import utils.properties.hibernate.HibernateProductionConfiguration;
-
+/**
+ * Class for retrieving data from database
+ *
+ */
 public class DatabaseApplication
 {
 	private Session session;
@@ -29,6 +32,10 @@ public class DatabaseApplication
 	private List projects;
 	private Logger logger = Logger.getLogger(DatabaseApplication.class.getName());
 
+	/**
+	 * Constructs new object with connection to database
+	 * @param propertiesReader property reader
+	 */
 	public DatabaseApplication(PropertiesReader propertiesReader)
 	{
 		DatabaseManager dbm = new DatabaseManager(new HibernateProductionConfiguration(propertiesReader));
@@ -36,11 +43,21 @@ public class DatabaseApplication
 		session = dbm.getSession();
 	}
 
+	/**
+	 * Constructs new object with given session factory
+	 * @param sessionFactory session factory
+	 */
 	public DatabaseApplication(SessionFactory sessionFactory)
 	{
 		session = sessionFactory.getCurrentSession();
 	}
 
+	/**
+	 * Retrieving jira issue with given issue id
+	 * @param issueID issue id
+	 * @throws IssueNotFoundException when no issue with given id
+	 * @return Jira issue with given id. 
+	 */
 	public JiraIssue getJiraIssue(int issueID)
 	{
 		criteria = session.createCriteria(JiraIssue.class);
@@ -54,6 +71,11 @@ public class DatabaseApplication
 		}
 	}
 
+	/**
+	 * Retrieving jira project with given ID
+	 * @param projectID project ID
+	 * @return JiraProject with given id. If no issue found, null is returned
+	 */
 	public JiraProject getJiraProject(int projectID)
 	{
 		try
@@ -71,6 +93,11 @@ public class DatabaseApplication
 		return null;
 	}
 	
+	/**
+	 * Retrieving jira project by name
+	 * @param projectName - jira project name
+	 * @return Jira project with given project name. Null, when project not found.
+	 */
 	public JiraProject getJiraProject(String projectName)
 	{
 		try
@@ -88,6 +115,10 @@ public class DatabaseApplication
 		return null;
 	}
 
+	/**
+	 * Getting all jira project from database
+	 * @return all jira projects from database
+	 */
 	@SuppressWarnings("rawtypes")
 	public List getJiraProjects()
 	{
@@ -106,6 +137,11 @@ public class DatabaseApplication
 		return null;
 	}
 
+	/**
+	 * Getting jira issues for project with given id
+	 * @param projectID project id
+	 * @return List of jira issues for project with given ID
+	 */
 	@SuppressWarnings("rawtypes")
 	public List getJiraIssues(JiraProject projectID)
 	{
@@ -125,6 +161,11 @@ public class DatabaseApplication
 		return null;
 	}
 
+	/**
+	 * Gets Jira issues for project with given ID ordered descending by creation date
+	 * @param projectID project id
+	 * @return list of ordered jira issues. Null, when no jira issues
+	 */
 	@SuppressWarnings("rawtypes")
 	public List getJiraIssuesOrderedByCreationDate(JiraProject projectID)
 	{
@@ -145,6 +186,12 @@ public class DatabaseApplication
 		return null;
 	}
 	
+	/**
+	 * Gets given percent of whole issues from the given project
+	 * @param projectID project id with issues
+	 * @param percentageScope percent of how many issues will be returned
+	 * @return jira issues
+	 */
 	public List<JiraIssue> getPercentageScopeOfJiraIssues(JiraProject projectID, int percentageScope)
 	{
 		issues = getJiraIssuesOrderedByCreationDate(projectID);
@@ -157,6 +204,11 @@ public class DatabaseApplication
 		return percentageOfIssues;
 	}
 
+	/**
+	 * Gets list of all jira assignees, skipping unassigned.
+	 * @param jiraProject jira project
+	 * @return Jira assignees
+	 */
 	@SuppressWarnings("rawtypes")
 	public List getJiraAssignees(JiraProject jiraProject)
 	{
@@ -176,6 +228,9 @@ public class DatabaseApplication
 		return null;
 	}
 
+	/**
+	 * Closing opened session
+	 */
 	public void closeSession()
 	{
 		session.close();

@@ -11,6 +11,10 @@ import org.hibernate.service.ServiceRegistryBuilder;
 
 import utils.properties.hibernate.HibernateConfiguration;
 
+/**
+ * Class responsible for state of database
+ *
+ */
 public class DatabaseManager
 {
 
@@ -18,11 +22,18 @@ public class DatabaseManager
 	private final HibernateConfiguration hibernateConfiguration;
 	private static final Logger LOGGER = Logger.getLogger(DatabaseManager.class);
 
+	/**
+	 * Constructs new object with given database configuration
+	 * @param hibernateConfiguration database configuration
+	 */
 	public DatabaseManager(HibernateConfiguration hibernateConfiguration)
 	{
 		this.hibernateConfiguration = hibernateConfiguration;
 	}
 
+	/**
+	 * Init db
+	 */
 	public void init()
 	{
 		Configuration config = hibernateConfiguration.getConfiguration();
@@ -31,6 +42,10 @@ public class DatabaseManager
 		factory = config.buildSessionFactory(serviceRegistry);
 	}
 
+	/**
+	 * Persisting objects in database
+	 * @param entity object to be persisted
+	 */
 	public void persist(Object entity)
 	{
 		Session session = factory.openSession();
@@ -49,6 +64,10 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * Method for executing raw sql query - should not be used in production code
+	 * @param sqlQuery sql query to be executed
+	 */
 	public void executeStringSql(String sqlQuery)
 	{
 		Session session = factory.openSession();
@@ -65,7 +84,10 @@ public class DatabaseManager
 		}
 	}
 
-	// do not forget to close opened session
+	/**
+	 * Getting current session opened during init
+	 * @return active session
+	 */
 	public Session getSession()
 	{
 		return factory.openSession();

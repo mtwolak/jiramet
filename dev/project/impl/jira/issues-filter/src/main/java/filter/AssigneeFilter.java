@@ -59,9 +59,7 @@ public class AssigneeFilter implements IssuesFilter
 	}
 
 	/**
-	 * Gets jira assignees from jira project according to added jira filters
-	 * @param jiraProject jira project from which assigneeIssues will be retrieved
-	 * @return list of all assignees from project with theirs assigned jira issues
+	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
 	public List<AssigneeIssues> getAssignedIssues(JiraProject jiraProject)
