@@ -14,16 +14,17 @@ public abstract class PredictionPrintable
 	private PredictionPrintMode predictionPrintMode;
 
 	/**
-	 * Constructs prediction printable object with properties given by properties
-	 * reader
+	 * Constructs prediction printable object with properties given by
+	 * properties reader
 	 * 
 	 * @param propertiesReader
-	 *            - properties reader
+	 *            properties reader
 	 */
 	public PredictionPrintable(PropertiesReader propertiesReader)
 	{
 		this.propertiesReader = propertiesReader;
-		this.predictionPrintMode = PredictionPrintMode.fromString(propertiesReader.getAsString(Property.PREDICTION_PRINTING));
+		this.predictionPrintMode = PredictionPrintMode
+				.fromString(propertiesReader.getAsString(Property.PREDICTION_PRINTING));
 		this.predictionPrintMode.init(propertiesReader);
 	}
 
@@ -31,27 +32,47 @@ public abstract class PredictionPrintable
 
 	protected abstract String getPrediction(AssigneeTimeResolve assigneeIssueTimes);
 
-	public void printPrediction(AssigneeTimeResolve assigneeIssueTimes, double meanSquaredError)
+	/**
+	 * Printing prediction
+	 * @param assigneeTimeResolve assignee with prediction time
+	 * @param meanSquaredError mean squared error
+	 */
+	public void printPrediction(AssigneeTimeResolve assigneeTimeResolve, double meanSquaredError)
 	{
-		predictionPrintMode.print(getPrediction(assigneeIssueTimes, meanSquaredError), propertiesReader);
+		predictionPrintMode.print(getPrediction(assigneeTimeResolve, meanSquaredError), propertiesReader);
 	}
 
-	public void printPrediction(AssigneeTimeResolve assigneeIssueTimes)
+	/**
+	 * Printing prediction
+	 * @param assigneeTimeResolve assignee with prediction time
+	 */
+	public void printPrediction(AssigneeTimeResolve assigneeTimeResolve)
 	{
-		predictionPrintMode.print(getPrediction(assigneeIssueTimes), propertiesReader);
+		predictionPrintMode.print(getPrediction(assigneeTimeResolve), propertiesReader);
 	}
 
+	/**
+	 * Printing text
+	 * @param text text to print
+	 */
 	public void print(String text)
 	{
 		predictionPrintMode.print(text, propertiesReader);
 	}
 
+	/**
+	 * Printing text followed by new line
+	 * @param text text to print followed by new line
+	 */
 	public void println(String text)
 	{
 		predictionPrintMode.print(text, propertiesReader);
 		printNewLine();
 	}
 
+	/**
+	 * Printing new line
+	 */
 	public void printNewLine()
 	{
 		predictionPrintMode.printNewLine(propertiesReader);

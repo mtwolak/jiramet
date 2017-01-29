@@ -4,13 +4,20 @@ import jira.AssigneeTimeResolve;
 import jira.prediction.PredictionPrintable;
 import utils.converter.NumberConverter;
 import utils.properties.PropertiesReader;
-
+/**
+ * Implementation of prediction printable for printing predictions
+ *
+ */
 public class PredictionTextComposer extends PredictionPrintable
 {
 	private static final String PREDICTED_TIME = ", predicted time: ";
 	private static final int DEFAULT_CAPACITY_STRINGBUILDER_PER_ASSIGNEE = 200;
 	private static final String NOT_ENOUGH_DATA_TO_SHOW = "not enough data to predict";
 
+	/**
+	 * Constructs new object with given properties
+	 * @param propertiesReader property reader
+	 */
 	public PredictionTextComposer(PropertiesReader propertiesReader)
 	{
 		super(propertiesReader);
