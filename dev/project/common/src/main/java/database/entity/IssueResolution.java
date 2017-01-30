@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ISSUE_RESOLUTION")
+@Table(name = "issue_resolution")
 public class IssueResolution {
 	@Id
 	@Column(name = "ISSUE_RESOLUTION_ID", nullable = false)

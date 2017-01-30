@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "JIRA_ISSUE")
+@Table(name = "jira_issue")
 public class JiraIssue {
 	@Id
 	@Column(name = "JIRA_ISSUE_ID", nullable = false)

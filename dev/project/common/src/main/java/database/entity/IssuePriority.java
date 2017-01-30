@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ISSUE_PRIORITY")
+@Table(name = "issue_priority")
 public class IssuePriority {
 	@Id
 	@Column(name = "ISSUE_PRIORITY_ID", nullable = false)
