@@ -13,6 +13,7 @@ import utils.properties.Property;
  */
 public class FilePrintableMode extends PrintableMode
 {
+	private static final String NEW_LINE = System.lineSeparator();
 	/**
 	 * {@inheritDoc}
 	 */
@@ -37,6 +38,7 @@ public class FilePrintableMode extends PrintableMode
 		{
 			FileWriter fw = new FileWriter(propertiesReader.getAsString(Property.PREDICTION_FILE_SAVE_PATH), true);
 			fw.write(textToPrint);
+			fw.write(NEW_LINE);
 			fw.close();
 		} catch (IOException e)
 		{
