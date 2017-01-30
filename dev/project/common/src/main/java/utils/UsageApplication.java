@@ -13,7 +13,7 @@ public class UsageApplication
 	/**
 	 * Constructs object with given program arguments
 	 * 
-	 * @param arguments
+	 * @param arguments arguments for program
 	 */
 	public UsageApplication(String[] arguments)
 	{

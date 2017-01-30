@@ -186,7 +186,6 @@ public class PredictionModelViewer
 	 * time, and assignee that resolved an issue.
 	 * 
 	 * @see PredictionPrintable
-	 * @return Real issue with prediction
 	 */
 	public void showPrediction()
 	{

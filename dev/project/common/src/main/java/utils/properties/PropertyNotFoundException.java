@@ -12,14 +12,14 @@ public class PropertyNotFoundException extends RuntimeException
 	/**
 	 * Constructs exception with property which could not be found in database
 	 * 
-	 * @param propertyToRead
+	 * @param property
 	 *            property which could not be found
 	 */
 	public PropertyNotFoundException(Property property)
 	{
 		super("Property " + property.name() + " not found - it should be defined in properties.txt as uppercase");
 	}
-	
+
 	/**
 	 * Raised when property file cannot be found
 	 */

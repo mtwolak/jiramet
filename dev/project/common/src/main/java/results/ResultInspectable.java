@@ -31,7 +31,7 @@ public interface ResultInspectable
 	 * 
 	 * @param jiraIssueWithPredictedTimeToResolves
 	 *            jira issues with prediction times to resolve
-	 * @returncoefficient of determination
+	 * @return coefficient of determination
 	 */
 	double getCoefficientOfDetermination(
 			List<JiraIssueWithPredictedTimeToResolve> jiraIssueWithPredictedTimeToResolves);
