@@ -61,37 +61,39 @@ public class ResultsInspection implements ResultInspectable
 	@Override
 	public double getCoefficientOfDetermination(List<JiraIssueWithPredictedTimeToResolve> jiraIssueWithPredictedTimeToResolves)
 	{
+		
 		List<JiraIssueWithPredictedTimeToResolve> jiraIssuesWithPositivePrediction = PredictionTimeChecker
 				.getAssigneesWithCorrectPredictedTime(jiraIssueWithPredictedTimeToResolves);
 		if (jiraIssuesWithPositivePrediction.isEmpty())
 		{
 			return -1;
 		}
+		
 		double predictedValues[] = getPredictedValues(jiraIssuesWithPositivePrediction);
 		double realTimeResolve[] = getRealTimeResolve(jiraIssuesWithPositivePrediction);
-		double mean = getMean(predictedValues);
-		return getSumOfDifferencesBetweenPredictedAndMean(predictedValues, mean)
-				/ getSumOfDifferencesBetweenRealTimeAndMean(realTimeResolve, mean);
+		double mean = getMean(realTimeResolve);
+		double result = 1 - (ssRes(realTimeResolve, predictedValues) / ssTot(realTimeResolve, mean));
+		return result;
 	}
 
-	private double getSumOfDifferencesBetweenRealTimeAndMean(double[] realTimeResolve, double mean)
-	{
-		return getSumOfPoweredDifferences(realTimeResolve, mean);
-	}
-
-	private double getSumOfPoweredDifferences(double[] realTimeResolve, double mean)
+	private double ssTot(double[] realTimeResolve, double mean)
 	{
 		double sum = 0;
-		for (double value : realTimeResolve)
+		for(int i = 0; i < realTimeResolve.length; i++)
 		{
-			sum += getPoweredDifference(value, mean);
+			sum += getPoweredDifference(realTimeResolve[i], mean);
 		}
 		return sum;
 	}
 
-	private double getSumOfDifferencesBetweenPredictedAndMean(double[] predictedValues, double mean)
+	private double ssRes(double[] realTimeResolve, double[] predictedValues)
 	{
-		return getSumOfPoweredDifferences(predictedValues, mean);
+		double sum = 0;
+		for(int i = 0; i < realTimeResolve.length; i++)
+		{
+			sum += getPoweredDifference(realTimeResolve[i], predictedValues[i]);
+		}
+		return sum;
 	}
 
 	private double getPoweredDifference(double value1, double value2)

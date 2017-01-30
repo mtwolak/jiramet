@@ -196,7 +196,7 @@ public class DatabaseApplication
 	{
 		issues = getJiraIssuesOrderedByCreationDate(projectID);
 		List<JiraIssue> percentageOfIssues = new ArrayList<JiraIssue>();
-		int numberOfIssuesInScope = (int) (issues.size() * ((double) percentageScope / 100));
+		int numberOfIssuesInScope = 100;
 		for(int i=0; i<numberOfIssuesInScope; i++)
 		{
 			percentageOfIssues.add((JiraIssue) issues.get(i));
