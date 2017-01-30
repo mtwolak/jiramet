@@ -154,7 +154,7 @@ public class PredictionModelViewer
 		assigneeFilter.init();
 		return assigneeFilter.addFilter(new TimeStampsNotNullFilter()).addFilter(new MinimumIssueDescripionSizeFilter())
 				.addFilter(new MinimumIssueFilter()).addFilter(new SelectedIssueTypesFilter()).addFilter(new SelectedIssuePriorityFilter())
-				.addFilter(new AnalyzedIssueFilter());
+				.addFilter(new AnalyzedIssueFilter(databaseApplication));
 	}
 
 	private IssueResolveTimePredictable getIssueResolveTimePredictable()

@@ -14,6 +14,13 @@ import utils.properties.Property;
 public class AnalyzedIssueFilter implements JiraIssueFilter
 {
 
+	private DatabaseApplication databaseApplication;
+
+	public AnalyzedIssueFilter(DatabaseApplication databaseApplication)
+	{
+		this.databaseApplication = databaseApplication;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -40,8 +47,7 @@ public class AnalyzedIssueFilter implements JiraIssueFilter
 	
 	private JiraIssue getAnalyzedIssueFromDb(PropertiesReader propertiesReader)
 	{
-		DatabaseApplication dba = new DatabaseApplication(propertiesReader);
-		return dba.getJiraIssue(propertiesReader.getAsInt(Property.PROJECT_ID_JIRA_ISSUE_TO_ANALYZE));
+		return databaseApplication.getJiraIssue(propertiesReader.getAsInt(Property.PROJECT_ID_JIRA_ISSUE_TO_ANALYZE));
 	}
 
 }
