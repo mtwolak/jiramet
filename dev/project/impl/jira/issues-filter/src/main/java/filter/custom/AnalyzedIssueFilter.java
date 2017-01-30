@@ -3,22 +3,20 @@ package filter.custom;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.application.DatabaseApplication;
 import database.entity.JiraIssue;
 import jira.AssigneeIssues;
 import utils.properties.PropertiesReader;
-import utils.properties.Property;
 /**
  * Class for discarding issue which is being analyzed
  */
 public class AnalyzedIssueFilter implements JiraIssueFilter
 {
 
-	private DatabaseApplication databaseApplication;
-
-	public AnalyzedIssueFilter(DatabaseApplication databaseApplication)
+	JiraIssue analyzedIssue;
+	
+	public AnalyzedIssueFilter(JiraIssue analyzedIssue)
 	{
-		this.databaseApplication = databaseApplication;
+		this.analyzedIssue = analyzedIssue;	
 	}
 
 	/**
@@ -26,7 +24,6 @@ public class AnalyzedIssueFilter implements JiraIssueFilter
 	 */
 	@Override
 	public boolean filter(AssigneeIssues assigneeWithHisIssues, PropertiesReader propertiesReader) {
-		JiraIssue analyzedIssue = getAnalyzedIssueFromDb(propertiesReader);
 		List<JiraIssue> assignedJiraIssues = new ArrayList<>();
 		for (JiraIssue jiraIssue : assigneeWithHisIssues.getAssignedJiraIssues())
 		{
@@ -43,11 +40,6 @@ public class AnalyzedIssueFilter implements JiraIssueFilter
 		{
 			assignedJiraIssues.add(jiraIssue);
 		}
-	}
-	
-	private JiraIssue getAnalyzedIssueFromDb(PropertiesReader propertiesReader)
-	{
-		return databaseApplication.getJiraIssue(propertiesReader.getAsInt(Property.PROJECT_ID_JIRA_ISSUE_TO_ANALYZE));
 	}
 
 }
