@@ -72,28 +72,28 @@ public class ResultsInspection implements ResultInspectable
 		double predictedValues[] = getPredictedValues(jiraIssuesWithPositivePrediction);
 		double realTimeResolve[] = getRealTimeResolve(jiraIssuesWithPositivePrediction);
 		double mean = getMean(realTimeResolve);
-		double result = 1 - (ssRes(realTimeResolve, predictedValues) / ssTot(realTimeResolve, mean));
-		return result;
+		return getSumOfDifferencesBetweenPredictedAndMean(predictedValues, mean)
+				/ getSumOfDifferencesBetweenRealTimeAndMean(realTimeResolve, mean);
+	}
+	
+	private double getSumOfDifferencesBetweenRealTimeAndMean(double[] realTimeResolve, double mean)
+	{
+		return getSumOfPoweredDifferences(realTimeResolve, mean);
 	}
 
-	private double ssTot(double[] realTimeResolve, double mean)
+	private double getSumOfPoweredDifferences(double[] realTimeResolve, double mean)
 	{
 		double sum = 0;
-		for(int i = 0; i < realTimeResolve.length; i++)
+		for (double value : realTimeResolve)
 		{
-			sum += getPoweredDifference(realTimeResolve[i], mean);
+			sum += getPoweredDifference(value, mean);
 		}
 		return sum;
 	}
 
-	private double ssRes(double[] realTimeResolve, double[] predictedValues)
+	private double getSumOfDifferencesBetweenPredictedAndMean(double[] predictedValues, double mean)
 	{
-		double sum = 0;
-		for(int i = 0; i < realTimeResolve.length; i++)
-		{
-			sum += getPoweredDifference(realTimeResolve[i], predictedValues[i]);
-		}
-		return sum;
+		return getSumOfPoweredDifferences(predictedValues, mean);
 	}
 
 	private double getPoweredDifference(double value1, double value2)
