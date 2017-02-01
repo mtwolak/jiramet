@@ -3,6 +3,9 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import database.application.DatabaseApplication;
 import database.entity.AssignedIssue;
 import database.entity.JiraIssue;
@@ -56,6 +59,7 @@ public class PredictionModelViewer
 	private IssueResolveTimePredictable issueResolveTimePredictable;
 	private ResultInspectable resultInspectable;
 	private List<JiraIssueWithPredictedTimeToResolve> jiraRealIssueWithPrediction;
+	private static final Logger LOGGER = LoggerFactory.getLogger(PredictionModelViewer.class);
 
 	/**
 	 * Creates a new instance of PredictionModelViewer and initializes
@@ -211,7 +215,18 @@ public class PredictionModelViewer
 		{
 			showPredictionForAssignee(assigneeIssues, assignedIssue, issues);
 		}
-		jiraRealIssueWithPrediction.add(getRealIssue(issues, assignedIssue));
+		addRealIssue(assignedIssue, issues);
+	}
+
+	private void addRealIssue(AssignedIssue assignedIssue, List<JiraIssueWithPredictedTimeToResolve> issues)
+	{
+		try
+		{
+			jiraRealIssueWithPrediction.add(getRealIssue(issues, assignedIssue));
+		} catch (RealIssueNotFoundException e)
+		{
+			LOGGER.info("Cannot find real issue - not assigned issue");
+		}
 	}
 
 	private JiraIssueWithPredictedTimeToResolve getRealIssue(List<JiraIssueWithPredictedTimeToResolve> issues, AssignedIssue assignedIssue)
@@ -223,7 +238,7 @@ public class PredictionModelViewer
 				return jiraIssueWithPredictedTimeToResolve;
 			}
 		}
-		throw new RealIssueNotFoundException();
+		throw new RealIssueNotFoundException(assignedIssue);
 	}
 
 	private void printEndPrediction()

@@ -1,5 +1,7 @@
 package main;
 
+import database.entity.AssignedIssue;
+
 public class RealIssueNotFoundException extends RuntimeException
 {
 
@@ -8,6 +10,10 @@ public class RealIssueNotFoundException extends RuntimeException
 	public RealIssueNotFoundException()
 	{
 		super("Issue not found!");
+	}
+
+	public RealIssueNotFoundException(AssignedIssue assignedIssue)
+	{
 	}
 
 }
