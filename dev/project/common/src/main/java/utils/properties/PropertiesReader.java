@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -15,12 +17,15 @@ import java.util.Properties;
  */
 public class PropertiesReader
 {
+	private static final int JAVA_MONTH_OFFSET = 1;
 	private static final String TRUE = "true";
 	private Properties properties;
 
 	/**
 	 * Constructs object and loads properties from file
-	 * @param propertyPath path to property file
+	 * 
+	 * @param propertyPath
+	 *            path to property file
 	 */
 	public PropertiesReader(String propertyPath)
 	{
@@ -51,7 +56,9 @@ public class PropertiesReader
 
 	/**
 	 * Gets specified property and return string as a result
-	 * @param propertyToRead property to be read
+	 * 
+	 * @param propertyToRead
+	 *            property to be read
 	 * @return read property
 	 */
 	public String getAsString(Property propertyToRead)
@@ -60,7 +67,7 @@ public class PropertiesReader
 		checkForPropertyCorrection(propertyToRead, property);
 		return property;
 	}
-	
+
 	private void checkForPropertyCorrection(Property propertyToRead, String property)
 	{
 		if (property == null)
@@ -75,7 +82,9 @@ public class PropertiesReader
 
 	/**
 	 * Gets property as double
-	 * @param property property to be read
+	 * 
+	 * @param property
+	 *            property to be read
 	 * @return read property
 	 */
 	public double getAsDouble(Property property)
@@ -96,7 +105,9 @@ public class PropertiesReader
 
 	/**
 	 * Gets property as int
-	 * @param propertyToRead property to be read
+	 * 
+	 * @param propertyToRead
+	 *            property to be read
 	 * @return property as int
 	 */
 	public int getAsInt(Property propertyToRead)
@@ -106,7 +117,9 @@ public class PropertiesReader
 
 	/**
 	 * Gets property as boolean
-	 * @param propertyToRead property to be read
+	 * 
+	 * @param propertyToRead
+	 *            property to be read
 	 * @return property as boolean
 	 */
 	public boolean getAsBoolean(Property propertyToRead)
@@ -116,7 +129,9 @@ public class PropertiesReader
 
 	/**
 	 * Gets list of properties. Property entry must be separated by comma
-	 * @param propertyToRead property to be read
+	 * 
+	 * @param propertyToRead
+	 *            property to be read
 	 * @return list of read property
 	 */
 	public List<String> getAsStringList(Property propertyToRead)
@@ -128,6 +143,17 @@ public class PropertiesReader
 	private boolean isEmptyOrNull(String stringToCheck)
 	{
 		return stringToCheck == null || "".equals(stringToCheck);
+	}
+
+	public Date getAsDate(Property propertyToRead)
+	{
+		String dateParts[] = getAsString(propertyToRead).split("-");
+		int year = Integer.valueOf(dateParts[0]);
+		int month = Integer.valueOf(dateParts[1]) - JAVA_MONTH_OFFSET;
+		int day = Integer.valueOf(dateParts[2]);
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month, day);
+		return calendar.getTime();
 	}
 
 }

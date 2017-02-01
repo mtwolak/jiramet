@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -59,6 +60,7 @@ public class PredictionModelViewer
 	private IssueResolveTimePredictable issueResolveTimePredictable;
 	private ResultInspectable resultInspectable;
 	private List<JiraIssueWithPredictedTimeToResolve> jiraRealIssueWithPrediction;
+	private Date issueDateStartFrom;
 	private static final Logger LOGGER = LoggerFactory.getLogger(PredictionModelViewer.class);
 
 	/**
@@ -89,7 +91,20 @@ public class PredictionModelViewer
 		new IssueDownloaderMain(propertiesReader).retrieveIssuesFromProjectWithRespectToPropertyFlag(getProjectData(propertiesReader));
 		databaseApplication = new DatabaseApplication(propertiesReader);
 		issuesToVerify = getPercentageScopeOfJiraIssues();
+		issueDateStartFrom = getIssueDateStartFrom();
 		jiraRealIssueWithPrediction = new ArrayList<>(issuesToVerify.size());
+	}
+
+	private Date getIssueDateStartFrom()
+	{
+		try
+		{
+			return propertiesReader.getAsDate(Property.PROJECT_STARTED_DATE_ISSUE);
+		} catch (Exception e)
+		{
+			LOGGER.info("Cannot parse date - taking all issues for analyzing");
+			return null;
+		}
 	}
 
 	/**
@@ -288,7 +303,7 @@ public class PredictionModelViewer
 			List<JiraIssueWithPredictedTimeToResolve> issues)
 	{
 		AssigneeIssueSimilarity assigneesWithIssueSimilarities = issuesSimilarity.getAssigneesWithIssueSimilarities(assigneeIssues,
-				issueFromDb);
+				issueFromDb, issueDateStartFrom);
 		AssigneeTimeResolve prediction = issueResolveTimePredictable.getPrediction(assigneesWithIssueSimilarities);
 		JiraIssueWithPredictedTimeToResolve jiraIssueWithPredictedTime = new JiraIssueWithPredictedTimeToResolve(assignedIssue, prediction);
 		issues.add(jiraIssueWithPredictedTime);
@@ -297,5 +312,4 @@ public class PredictionModelViewer
 			predictionPrintable.printPrediction(prediction);
 		}
 	}
-
 }

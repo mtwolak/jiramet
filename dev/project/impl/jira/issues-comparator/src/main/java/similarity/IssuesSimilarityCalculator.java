@@ -1,6 +1,7 @@
 package similarity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import database.entity.JiraIssue;
@@ -59,7 +60,7 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 		this.issuesSimilarityCommentsCollector = getIssuesSimilarityCommentsCollector();
 		this.listPartitioner = new ListPartitioner(propertiesReader.getAsInt(Property.K_RESULTS));
 	}
-	
+
 	protected void setListPartitioner(ListPartitioner listPartitioner)
 	{
 		this.listPartitioner = listPartitioner;
@@ -143,17 +144,34 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	 * {@inheritDoc}
 	 */
 	@Override
-	public AssigneeIssueSimilarity getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues, JiraIssue newJiraIssue)
+	public AssigneeIssueSimilarity getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues, JiraIssue newJiraIssue, Date startedAt)
 	{
-		List<JiraIssue> assignedJiraIssues = assigneeIssues.getAssignedJiraIssues();
-		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>(assignedJiraIssues.size());
+		List<JiraIssue> assignedJiraIssuesWithStartedDate = getIssuesWithStartedDate(assigneeIssues.getAssignedJiraIssues(), startedAt);
+		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>(assignedJiraIssuesWithStartedDate.size());
 
-		for (JiraIssue issue : assignedJiraIssues)
+		for (JiraIssue issue : assignedJiraIssuesWithStartedDate)
 		{
 			addIssueSimilarity(newJiraIssue, jiraIssueSimilarities, issue);
 		}
 		return new AssigneeIssueSimilarity(assigneeIssues.getAssignee(), listPartitioner.getList(jiraIssueSimilarities));
 
+	}
+
+	private List<JiraIssue> getIssuesWithStartedDate(List<JiraIssue> assignedJiraIssues, Date startedAt)
+	{
+		if(startedAt == null)
+		{
+			return assignedJiraIssues;
+		}
+		List<JiraIssue> jiraIssues = new ArrayList<>();
+		for (JiraIssue issue : assignedJiraIssues)
+		{
+			if (issue.getCreatedAt().after(startedAt))
+			{
+				jiraIssues.add(issue);
+			}
+		}
+		return jiraIssues;
 	}
 
 	private void addIssueSimilarity(JiraIssue newJiraIssue, List<JiraIssueSimilarity> jiraIssueSimilarities, JiraIssue issue)

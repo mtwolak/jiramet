@@ -118,7 +118,7 @@ public class IssuesSimilarityCalculatorTest
 		createTestObj();
 		
 		Mockito.when(textsSimilarityMock.getSimilarity("desc", desc1)).thenReturn(0.5);
-		AssigneeIssueSimilarity assigneesWithIssueSimilarities = isc.getAssigneesWithIssueSimilarities(assigneeIssueMock, createJiraIssue(3, "Sum", "desc"));
+		AssigneeIssueSimilarity assigneesWithIssueSimilarities = isc.getAssigneesWithIssueSimilarities(assigneeIssueMock, createJiraIssue(3, "Sum", "desc"), null);
 		
 		assertThat(assigneesWithIssueSimilarities.getAssignee(), Matchers.is(assignee));
 		assertThat(assigneesWithIssueSimilarities.getAssignedJiraIssues().size(), Matchers.is(1));
