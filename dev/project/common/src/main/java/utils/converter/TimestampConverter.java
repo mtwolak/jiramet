@@ -22,6 +22,10 @@ public final class TimestampConverter
 	 */
 	public static double getDifferenceInDays(Timestamp finish, Timestamp start)
 	{
+		if(finish == null || start == null)
+		{
+			return -1;
+		}
 		return (finish.getTime() - start.getTime()) / MILIS_IN_DAY_AND_NIGHT;
 	}
 
