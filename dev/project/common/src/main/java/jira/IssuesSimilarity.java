@@ -19,5 +19,5 @@ public interface IssuesSimilarity
 	 * @return assignee with jira similarities levels 
 	 */
 	AssigneeIssueSimilarity getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues,
-			JiraIssue jiraIssueToCompare, Date startedAt);
+			JiraIssue jiraIssueToCompare, Date startedAt, Date endedAt);
 }

@@ -144,11 +144,10 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 	 * {@inheritDoc}
 	 */
 	@Override
-	public AssigneeIssueSimilarity getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues, JiraIssue newJiraIssue, Date startedAt)
+	public AssigneeIssueSimilarity getAssigneesWithIssueSimilarities(AssigneeIssues assigneeIssues, JiraIssue newJiraIssue, Date startedAt, Date endedAt)
 	{
-		List<JiraIssue> assignedJiraIssuesWithStartedDate = getIssuesWithStartedDate(assigneeIssues.getAssignedJiraIssues(), startedAt);
+		List<JiraIssue> assignedJiraIssuesWithStartedDate = getIssuesWithStartedDate(assigneeIssues.getAssignedJiraIssues(), startedAt, endedAt);
 		List<JiraIssueSimilarity> jiraIssueSimilarities = new ArrayList<JiraIssueSimilarity>(assignedJiraIssuesWithStartedDate.size());
-
 		for (JiraIssue issue : assignedJiraIssuesWithStartedDate)
 		{
 			addIssueSimilarity(newJiraIssue, jiraIssueSimilarities, issue);
@@ -157,16 +156,18 @@ public class IssuesSimilarityCalculator implements IssuesSimilarity
 
 	}
 
-	private List<JiraIssue> getIssuesWithStartedDate(List<JiraIssue> assignedJiraIssues, Date startedAt)
+
+
+	private List<JiraIssue> getIssuesWithStartedDate(List<JiraIssue> assignedJiraIssues, Date startedAt, Date endedAt)
 	{
-		if(startedAt == null)
+		if(startedAt == null || endedAt == null)
 		{
 			return assignedJiraIssues;
 		}
 		List<JiraIssue> jiraIssues = new ArrayList<>();
 		for (JiraIssue issue : assignedJiraIssues)
 		{
-			if (issue.getCreatedAt().after(startedAt))
+			if (issue.getCreatedAt().after(startedAt) && issue.getCreatedAt().before(endedAt))
 			{
 				jiraIssues.add(issue);
 			}
